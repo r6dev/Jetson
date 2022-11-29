@@ -2,10 +2,10 @@
 ## sBGen
 ### How to use
 #### Steps:
-- Download this repository as a .ZIP file
+- Download this repository as a **.ZIP** file
 - Unzip it and open the '**builds**' directory, then you will see '**sBGen.jar**'
-- Launch **cmd** (or whatever terminal you use), then type "**java -jar [full path to the sBGen jar file]**" and press enter
-- Thats it, enjoy your sandbox generator
+- Launch **cmd** (or any other **terminal** of your choice), then type "**java -jar [full path to the sBGen jar file, e.g. 'C:\ILoveRSIX\loveToRsix.jar']**" and press enter
+- Thats it, enjoy your directory duplicator
 #### P.S.
 - A **JRE** (Java Runtime Envorinment) has to be installed on your system for this command or the .jar file to work. You get it by downloading and installing one of the Java from [oracle](https://www.oracle.com/java/technologies/downloads/#java17).
 ### Description
