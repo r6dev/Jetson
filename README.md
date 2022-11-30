@@ -9,4 +9,6 @@
 #### P.S.
 - A **JRE** (Java Runtime Envorinment) has to be installed on your system for this command or the .jar file to work. You get it by downloading and installing one of the Java from [oracle](https://www.oracle.com/java/technologies/downloads/#java17).
 ### Description
-A **Java** program that duplicates a folder including its directories and files. This can be useful by other programs as a dll or api type of thing, though for that to happen someone would have to rework the source code to make it take arguments instead of reading input. The code took countless reiterations and headaches to get right (despite the idea and end result being so simple), but I got it in the end. Feel free to use this for your projects, though if you wish to redistribute it, proper credit would be appreciated. If you want the source, you can find it [here](https://github.com/rSIX-Developer/rJToolbox/blob/master/src/com/rsix/sB.java).
+A **Java** program that duplicates a folder including its directories and files. This can be useful for your programs as a sort of extension, so feel free to use this for any of your projects. Credit would be appreciated if you wish to make it public. The source can be found [here](https://github.com/rSIX-Developer/rJToolbox/blob/master/src/com/rsix/sB.java).
+#### P.S.
+- This is less for consumers and more for developers that wish to use this in their code.
