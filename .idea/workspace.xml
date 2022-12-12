@@ -9,20 +9,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0fb48862-ed1b-4eb8-97e2-e4d21d9436e5" name="Changes" comment="workspace.xml">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/JetBrainsMono-Regular.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/folder_24px.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/logo.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/play_24px.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sbgen.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/com/resources/ResourceLoader.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/com/sBGen/sBOperator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/subtract_24px.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/rsix/sB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/sBGen/sB.java" afterDir="false" />
-    </list>
+    <list default="true" id="0fb48862-ed1b-4eb8-97e2-e4d21d9436e5" name="Changes" comment="Toolbox created" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -130,7 +117,14 @@
       <option name="project" value="LOCAL" />
       <updated>1669993725338</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Toolbox created">
+      <created>1670808090599</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1670808090599</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -150,7 +144,8 @@
     <MESSAGE value="Rework 1" />
     <MESSAGE value="sBGen Build 1" />
     <MESSAGE value="workspace.xml" />
-    <option name="LAST_COMMIT_MESSAGE" value="workspace.xml" />
+    <MESSAGE value="Toolbox created" />
+    <option name="LAST_COMMIT_MESSAGE" value="Toolbox created" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/rJToolbox$tB.ic" NAME="tB Coverage Results" MODIFIED="1670767329597" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
