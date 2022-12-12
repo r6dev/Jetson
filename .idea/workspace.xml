@@ -9,7 +9,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0fb48862-ed1b-4eb8-97e2-e4d21d9436e5" name="Changes" comment="sBGen Build 1" />
+    <list default="true" id="0fb48862-ed1b-4eb8-97e2-e4d21d9436e5" name="Changes" comment="workspace.xml">
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JetBrainsMono-Regular.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/folder_24px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/play_24px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sbgen.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/resources/ResourceLoader.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/sBGen/sBOperator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/subtract_24px.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/rsix/sB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/sBGen/sB.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -36,26 +49,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "last_opened_file_path": "C:/Users/andre/IdeaProjects/rJToolbox/builds/SandboxGenerator",
-    "project.structure.last.edited": "Artifacts",
-    "project.structure.proportion": "0.15527344",
-    "project.structure.side.proportion": "0.2"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/andre/IdeaProjects/rJToolbox/builds/SandboxGenerator&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15527344&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;
   }
-}]]></component>
-  <component name="RunManager" selected="Application.SandboxGenerator">
-    <configuration name="Copier" type="Application" factoryName="Application" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.rsixsoftware.Copier" />
+}</component>
+  <component name="RunManager" selected="Application.sBOperator">
+    <configuration name="sB" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="com.sBGen.sB" />
       <module name="rJToolbox" />
-      <option name="PROGRAM_PARAMETERS" value="D:\toolboxSandbox\fileToCopy.txt D:\toolboxSandbox\NewFolder" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.rsixsoftware.*" />
+          <option name="PATTERN" value="com.toolBox.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -63,12 +75,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="SandboxGenerator" type="Application" factoryName="Application">
-      <option name="MAIN_CLASS_NAME" value="com.rsix.sB" />
+    <configuration name="sBOperator" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.sBGen.sBOperator" />
       <module name="rJToolbox" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.rsix.*" />
+          <option name="PATTERN" value="com.sBGen.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -76,6 +88,10 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Application.sBOperator" />
+      <item itemvalue="Application.sB" />
+    </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -107,7 +123,14 @@
       <option name="project" value="LOCAL" />
       <updated>1669757070302</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="workspace.xml">
+      <created>1669993725338</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1669993725338</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -126,6 +149,12 @@
     <MESSAGE value="First Commit" />
     <MESSAGE value="Rework 1" />
     <MESSAGE value="sBGen Build 1" />
-    <option name="LAST_COMMIT_MESSAGE" value="sBGen Build 1" />
+    <MESSAGE value="workspace.xml" />
+    <option name="LAST_COMMIT_MESSAGE" value="workspace.xml" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/rJToolbox$tB.ic" NAME="tB Coverage Results" MODIFIED="1670767329597" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.toolBox.*</FILTER>
+    </SUITE>
   </component>
 </project>

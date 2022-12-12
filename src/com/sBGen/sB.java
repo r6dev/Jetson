@@ -1,4 +1,4 @@
-package com.rsix;
+package com.sBGen;
 
 import java.io.File;
 import java.io.IOException;
