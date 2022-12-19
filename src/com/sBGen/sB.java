@@ -6,11 +6,8 @@ import java.nio.file.Files;
 import java.util.Scanner;
 
 public class sB {
-    static void search(File[] parameters) {
+    static void search(File dir, File sandbox, File alwaysIgnore) {
         try {
-            File dir = parameters[0];
-            File sandbox = parameters[1];
-            File alwaysIgnore = parameters[2];
 
             File[] listOfFiles = dir.listFiles();
 
@@ -24,8 +21,7 @@ public class sB {
                     Files.copy(selectedFile.toPath(), selectedFilePaste.toPath());
 
                     if (selectedFile.isDirectory()) {
-                        File[] selectedFileParameters = {selectedFile, selectedFilePaste, alwaysIgnore};
-                        search(selectedFileParameters);
+                        search(selectedFile, selectedFilePaste, alwaysIgnore);
                     }
                 }
             }
@@ -47,8 +43,8 @@ public class sB {
             }
         }
 
-        File[] parameters = {dirToSandbox, sandbox, sandbox};
-
-        search(parameters);
+        search(dirToSandbox, sandbox, sandbox);
     }
+
+
 }

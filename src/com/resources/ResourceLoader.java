@@ -22,7 +22,10 @@ public class ResourceLoader {
         String toLowerCaseInput = fontName.toLowerCase();
         if (toLowerCaseInput.equals("jetbrains mono") || toLowerCaseInput.equals("jetbrains")) {
             try {
-                Font jetBrainsMonoFont = Font.createFont(Font.TRUETYPE_FONT, new File(System.getProperty("user.dir") + "\\JetBrainsMono-Regular.ttf")).deriveFont(12f);
+                Boolean rscExists = new File(System.getProperty("user.dir") + "rsc").exists();
+                String resourceLink = rscExists ? "rsc" : "resources";
+
+                Font jetBrainsMonoFont = Font.createFont(Font.TRUETYPE_FONT, new File(System.getProperty("user.dir") + "\\" + resourceLink + "\\JetBrainsMono-Regular.ttf")).deriveFont(12f);
                 GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
                 ge.registerFont(jetBrainsMonoFont);
                 return jetBrainsMonoFont;
@@ -34,36 +37,16 @@ public class ResourceLoader {
     }
 
     public ImageIcon getIcon(String iconName, short iconSize) {
-        ImageIcon appIcon = new ImageIcon("logo.png");
-        ImageIcon minimizeIcon = new ImageIcon("subtract_24px.png");
-        ImageIcon playIcon = new ImageIcon("play_24px.png");
-        ImageIcon folderIcon = new ImageIcon("folder_24px.png");
-        ImageIcon sBGenIcon = new ImageIcon("sbgen.png");
-
         if (iconName.isEmpty()) {
             return new ImageIcon();
         }
 
-        String iconNameLowercase = iconName.toLowerCase();
+        Boolean rscExists = new File(System.getProperty("user.dir") + "rsc").exists();
+        String resourceLink = rscExists ? "rsc" : "resources";
 
-        switch (iconNameLowercase) {
-            case "app" -> {
-                return new ImageIcon(appIcon.getImage().getScaledInstance(iconSize, iconSize, Image.SCALE_DEFAULT));
-            }
-            case "minimize" -> {
-                return new ImageIcon(minimizeIcon.getImage().getScaledInstance(iconSize, iconSize, Image.SCALE_SMOOTH));
-            }
-            case "folder" -> {
-                return new ImageIcon(folderIcon.getImage().getScaledInstance(iconSize, iconSize, Image.SCALE_SMOOTH));
-            }
-            case "play" -> {
-                return new ImageIcon(playIcon.getImage().getScaledInstance(iconSize, iconSize, Image.SCALE_SMOOTH));
-            }
-            case "sb" -> {
-                return new ImageIcon(sBGenIcon.getImage().getScaledInstance(iconSize, iconSize, Image.SCALE_SMOOTH));
-            }
-            default -> System.out.println("iconName value did not match any icon name");
-        }
-        return new ImageIcon();
+        String iconNameLowercase = iconName.toLowerCase();
+        ImageIcon returnImg = new ImageIcon("\\" + resourceLink + "\\" + iconNameLowercase + ".png");
+
+        return new ImageIcon(returnImg.getImage().getScaledInstance(iconSize, iconSize, Image.SCALE_SMOOTH));
     }
 }
