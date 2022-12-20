@@ -1,4 +1,4 @@
-package com.sBGen;
+package com.rsix.SandboxGenerator;
 
 import java.io.File;
 import java.io.IOException;
