@@ -1,6 +1,6 @@
 # rJToolbox
 ## sBGen
-A **Java** program that duplicates a folder including its directories and files. This can be useful for your programs as a sort of extension, so feel free to use this for any of your projects. Credit would be appreciated if you wish to make it public. The source can be found [here](https://github.com/rSIX-Developer/rJToolbox/blob/master/src/com/rsix/sB.java).
+A **Java** program that duplicates a folder including its directories and files. This can be useful for your programs as a sort of extension, so feel free to use this for any of your projects. Credit would be appreciated if you wish to make it public. The source can be found [here](https://github.com/rSIX-Developer/rJToolbox/blob/master/src/com/sBGen/sB.java).
 #### How to use:
 - A **JRE** (Java Runtime Envorinment) is required. You can get it by downloading and installing one of the Java jdks from [oracle](https://www.oracle.com/java/technologies/downloads/#java17).
 - Download this repository as a **.ZIP** file
