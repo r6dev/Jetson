@@ -1,6 +1,6 @@
 # rJToolbox
 ## sBGen
-Creates a dummy folder of any given directory. Can be useful for developers, feel free to use it in any of your projects. Credit would be appreciated if you wish to make it public. The source can be found [here](https://github.com/rSIX-Developer/rJToolbox/blob/master/src/com/sBGen/sB.java).
+Creates a dummy folder of any given directory. Can be useful for developers. Feel free to use it in any of your projects, though if public, credit would be appreciated. The source can be found [here](https://github.com/rSIX-Developer/rJToolbox/blob/master/src/com/sBGen/sB.java).
 #### How to use:
 - A **JRE** (Java Runtime Envorinment) is required. You can get it by downloading and installing one of the Java jdks from [oracle](https://www.oracle.com/java/technologies/downloads/#java17).
 - Download this repository as a **.ZIP** file
