@@ -89,8 +89,6 @@ public class jetSon extends JFrame {
             }
         });
 
-        // Get info from inputted path
-
         JPanel infoPanel = new JPanel();
         infoPanel.setBackground(ResourceLoader.TITLE_BAR_COLOR);
         infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
@@ -102,6 +100,7 @@ public class jetSon extends JFrame {
         infoScrollPane.setComponentZOrder(infoScrollPane.getVerticalScrollBar(), 0);
         infoScrollPane.setComponentZOrder(infoScrollPane.getViewport(), 1);
         infoScrollPane.getVerticalScrollBar().setOpaque(false);
+        infoScrollPane.getVerticalScrollBar().setUnitIncrement(9);
 
         infoScrollPane.setLayout(new ScrollPaneLayout() {
             @Override
@@ -132,7 +131,7 @@ public class jetSon extends JFrame {
                 }
             }
         });
-        infoScrollPane.getVerticalScrollBar().setUI(new MyScrollBarUI());
+        infoScrollPane.getVerticalScrollBar().setUI(new jetSonScrollBarUI());
 
         // Function
         inputField.addKeyListener(new KeyAdapter() {
@@ -141,17 +140,27 @@ public class jetSon extends JFrame {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     String trimmedInput = inputField.getText().toLowerCase().trim();
                     if (trimmedInput.equals("clear") || trimmedInput.equals("reset")) {
+
+                        // Removes all JPanels inside info panel (clears list) and empties input field
+
                         infoPanel.removeAll();
                         infoPanel.repaint();
+
                         inputField.setText("");
                     } else {
                         File inputtedDir = new File(inputField.getText());
                         if (inputtedDir.isDirectory()) {
+
+                            // Clears and updates list
+
                             infoPanel.removeAll();
 
                             File[] listOfFiles = inputtedDir.listFiles();
                             if (listOfFiles != null) {
                                 for (File selectedFile : listOfFiles) {
+
+                                    // Creates file/dir listing
+
                                     JPanel fileListingPanel = new JPanel();
                                     infoPanel.add(fileListingPanel);
                                     fileListingPanel.setBorder(new EmptyBorder(0,12,0,0));
@@ -165,6 +174,8 @@ public class jetSon extends JFrame {
                                     fileNameLabel.setFont(ResourceLoader.getFont("jetbrains"));
 
                                     String toolTipAppend = (selectedFile.getName().contains("sys") ? "(sys) " + selectedFile.getAbsolutePath() : selectedFile.getAbsolutePath());
+
+                                    // Determines which type of listing it is (file or dir)
 
                                     if (selectedFile.isFile()) {
                                         JLabel isFilePrefix = new JLabel("file: ");
@@ -183,6 +194,8 @@ public class jetSon extends JFrame {
                                         fileListingPanel.add(fileNameLabel);
                                         fileListingPanel.setToolTipText("Dir: " + toolTipAppend);
                                     }
+
+                                    // Creates a hover effect for JPanel listing
 
                                     fileListingPanel.addMouseListener(new MouseAdapter() {
                                         @Override
@@ -215,7 +228,7 @@ public class jetSon extends JFrame {
 }
 
 
-class MyScrollBarUI extends BasicScrollBarUI {
+class jetSonScrollBarUI extends BasicScrollBarUI {
     private final Dimension d = new Dimension();
 
     @Override
