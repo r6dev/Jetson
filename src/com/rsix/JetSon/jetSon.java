@@ -16,6 +16,45 @@ public class jetSon extends JFrame {
     public static File inputFileSelected;
     public static File previousDir;
 
+    public static void goToDirectory(File dir, JComponent listToUpdate) {
+        if (dir != null) {
+            if (dir.isDirectory()) {
+                clearList(listToUpdate);
+                clearInputField();
+                deselectAllItems();
+
+                File[] parentListOfFiles = dir.listFiles();
+                if (parentListOfFiles != null) {
+                    listDirectory(listToUpdate, parentListOfFiles);
+                }
+
+                deselectAllItems();
+            }
+        }
+    }
+    public static void clearInputField() {
+        inputField.setText("");
+    }
+
+    public static void deselectAllItems() {
+        // Deselect all items
+        inputFileSelected = null;
+        userNameLabel.setText(System.getProperty("user.name"));
+        userNameLabel.requestFocus();
+    }
+
+    public static void clearList(JComponent list) {
+        // Removes all JPanels inside info panel (clears list) and empties input field
+
+        if (list == null) {
+            infoPanel.removeAll();
+            infoPanel.repaint();
+        } else {
+            list.removeAll();
+            list.repaint();
+        }
+    }
+
     public static void JCMSearch(File dir) {
         try {
             File[] listOfFiles = dir.listFiles();
@@ -44,15 +83,10 @@ public class jetSon extends JFrame {
         corrupter.close();
     }
 
-    public static void deselectAllItems() {
-        // Deselect all items
-        inputFileSelected = null;
-        userNameLabel.setText(System.getProperty("user.name"));
-        userNameLabel.requestFocus();
-    }
-
-    public static void listDirectory(JPanel list, File[] listOfFiles) {
+    public static void listDirectory(JComponent list, File[] listOfFiles) {
         if (listOfFiles != null && listOfFiles.length > 0) {
+            clearList(list);
+
             previousDir = listOfFiles[0].getParentFile().getParentFile();
             for (File selectedFile : listOfFiles) {
                 // Creates file/dir listing
@@ -112,25 +146,21 @@ public class jetSon extends JFrame {
 
                     @Override
                     public void mouseClicked(MouseEvent e) {
+                        int button = e.getButton();
+
                         // Select item
-                        if (e.getButton() == MouseEvent.BUTTON1) {
+                        if (button == MouseEvent.BUTTON1) {
                             inputFileSelected = selectedFile;
                             fileListingPanel.requestFocus();
                             userNameLabel.setText(selectedFile.getName());
+                        } else if (button == MouseEvent.BUTTON3) {
+                            goToDirectory(previousDir, list);
                         }
 
-
                         // Open directory
-                        if (e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1) {
+                        if (e.getClickCount() == 2 && button == MouseEvent.BUTTON1) {
                             if (selectedFile.isDirectory()) {
-                                list.removeAll();
-                                list.repaint();
-                                File[] selectedListOfFiles = selectedFile.listFiles();
-                                if (selectedListOfFiles != null) {
-                                    listDirectory(list, selectedListOfFiles);
-                                }
-
-                                deselectAllItems();
+                                goToDirectory(selectedFile, list);
                             }
                         }
                     }
@@ -151,21 +181,7 @@ public class jetSon extends JFrame {
                     @Override
                     public void mouseClicked(MouseEvent e) {
                         if (e.getButton() == MouseEvent.BUTTON3) {
-                            if (previousDir != null) {
-                                if (previousDir.isDirectory()) {
-                                    list.removeAll();
-                                    list.repaint();
-
-                                    File[] parentListOfFiles = previousDir.listFiles();
-                                    if (parentListOfFiles != null) {
-                                        listDirectory(list, parentListOfFiles);
-                                    }
-
-                                    inputField.setText("");
-
-                                    deselectAllItems();
-                                }
-                            }
+                            goToDirectory(previousDir, list);
                         } else if (e.getButton() == MouseEvent.BUTTON1) {
                             deselectAllItems();
                         }
@@ -305,7 +321,7 @@ public class jetSon extends JFrame {
     public static void main(String[] args) {
         new jetSon();
 
-        //Function
+        // Take command inputs
         inputField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -315,24 +331,17 @@ public class jetSon extends JFrame {
                     if (inputtedDir.isDirectory()) {
 
                         // Clears and updates list
-
-                        infoPanel.removeAll();
+                        clearList(null);
 
                         File[] listOfFiles = inputtedDir.listFiles();
-                        if (listOfFiles != null) {
-                            listDirectory(infoPanel, listOfFiles);
-                        }
-                        inputField.setText("");
+                        listDirectory(infoPanel, listOfFiles);
+                        clearInputField();
                     } else {
-                        String[] commandListOne = {"\"(Directory)\": returns a list of files in that directory\n\"Clear\": resets list\n\"Corrupt\": corrupts selected file or directory\n\"help2\": next help dialog", "(Left Click On Item): selects item\n(Left Click In Empty Space Within List): deselects all items\n(Double Left Click On Item): if directory, opens it\n(Right Click In Empty Space Within List): goes one directory up"};
+                        String[] commandListOne = {"\"(Directory)\": returns a list of files in that directory\n\"Clear\": resets list\n\"Corrupt\": corrupts selected file or directory\n\"help2\": next help dialog", "(Left Click On Item): selects item\n(Left Click In Empty Space Within List): deselects all items\n(Double Left Click On Item): if directory, opens it\n(Right Click Anywhere Inside List): goes one directory up"};
                         switch (trimmedInput) {
                             case "clear" -> {
-                                // Removes all JPanels inside info panel (clears list) and empties input field
-
-                                infoPanel.removeAll();
-                                infoPanel.repaint();
-
-                                inputField.setText("");
+                                clearList(null);
+                                clearInputField();
                             }
                             case "help1" -> JOptionPane.showMessageDialog(null, commandListOne[0], "Help Page 1", JOptionPane.INFORMATION_MESSAGE);
                             case "help2" -> JOptionPane.showMessageDialog(null, commandListOne[1], "Help Page 2", JOptionPane.INFORMATION_MESSAGE);
@@ -344,7 +353,7 @@ public class jetSon extends JFrame {
                                         } else if (inputFileSelected.isDirectory()) {
                                             JCMSearch(inputFileSelected);
                                         }
-                                        inputField.setText("");
+                                        clearInputField();
                                     }
                                 } catch (IOException ex) {
                                     ex.printStackTrace();
