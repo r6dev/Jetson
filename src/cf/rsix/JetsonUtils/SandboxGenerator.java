@@ -6,17 +6,17 @@ import java.nio.file.Files;
 import java.util.Scanner;
 
 public class SandboxGenerator {
-    public static void search(File dir, File sandbox, File alwaysIgnore) {
+    public static boolean search(File dir, File sandbox, File alwaysIgnore) {
         try {
 
             File[] listOfFiles = dir.listFiles();
 
             if (listOfFiles == null || listOfFiles.length == 0) {
-                return;
+                return false;
             }
 
             for (File selectedFile : listOfFiles) {
-                File selectedFilePaste = new File(sandbox.getCanonicalPath() + "\\" + selectedFile.getName());
+                File selectedFilePaste = new File(sandbox.getCanonicalPath() + System.getProperty("file.separator") + selectedFile.getName());
                 if (!selectedFilePaste.exists() && !selectedFilePaste.getName().equals(alwaysIgnore.getName())) {
                     Files.copy(selectedFile.toPath(), selectedFilePaste.toPath());
 
@@ -25,9 +25,11 @@ public class SandboxGenerator {
                     }
                 }
             }
+            return true;
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     public static void main(String[] args) {

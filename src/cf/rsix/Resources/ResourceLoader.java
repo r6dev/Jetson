@@ -24,7 +24,7 @@ public class ResourceLoader {
             try {
                 String resourceLink = new File(System.getProperty("user.dir") + System.getProperty("file.separator") + "rsc").exists() ? System.getProperty("file.separator") + "rsc" : System.getProperty("file.separator") + "resources";
 
-                Font jetBrainsMonoFont = Font.createFont(Font.TRUETYPE_FONT, new File(System.getProperty("user.dir") + resourceLink + "\\jetbrains.ttf")).deriveFont(12f);
+                Font jetBrainsMonoFont = Font.createFont(Font.TRUETYPE_FONT, new File(System.getProperty("user.dir") + resourceLink + System.getProperty("file.separator") + "jetbrains.ttf")).deriveFont(12f);
                 GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
                 ge.registerFont(jetBrainsMonoFont);
                 return jetBrainsMonoFont;
@@ -40,10 +40,10 @@ public class ResourceLoader {
             return new ImageIcon();
         }
 
-        String resourceLink = new File(System.getProperty("user.dir") + "\\" + "rsc").exists() ? "\\rsc" : "\\resources";
+        String resourceLink = new File(System.getProperty("user.dir") + System.getProperty("file.separator") + "rsc").exists() ? System.getProperty("file.separator") + "rsc" : System.getProperty("file.separator") + "resources";
 
         String iconNameLowercase = iconName.toLowerCase();
-        ImageIcon returnImg = new ImageIcon(System.getProperty("user.dir") + resourceLink + "\\" + iconNameLowercase + ".png");
+        ImageIcon returnImg = new ImageIcon(System.getProperty("user.dir") + resourceLink + System.getProperty("file.separator") + iconNameLowercase + ".png");
 
         return new ImageIcon(returnImg.getImage().getScaledInstance(iconSize, iconSize, imageScaling));
     }

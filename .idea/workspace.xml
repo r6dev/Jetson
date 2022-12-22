@@ -9,12 +9,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0fb48862-ed1b-4eb8-97e2-e4d21d9436e5" name="Changes" comment="change - added ability to initialize a Jetson JFrame with all commands ready">
+    <list default="true" id="0fb48862-ed1b-4eb8-97e2-e4d21d9436e5" name="Changes" comment="fix - made initialization not give a warning">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/rsix/JetSon/jetSon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cf/rsix/JetsonUtils/Jetson.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/rsix/Resources/ResourceLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cf/rsix/Resources/ResourceLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/rsix/SandboxGenerator/sB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cf/rsix/JetsonUtils/SandboxGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cf/rsix/JetsonUtils/Jetson.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cf/rsix/JetsonUtils/Jetson.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cf/rsix/JetsonUtils/SandboxGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cf/rsix/JetsonUtils/SandboxGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cf/rsix/Resources/ResourceLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cf/rsix/Resources/ResourceLoader.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,6 +29,11 @@
   </component>
   <component name="Git.Settings">
     <option name="PUSH_AUTO_UPDATE" value="true" />
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -60,7 +64,7 @@
     &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.ide.settings.new.ui&quot;
   }
 }</component>
-  <component name="RunManager" selected="Application.SandboxGenerator">
+  <component name="RunManager" selected="Application.Jetson">
     <configuration name="Jetson" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="cf.rsix.JetsonUtils.Jetson" />
       <module name="rJToolbox" />
@@ -89,6 +93,9 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.SandboxGenerator" />
+        <item itemvalue="Application.SandboxGenerator" />
+        <item itemvalue="Application.SandboxGenerator" />
         <item itemvalue="Application.SandboxGenerator" />
       </list>
     </recent_temporary>
@@ -235,7 +242,21 @@
       <option name="project" value="LOCAL" />
       <updated>1671677362772</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="change - added ability to initialize a Jetson JFrame with all commands ready">
+      <created>1671709997520</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1671709997520</updated>
+    </task>
+    <task id="LOCAL-00021" summary="fix - made initialization not give a warning">
+      <created>1671710143522</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1671710143522</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -271,18 +292,8 @@
     <MESSAGE value="change - made Title Bar draggable" />
     <MESSAGE value="change - added ability to minimize" />
     <MESSAGE value="change - added ability to initialize a Jetson JFrame with all commands ready" />
-    <option name="LAST_COMMIT_MESSAGE" value="change - added ability to initialize a Jetson JFrame with all commands ready" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/cf/rsix/JetsonUtils/Jetson.java</url>
-          <line>509</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="fix - made initialization not give a warning" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix - made initialization not give a warning" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/rJToolbox$tB.ic" NAME="tB Coverage Results" MODIFIED="1670767329597" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">

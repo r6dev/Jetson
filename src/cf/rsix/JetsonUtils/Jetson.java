@@ -9,23 +9,25 @@ import javax.swing.plaf.basic.BasicScrollBarUI;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import java.util.ArrayList;
 
 public class Jetson extends JFrame {
     // Jetson dir files
-    public static File jetSonDir = new File(System.getProperty("user.home") + System.getProperty("file.separator") + ".jetson");
-    public static File jetSonTempTxt = new File(jetSonDir.getAbsolutePath() + System.getProperty("file.separator") + "temp.txt");
+    public static File JETSON_DIRECTORY = new File(System.getProperty("user.home") + System.getProperty("file.separator") + ".jetson");
+    public static File JETSON_TEMP_TXT = new File(JETSON_DIRECTORY.getAbsolutePath() + System.getProperty("file.separator") + "temp.txt");
 
     // Public Variables
+    public static String[] JETSON_ERR_MESSAGES = {"Jetson error: could not open directory", "Jetson error: could not open parent directory"};
     private int mouseX, mouseY;
     public static String osName = System.getProperty("os.name").toLowerCase();
-    public static Boolean isWindows = osName.contains("win");
-    public static Boolean isLinux = osName.contains("nux") || osName.contains("nix");
-    public static Boolean isMac = osName.contains("mac");
-    public static final JTextField inputField = new JTextField();
-    public static JLabel userNameLabel = new JLabel(System.getProperty("user.name"));
-    public static final JPanel infoPanel = new JPanel();
-    public static File inputFileSelected;
-    public static File previousDir;
+    public static final boolean isWindows = osName.contains("win");
+    public static final boolean isLinux = osName.contains("nux") || osName.contains("nix");
+    public static final boolean isMac = osName.contains("mac");
+    public final JTextField inputField = new JTextField();
+    private final JLabel secondTitleBarLabel = new JLabel(System.getProperty("user.name"));
+    private final JPanel listPanel = new JPanel();
+    private File SELECTED_FILE;
+    private File ONE_DIRECTORY_UP;
 
     // Jetson JFrame
     public Jetson() {
@@ -74,9 +76,9 @@ public class Jetson extends JFrame {
         titleBarLabel.setFont(ResourceLoader.getFont("jetbrains"));
         titleBarLabel.setForeground(ResourceLoader.PRIMARY_TEXT_COLOR);
 
-        titleBarTop.add(userNameLabel);
-        userNameLabel.setFont(ResourceLoader.getFont("jetbrains"));
-        userNameLabel.setForeground(ResourceLoader.SECONDARY_TEXT_COLOR);
+        titleBarTop.add(secondTitleBarLabel);
+        secondTitleBarLabel.setFont(ResourceLoader.getFont("jetbrains"));
+        secondTitleBarLabel.setForeground(ResourceLoader.SECONDARY_TEXT_COLOR);
 
         // Title bar -- Bottom
 
@@ -121,10 +123,10 @@ public class Jetson extends JFrame {
             }
         });
 
-        infoPanel.setBackground(ResourceLoader.TITLE_BAR_COLOR);
-        infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
+        listPanel.setBackground(ResourceLoader.TITLE_BAR_COLOR);
+        listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS));
 
-        JScrollPane infoScrollPane = new JScrollPane(infoPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        JScrollPane infoScrollPane = new JScrollPane(listPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         getContentPane().add(infoScrollPane);
         infoScrollPane.setBorder(null);
         infoScrollPane.setPreferredSize(new Dimension(180, 128));
@@ -172,108 +174,136 @@ public class Jetson extends JFrame {
     // Main Logic
     public static void main(String[] args) throws IOException {
         // Check for Jetson directories and files
-        JetSonDirCheck();
+        JetsonDirectoryCheck();
 
         // Create Jetson JFrame
-        System.out.println(initialize().getTitle());
-        listDirectory(infoPanel, new File(System.getProperty("user.home")).listFiles());
+        Jetson newJetson = initialize();
+        System.out.println("Initialized " + newJetson.getName() + " " + getJetsonDirectory().getAbsolutePath() + " " + newJetson.getParentDirectory().getName() + " " + " " + newJetson.getListPanel().getName());
+        if (newJetson.getSelectedFile() != null) {
+            System.out.println("File selected on launch?");
+        }
     }
 
-    // UI Methods
     public static Jetson initialize() {
         Jetson frame = new Jetson();
+        frame.goToDirectory(new File(System.getProperty("user.home")), frame.listPanel);
+
+        JTextField inputFieldLocal = frame.inputField;
 
         // Take command inputs
-        inputField.addKeyListener(new KeyAdapter() {
+        inputFieldLocal.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    File inputtedDir = new File(inputField.getText());
+                    File inputtedDir = new File(inputFieldLocal.getText());
                     if (inputtedDir.isDirectory()) {
 
                         // Clears and updates list
-                        clearList(null);
+                        clearList(frame.listPanel);
 
                         File[] listOfFiles = inputtedDir.listFiles();
-                        listDirectory(infoPanel, listOfFiles);
-                        clearInputField();
+                        frame.listDirectory(frame.listPanel, listOfFiles);
+                        frame.clearInputField();
                     } else {
 
                         // Detect short commands
-                        String lowerCaseInput = inputField.getText().toLowerCase();
+                        String lowerCaseInput = inputFieldLocal.getText().toLowerCase();
                         String trimmedInput = lowerCaseInput.trim();
-                        String[] commandListOne = {"\"(Directory)\": returns a list of files in that directory\n\"Open\": opens selected file or directory externally (SHOULD support all systems)\n\"Read\": reads selected file\n\"Corrupt\": corrupts selected file or directory\n\"Clear\": resets list\n\"Quit\": exit the application\n\"help2\": next help dialog", "(Left Click On Item): selects item\n(Left Click In Empty Space Within List): deselects all items\n(Double Left Click On Item): if directory, opens it, if file, opens it externally\n(Right Click Anywhere Inside List): goes one directory up"};
+                        String[] commandListOne = {"\"(Directory)\": returns a list of files in that directory\n\"Open\": opens selected file or directory externally (SHOULD support all systems)\n\"Up\": goes one directory up\n\"Read\": reads selected file\n\"Corrupt\": corrupts selected file or directory\n\"Bloat\": bloats selected file into oblivion\n\"Dummy\": creates a dummy version of selected directory/duplicates selected directory\n\"Clear\": resets list\n\"Quit\": exit the application\n\"help2\": next help dialog", "(Left Click On Item): selects item\n(Left Click In Empty Space Within List): deselects all items\n(Double Left Click On Item): if directory, opens it, if file, opens it externally\n(Right Click Anywhere Inside List): goes one directory up"};
                         switch (trimmedInput) {
                             case "clear" -> {
-                                clearList(null);
-                                clearInputField();
+                                clearList(frame.listPanel);
+                                frame.clearInputField();
                             }
                             case "help1" -> {
                                 JOptionPane.showMessageDialog(null, commandListOne[0], "Help Page 1", JOptionPane.INFORMATION_MESSAGE);
-                                clearInputField();
+                                frame.clearInputField();
                             }
                             case "help2" -> {
                                 JOptionPane.showMessageDialog(null, commandListOne[1], "Help Page 2", JOptionPane.INFORMATION_MESSAGE);
-                                clearInputField();
+                                frame.clearInputField();
+                            }
+                            case "up" -> {
+                                if (frame.goOneDirectoryUp()) {
+                                    System.err.println(JETSON_ERR_MESSAGES[1]);
+                                }
                             }
                             case "open" -> {
                                 try {
-                                    if (inputFileSelected != null) {
-                                        openFile(inputFileSelected);
-                                        clearInputField();
+                                    System.out.println(frame.SELECTED_FILE.getName());
+                                    if (frame.SELECTED_FILE != null) {
+                                        openFile(frame.SELECTED_FILE);
+                                        frame.clearInputField();
                                     }
                                 } catch (IOException ex) {
-                                    ex.printStackTrace();
+                                    throw new RuntimeException(ex);
                                 }
                             }
                             case "read" -> {
                                 try {
-                                    if (inputFileSelected.isFile() && inputFileSelected.canRead()) {
-                                        writeToFile(jetSonTempTxt, readFile(inputFileSelected));
-                                        openFile(jetSonTempTxt);
-                                        clearInputField();
+                                    if (frame.SELECTED_FILE.isFile() && frame.SELECTED_FILE.canRead()) {
+                                        writeToFile(JETSON_TEMP_TXT, readFile(frame.SELECTED_FILE));
+                                        if (openFile(JETSON_TEMP_TXT)) {
+                                            frame.clearInputField();
+                                        }
                                     }
                                 } catch (IOException ex) {
-                                    ex.printStackTrace();
+                                    throw new RuntimeException(ex);
                                 }
                             }
                             case "delete" -> {
-                                if (inputFileSelected != null) {
-                                    if (!deleteFile(inputFileSelected)) {
-                                        System.err.println("Could not delete file " + inputFileSelected.getName());
+                                if (frame.SELECTED_FILE != null) {
+                                    if (!frame.SELECTED_FILE.delete()) {
+                                        System.err.println("Could not delete file " + frame.SELECTED_FILE.getName());
                                     }
-                                    clearInputField();
+                                    frame.clearInputField();
                                 }
                             }
                             case "corrupt" -> {
                                 try {
-                                    if (inputFileSelected != null) {
-                                        if (inputFileSelected.isFile()) {
-                                            JCMCorrupt(inputFileSelected);
-                                        } else if (inputFileSelected.isDirectory()) {
-                                            JCMSearch(inputFileSelected);
-                                        }
-                                        clearInputField();
+                                    if (frame.SELECTED_FILE != null) {
+                                        Corrupt(frame.SELECTED_FILE);
+                                        frame.clearInputField();
                                     }
                                 } catch (IOException ex) {
-                                    ex.printStackTrace();
+                                    throw new RuntimeException(ex);
                                 }
                             }
                             case "bloat" -> {
-                                if (inputFileSelected != null) {
-                                    String data = "Jetson operation: " + Math.random() / 100000000;
+                                if (frame.SELECTED_FILE != null) {
+                                    String data = "Jetson Operation: " + Math.random() / 100000000;
                                     try {
-                                        if (inputFileSelected.isFile()) {
-                                            writeToFile(inputFileSelected, data);
+                                        if (frame.SELECTED_FILE.isFile()) {
+                                            writeToFile(frame.SELECTED_FILE, data);
                                         }
                                     } catch (IOException ex) {
-                                        ex.printStackTrace();
+                                        throw new RuntimeException(ex);
                                     }
-                                    clearInputField();
+                                    frame.clearInputField();
+                                }
+                            }
+                            case "dummy" -> {
+                                try {
+                                    if (frame.SELECTED_FILE != null && frame.SELECTED_FILE.isDirectory()) {
+                                        File sandbox = new File(JETSON_DIRECTORY + System.getProperty("file.separator") + frame.SELECTED_FILE.getName());
+                                        if (SandboxGenerator.search(frame.SELECTED_FILE, sandbox, sandbox)) {
+                                            openFile(sandbox);
+                                            frame.clearInputField();
+                                        }
+                                    }
+                                } catch (IOException ex) {
+                                    throw new RuntimeException(ex);
                                 }
                             }
                             case "minimize" -> frame.setExtendedState(JFrame.ICONIFIED);
-                            case "quit" -> System.exit(0);
+                            case "quit" -> {
+                                try {
+                                    JetsonDirectoryCheck();
+                                } catch (IOException ex) {
+                                    throw new RuntimeException(ex);
+                                }
+                                frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+                            }
                         }
                     }
                 }
@@ -282,52 +312,64 @@ public class Jetson extends JFrame {
         return frame;
     }
 
-    public static void goToDirectory(File dir, JComponent listToUpdate) {
+    // UI Methods
+    public boolean goToDirectory(File dir, JComponent listToUpdate) {
         if (dir != null) {
             if (dir.isDirectory()) {
-                clearList(listToUpdate);
                 clearInputField();
                 deselectAllItems();
 
                 File[] parentListOfFiles = dir.listFiles();
                 if (parentListOfFiles != null) {
-                    listDirectory(listToUpdate, parentListOfFiles);
+                    if (listDirectory(listToUpdate, parentListOfFiles)) {
+                        return true;
+                    }
                 }
 
                 deselectAllItems();
             }
         }
+        return false;
     }
 
-    static void clearInputField() {
+    public boolean goOneDirectoryUp() {
+        if (ONE_DIRECTORY_UP != null) {
+            System.out.println(ONE_DIRECTORY_UP.getName());
+            return goToDirectory(ONE_DIRECTORY_UP, listPanel);
+        }
+        return false;
+    }
+
+    public void clearInputField() {
         inputField.setText("");
     }
 
     public static void clearList(JComponent list) {
         // Removes all JPanels inside info panel (clears list) and empties input field
 
-        if (list == null) {
-            infoPanel.removeAll();
-            infoPanel.repaint();
-        } else {
+        if (list != null) {
             list.removeAll();
             list.repaint();
         }
     }
 
-    public static void deselectAllItems() {
+    public void deselectAllItems() {
         // Deselect all items
-        inputFileSelected = null;
-        userNameLabel.setText(System.getProperty("user.name"));
-        userNameLabel.requestFocus();
+        SELECTED_FILE = null;
+        secondTitleBarLabel.setText(System.getProperty("user.name"));
+        secondTitleBarLabel.requestFocus();
     }
 
-    public static void listDirectory(JComponent list, File[] listOfFiles) {
-        if (listOfFiles != null && listOfFiles.length > 0) {
+    private synchronized boolean listDirectory(JComponent list, File[] directoryFiles) {
+        if (directoryFiles != null && directoryFiles.length > 0) {
             clearList(list);
 
-            previousDir = listOfFiles[0].getParentFile().getParentFile();
-            for (File selectedFile : listOfFiles) {
+            File parentDirectory = directoryFiles[0].getParentFile();
+
+            boolean oneDirectoryUpIsNull = parentDirectory.getParentFile() == null;
+            ONE_DIRECTORY_UP = !oneDirectoryUpIsNull ? parentDirectory.getParentFile() : parentDirectory;
+
+            for (File selectedFile : directoryFiles) {
                 // Creates file/dir listing
 
                 JPanel fileListingPanel = new JPanel();
@@ -389,22 +431,30 @@ public class Jetson extends JFrame {
 
                         // Select item
                         if (button == MouseEvent.BUTTON1) {
-                            inputFileSelected = selectedFile;
+                            SELECTED_FILE = selectedFile;
                             fileListingPanel.requestFocus();
-                            userNameLabel.setText(selectedFile.getName());
+                            secondTitleBarLabel.setText(selectedFile.getName());
                         } else if (button == MouseEvent.BUTTON3) {
-                            goToDirectory(previousDir, list);
+                            // Go one directory up
+                            if (!goOneDirectoryUp()) {
+                                System.err.println(JETSON_ERR_MESSAGES[1]);
+                            }
                         }
 
                         // Open directory in Jetson or file externally
                         if (e.getClickCount() == 2 && button == MouseEvent.BUTTON1) {
                             if (selectedFile.isDirectory()) {
-                                goToDirectory(selectedFile, list);
+                                if (!goToDirectory(selectedFile, list)) {
+                                    System.err.println(JETSON_ERR_MESSAGES[0]);
+                                }
                             } else if (selectedFile.isFile()) {
                                 try {
-                                    openFile(selectedFile);
+                                    if (openFile(selectedFile)) {
+                                        clearInputField();
+                                    }
+
                                 } catch (IOException ex) {
-                                    ex.printStackTrace();
+                                    throw new RuntimeException(ex);
                                 }
                             }
                         }
@@ -422,35 +472,85 @@ public class Jetson extends JFrame {
                         fileNameLabel.setText(selectedFile.getName());
                     }
                 });
-                list.addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        if (e.getButton() == MouseEvent.BUTTON3) {
-                            goToDirectory(previousDir, list);
-                        } else if (e.getButton() == MouseEvent.BUTTON1) {
-                            deselectAllItems();
+            }
+
+            // Remove all previous mouse listeners
+            for (MouseListener listener : list.getMouseListeners()) {
+                list.removeMouseListener(listener);
+            }
+
+            list.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    if (e.getButton() == MouseEvent.BUTTON3) {
+                        // Go one directory up
+                        if (!goOneDirectoryUp()) {
+                            System.err.println(JETSON_ERR_MESSAGES[1]);
+                        }
+                    } else if (e.getButton() == MouseEvent.BUTTON1) {
+                        // Deselect all items
+                        deselectAllItems();
+                    }
+                }
+            });
+
+            return true;
+        }
+        return false;
+    }
+
+    // Setters & Getters
+
+    public static File getJetsonDirectory() {
+        return JETSON_DIRECTORY;
+    }
+
+    public JPanel getListPanel() {
+        return listPanel;
+    }
+
+    public File getSelectedFile() {
+        return SELECTED_FILE;
+    }
+
+    public File getParentDirectory() {
+        return ONE_DIRECTORY_UP;
+    }
+
+    // API Methods
+    private static void JetsonDirectoryCheck() throws IOException {
+        ArrayList<File> verifiedJetsonFiles = new ArrayList<>(2);
+        verifiedJetsonFiles.add(JETSON_TEMP_TXT);
+        verifiedJetsonFiles.add(JETSON_DIRECTORY);
+
+        if (!JETSON_DIRECTORY.exists()) {
+            if (!JETSON_DIRECTORY.mkdir()) {
+                System.err.println("Attempt to create " + JETSON_DIRECTORY.getAbsolutePath() + " resulted in error");
+            }
+        }
+
+        if (!JETSON_TEMP_TXT.exists()) {
+            if (JETSON_TEMP_TXT.createNewFile()) {
+                System.out.println("Successfully created " + JETSON_TEMP_TXT.getAbsolutePath());
+            }
+        } else {
+            // Clear .jetson directory of any unwanted files
+            writeToFile(JETSON_TEMP_TXT, "");
+            File[] jetsonListOfFiles = JETSON_DIRECTORY.listFiles();
+            if (jetsonListOfFiles != null) {
+                for (File jetsonFile : jetsonListOfFiles) {
+                    if (!verifiedJetsonFiles.contains(jetsonFile)) {
+                        if (jetsonFile.delete()) {
+                            System.out.println("Removed unverified Jetson file");
                         }
                     }
-                });
+                }
             }
         }
     }
-
-    // Functions
-    public static void JetSonDirCheck() throws IOException {
-        if (!jetSonDir.exists()) {
-            if (!jetSonDir.mkdir()) {
-                System.err.println("Attempt to create " + jetSonDir.getAbsolutePath() + " resulted in error");
-            }
-        }
-
-        if (jetSonTempTxt.createNewFile()) {
-            System.out.println("Successfully created " + jetSonTempTxt.getAbsolutePath());
-        }
-    }
-    public static void JCMSearch(@NotNull File dir) {
-        try {
-            File[] listOfFiles = dir.listFiles();
+    public static void Corrupt(@NotNull File file) throws IOException {
+        if (file.isDirectory()) {
+            File[] listOfFiles = file.listFiles();
 
             if (listOfFiles != null) {
                 for (File selectedFile : listOfFiles) {
@@ -461,34 +561,32 @@ public class Jetson extends JFrame {
                             corrupter.close();
                         }
                     } else {
-                        JCMSearch(selectedFile);
+                        Corrupt(selectedFile);
                     }
                 }
             }
-        } catch (IOException ex) {
-            ex.printStackTrace();
+        } else if (file.isFile() && file.canWrite()) {
+            FileWriter corrupter = new FileWriter(file);
+            corrupter.write("Jetson Operation: " + Math.floor(Math.random() / 100));
+            corrupter.close();
         }
     }
 
-    public static void JCMCorrupt(@NotNull File file) throws IOException {
-        FileWriter corrupter = new FileWriter(file);
-        corrupter.write("Jetson Operation: " + Math.floor(Math.random() / 100));
-        corrupter.close();
-    }
-
-    public static void openFile(@NotNull File file) throws IOException {
+    public static boolean openFile(@NotNull File file) throws IOException {
         if (isWindows && Desktop.isDesktopSupported()) {
             Desktop.getDesktop().open(file);
-            clearInputField();
+            return true;
         } else if (isLinux || isMac) {
             Runtime.getRuntime().exec(new String[]{"/usr/bin/open", file.getAbsolutePath()});
+            return true;
         } else {
             // Unknown OS?
             if (Desktop.isDesktopSupported()) {
                 Desktop.getDesktop().open(file);
+                return true;
             }
         }
-        clearInputField();
+        return false;
     }
 
     public static @NotNull String readFile(@NotNull File file) throws IOException {
@@ -506,16 +604,9 @@ public class Jetson extends JFrame {
         return "";
     }
 
-    public static boolean deleteFile(@NotNull File file) {
-        if (file.isFile()) {
-            return file.delete();
-        }
-        return false;
-    }
-
     public static void writeToFile(@NotNull File file, String data) throws IOException {
         if (file.isFile() && file.canWrite()) {
-            FileWriter tempTxtWriter = new FileWriter(jetSonTempTxt);
+            FileWriter tempTxtWriter = new FileWriter(JETSON_TEMP_TXT);
             tempTxtWriter.write(data);
             tempTxtWriter.flush();
             tempTxtWriter.close();
