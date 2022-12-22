@@ -338,7 +338,7 @@ public class jetSon extends JFrame {
         }
 
         // Create Jetson JFrame
-        new jetSon();
+        JFrame jetSonFrame = new jetSon();
         listDirectory(infoPanel, new File(System.getProperty("user.home")).listFiles());
 
         // Take command inputs
@@ -430,6 +430,7 @@ public class jetSon extends JFrame {
                                     clearInputField();
                                 }
                             }
+                            case "minimize" -> jetSonFrame.setExtendedState(JFrame.ICONIFIED);
                             case "quit" -> System.exit(0);
                         }
                     }
