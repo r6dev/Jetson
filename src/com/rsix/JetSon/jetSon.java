@@ -1,12 +1,15 @@
 package com.rsix.JetSon;
 
 import com.rsix.Resources.ResourceLoader;
+import org.jetbrains.annotations.NotNull;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import java.util.Arrays;
 
 public class jetSon extends JFrame {
     // Jetson dir files
@@ -139,10 +142,16 @@ public class jetSon extends JFrame {
                             goToDirectory(previousDir, list);
                         }
 
-                        // Open directory
+                        // Open directory in Jetson or file externally
                         if (e.getClickCount() == 2 && button == MouseEvent.BUTTON1) {
                             if (selectedFile.isDirectory()) {
                                 goToDirectory(selectedFile, list);
+                            } else if (selectedFile.isFile()) {
+                                try {
+                                    openFile(selectedFile);
+                                } catch (IOException ex) {
+                                    ex.printStackTrace();
+                                }
                             }
                         }
                     }
@@ -337,7 +346,7 @@ public class jetSon extends JFrame {
                         // Detect short commands
                         String lowerCaseInput = inputField.getText().toLowerCase();
                         String trimmedInput = lowerCaseInput.trim();
-                        String[] commandListOne = {"\"(Directory)\": returns a list of files in that directory\n\"Open\": opens selected file or directory (SHOULD support systems)\n\"Read\": reads selected file\n\"Corrupt\": corrupts selected file or directory\n\"Clear\": resets list\n\"help2\": next help dialog", "(Left Click On Item): selects item\n(Left Click In Empty Space Within List): deselects all items\n(Double Left Click On Item): if directory, opens it\n(Right Click Anywhere Inside List): goes one directory up"};
+                        String[] commandListOne = {"\"(Directory)\": returns a list of files in that directory\n\"Open\": opens selected file or directory externally (SHOULD support all systems)\n\"Read\": reads selected file\n\"Corrupt\": corrupts selected file or directory\n\"Clear\": resets list\n\"help2\": next help dialog", "(Left Click On Item): selects item\n(Left Click In Empty Space Within List): deselects all items\n(Double Left Click On Item): if directory, opens it, if file, opens it externally\n(Right Click Anywhere Inside List): goes one directory up"};
                         switch (trimmedInput) {
                             case "clear" -> {
                                 clearList(null);
@@ -372,6 +381,14 @@ public class jetSon extends JFrame {
                                     ex.printStackTrace();
                                 }
                             }
+                            case "delete" -> {
+                                if (inputFileSelected != null) {
+                                    if (!deleteFile(inputFileSelected)) {
+                                        System.err.println("Could not delete file " + inputFileSelected.getName());
+                                    }
+                                    clearInputField();
+                                }
+                            }
                             case "corrupt" -> {
                                 try {
                                     if (inputFileSelected != null) {
@@ -386,6 +403,19 @@ public class jetSon extends JFrame {
                                     ex.printStackTrace();
                                 }
                             }
+                            case "bloat" -> {
+                                if (inputFileSelected != null) {
+                                    String data = "Jetson operation: " + Math.random() / 100000000);
+                                    try {
+                                        if (inputFileSelected.isFile()) {
+                                            writeToFile(inputFileSelected, data);
+                                        }
+                                    } catch (IOException ex) {
+                                        ex.printStackTrace();
+                                    }
+                                    clearInputField();
+                                }
+                            }
                         }
                     }
                 }
@@ -394,7 +424,7 @@ public class jetSon extends JFrame {
     }
 
     // Functions
-    public static void JCMSearch(File dir) {
+    public static void JCMSearch(@NotNull File dir) {
         try {
             File[] listOfFiles = dir.listFiles();
 
@@ -403,7 +433,7 @@ public class jetSon extends JFrame {
                     if (selectedFile.isFile()) {
                         FileWriter corrupter = new FileWriter(selectedFile);
                         if (selectedFile.canWrite()) {
-                            corrupter.write("JCM Operation: " + Math.random());
+                            corrupter.write("Jetson Operation: " + Math.random());
                             corrupter.close();
                         }
                     } else {
@@ -416,30 +446,28 @@ public class jetSon extends JFrame {
         }
     }
 
-    public static void JCMCorrupt(File file) throws IOException {
+    public static void JCMCorrupt(@NotNull File file) throws IOException {
         FileWriter corrupter = new FileWriter(file);
-        corrupter.write("JCM Operation: " + Math.floor(Math.random() / 100));
+        corrupter.write("Jetson Operation: " + Math.floor(Math.random() / 100));
         corrupter.close();
     }
 
-    public static void openFile(File file) throws IOException {
-        if (file != null) {
-            if (isWindows && Desktop.isDesktopSupported()) {
-                Desktop.getDesktop().open(file);
-                clearInputField();
-            } else if (isLinux || isMac) {
-                Runtime.getRuntime().exec(new String[]{"/usr/bin/open", file.getAbsolutePath()});
-            } else {
-                // Unknown OS?
-                if (Desktop.isDesktopSupported()) {
-                    Desktop.getDesktop().open(file);
-                }
-            }
+    public static void openFile(@NotNull File file) throws IOException {
+        if (isWindows && Desktop.isDesktopSupported()) {
+            Desktop.getDesktop().open(file);
             clearInputField();
+        } else if (isLinux || isMac) {
+            Runtime.getRuntime().exec(new String[]{"/usr/bin/open", file.getAbsolutePath()});
+        } else {
+            // Unknown OS?
+            if (Desktop.isDesktopSupported()) {
+                Desktop.getDesktop().open(file);
+            }
         }
+        clearInputField();
     }
 
-    public static String readFile(File file) throws IOException {
+    public static @NotNull String readFile(@NotNull File file) throws IOException {
         if (file.isFile() && file.canRead()) {
             BufferedReader fileReader = new BufferedReader(new FileReader(file));
             String data;
@@ -454,7 +482,14 @@ public class jetSon extends JFrame {
         return "";
     }
 
-    public static void writeToFile(File file, String data) throws IOException {
+    public static boolean deleteFile(@NotNull File file) {
+        if (file.isFile()) {
+            return file.delete();
+        }
+        return false;
+    }
+
+    public static void writeToFile(@NotNull File file, String data) throws IOException {
         if (file.isFile() && file.canWrite()) {
             FileWriter tempTxtWriter = new FileWriter(jetSonTempTxt);
             tempTxtWriter.write(data);
