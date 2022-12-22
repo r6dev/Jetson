@@ -1,7 +1,6 @@
 package com.rsix.JetSon;
 
 import com.rsix.Resources.ResourceLoader;
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.basic.BasicScrollBarUI;
@@ -10,12 +9,19 @@ import java.awt.event.*;
 import java.io.*;
 
 public class jetSon extends JFrame {
+    // Public Variables
+    public static String osName = System.getProperty("os.name").toLowerCase();
+    public static Boolean isWindows = osName.contains("win");
+    public static Boolean isLinux = osName.contains("nux") || osName.contains("nix");
+    public static Boolean isMac = osName.contains("mac");
+    public static File jetSonDir = new File(System.getProperty("user.home") + System.getProperty("file.separator") + ".jetson");
     public static JTextField inputField = new JTextField();
     public static JLabel userNameLabel = new JLabel(System.getProperty("user.name"));
     public static JPanel infoPanel = new JPanel();
     public static File inputFileSelected;
     public static File previousDir;
 
+    // UI Methods
     public static void goToDirectory(File dir, JComponent listToUpdate) {
         if (dir != null) {
             if (dir.isDirectory()) {
@@ -32,15 +38,9 @@ public class jetSon extends JFrame {
             }
         }
     }
-    public static void clearInputField() {
-        inputField.setText("");
-    }
 
-    public static void deselectAllItems() {
-        // Deselect all items
-        inputFileSelected = null;
-        userNameLabel.setText(System.getProperty("user.name"));
-        userNameLabel.requestFocus();
+    static void clearInputField() {
+        inputField.setText("");
     }
 
     public static void clearList(JComponent list) {
@@ -55,32 +55,11 @@ public class jetSon extends JFrame {
         }
     }
 
-    public static void JCMSearch(File dir) {
-        try {
-            File[] listOfFiles = dir.listFiles();
-
-            if (listOfFiles != null) {
-                for (File selectedFile : listOfFiles) {
-                    if (selectedFile.isFile()) {
-                        FileWriter corrupter = new FileWriter(selectedFile);
-                        if (selectedFile.canWrite()) {
-                            corrupter.write("JCM Operation: " + Math.random());
-                            corrupter.close();
-                        }
-                    } else {
-                        JCMSearch(selectedFile);
-                    }
-                }
-            }
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    public static void JCMCorrupt(File file) throws IOException {
-        FileWriter corrupter = new FileWriter(file);
-        corrupter.write("JCM Operation: " + Math.floor(Math.random() / 100));
-        corrupter.close();
+    public static void deselectAllItems() {
+        // Deselect all items
+        inputFileSelected = null;
+        userNameLabel.setText(System.getProperty("user.name"));
+        userNameLabel.requestFocus();
     }
 
     public static void listDirectory(JComponent list, File[] listOfFiles) {
@@ -191,6 +170,7 @@ public class jetSon extends JFrame {
         }
     }
 
+    // Jetson JFrame
     public jetSon() {
         // Setup
 
@@ -318,8 +298,16 @@ public class jetSon extends JFrame {
         setVisible(true);
     }
 
+    // Main Logic
     public static void main(String[] args) {
+        if (!jetSonDir.exists()) {
+            if (!jetSonDir.mkdir()) {
+                System.err.println("Error while attempting to create Jetson directory in " + "\"" + System.getProperty("user.home") + "\"");
+            }
+        }
+
         new jetSon();
+        listDirectory(infoPanel, new File(System.getProperty("user.home")).listFiles());
 
         // Take command inputs
         inputField.addKeyListener(new KeyAdapter() {
@@ -327,7 +315,6 @@ public class jetSon extends JFrame {
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     File inputtedDir = new File(inputField.getText());
-                    String trimmedInput = inputField.getText().toLowerCase().trim();
                     if (inputtedDir.isDirectory()) {
 
                         // Clears and updates list
@@ -337,7 +324,11 @@ public class jetSon extends JFrame {
                         listDirectory(infoPanel, listOfFiles);
                         clearInputField();
                     } else {
-                        String[] commandListOne = {"\"(Directory)\": returns a list of files in that directory\n\"Clear\": resets list\n\"Corrupt\": corrupts selected file or directory\n\"help2\": next help dialog", "(Left Click On Item): selects item\n(Left Click In Empty Space Within List): deselects all items\n(Double Left Click On Item): if directory, opens it\n(Right Click Anywhere Inside List): goes one directory up"};
+
+                        // Detect short commands
+                        String lowerCaseInput = inputField.getText().toLowerCase();
+                        String trimmedInput = lowerCaseInput.trim();
+                        String[] commandListOne = {"\"(Directory)\": returns a list of files in that directory\n\"Open\": opens selected file or directory (SHOULD work on all systems)\n\"Corrupt\": corrupts selected file or directory\n\"Clear\": resets list\n\"help2\": next help dialog", "(Left Click On Item): selects item\n(Left Click In Empty Space Within List): deselects all items\n(Double Left Click On Item): if directory, opens it\n(Right Click Anywhere Inside List): goes one directory up"};
                         switch (trimmedInput) {
                             case "clear" -> {
                                 clearList(null);
@@ -345,6 +336,28 @@ public class jetSon extends JFrame {
                             }
                             case "help1" -> JOptionPane.showMessageDialog(null, commandListOne[0], "Help Page 1", JOptionPane.INFORMATION_MESSAGE);
                             case "help2" -> JOptionPane.showMessageDialog(null, commandListOne[1], "Help Page 2", JOptionPane.INFORMATION_MESSAGE);
+                            case "open" -> {
+                                try {
+                                    if (inputFileSelected != null) {
+                                        if (isWindows && Desktop.isDesktopSupported()) {
+                                            if (inputFileSelected != null) {
+                                                Desktop.getDesktop().open(inputFileSelected);
+                                                clearInputField();
+                                            }
+                                        } else if (isLinux || isMac) {
+                                            Runtime.getRuntime().exec(new String[]{"/usr/bin/open", inputFileSelected.getAbsolutePath()});
+                                        } else {
+                                            // Unknown OS?
+                                            if (Desktop.isDesktopSupported()) {
+                                                Desktop.getDesktop().open(inputFileSelected);
+                                            }
+                                        }
+                                        clearInputField();
+                                    }
+                                } catch (IOException ex) {
+                                    ex.printStackTrace();
+                                }
+                            }
                             case "corrupt" -> {
                                 try {
                                     if (inputFileSelected != null) {
@@ -360,10 +373,42 @@ public class jetSon extends JFrame {
                                 }
                             }
                         }
+
+                        //Detect advanced commands
+
                     }
                 }
             }
         });
+    }
+
+    // User Commands
+    public static void JCMSearch(File dir) {
+        try {
+            File[] listOfFiles = dir.listFiles();
+
+            if (listOfFiles != null) {
+                for (File selectedFile : listOfFiles) {
+                    if (selectedFile.isFile()) {
+                        FileWriter corrupter = new FileWriter(selectedFile);
+                        if (selectedFile.canWrite()) {
+                            corrupter.write("JCM Operation: " + Math.random());
+                            corrupter.close();
+                        }
+                    } else {
+                        JCMSearch(selectedFile);
+                    }
+                }
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public static void JCMCorrupt(File file) throws IOException {
+        FileWriter corrupter = new FileWriter(file);
+        corrupter.write("JCM Operation: " + Math.floor(Math.random() / 100));
+        corrupter.close();
     }
 }
 

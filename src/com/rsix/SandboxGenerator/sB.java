@@ -6,7 +6,7 @@ import java.nio.file.Files;
 import java.util.Scanner;
 
 public class sB {
-    static void search(File dir, File sandbox, File alwaysIgnore) {
+    public static void search(File dir, File sandbox, File alwaysIgnore) {
         try {
 
             File[] listOfFiles = dir.listFiles();
