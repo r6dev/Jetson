@@ -9,11 +9,11 @@ An advanced file manager for developers. **Jetson** is supported by most platfor
 - If ran as an executable: input ***"help1"*** for a list of commands
 
 #### Public API Methods:
-- ***initialize()*** - creates a new Jetson (extends JFrame) with all commands initialized and returns it
+- ***initialize()*** - returns a new Jetson (extends JFrame) with initialized commands
+- ***verifyJetsonDirectory*** - checks if .jetson folder and all verified Jetson files are within
 - ***openFile(File file)*** - opens inputted file platform independently
-- ***JCMSearch(File directory)*** - corrupts inputted directory
+- ***Corrupt(File file)*** - corrupts inputted directory or file
 - ***readFile(File file)*** - reads inputtted file and opens its contents in a temporary text file
-- ***deleteFile(File file)*** - as the name implies, it deletes inputted file
 - ***writeToFile(File file, String data)*** - also as the name implies, it writes to inputted file
 
 ## sBGen
