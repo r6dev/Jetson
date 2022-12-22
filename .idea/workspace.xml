@@ -9,7 +9,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0fb48862-ed1b-4eb8-97e2-e4d21d9436e5" name="Changes" comment="change - added bloat and delete ability" />
+    <list default="true" id="0fb48862-ed1b-4eb8-97e2-e4d21d9436e5" name="Changes" comment="change - added quit ability">
+      <change beforePath="$PROJECT_DIR$/src/com/rsix/JetSon/jetSon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/rsix/JetSon/jetSon.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -37,23 +39,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "Downloaded.Files.Path.Enabled": "false",
-    "Repository.Attach.Annotations": "false",
-    "Repository.Attach.JavaDocs": "false",
-    "Repository.Attach.Sources": "false",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "last_opened_file_path": "C:/Users/andre/IdeaProjects/rJToolbox/builds/SandboxGenerator",
-    "project.structure.last.edited": "Artifacts",
-    "project.structure.proportion": "0.15527344",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "reference.settings.ide.settings.new.ui"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/andre/IdeaProjects/rJToolbox/builds/SandboxGenerator&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15527344&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.ide.settings.new.ui&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Application.jetSon">
     <configuration name="fastFlux" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.rsix.SandboxGenerator.fastFlux" />
@@ -214,7 +216,21 @@
       <option name="project" value="LOCAL" />
       <updated>1671676584599</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="change - fixed semicolon error in bloat command">
+      <created>1671676662696</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1671676662696</updated>
+    </task>
+    <task id="LOCAL-00017" summary="change - added quit ability">
+      <created>1671676831744</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1671676831744</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -245,7 +261,9 @@
     <MESSAGE value="change - added the ability to open files" />
     <MESSAGE value="change - fixed up open and added read ability" />
     <MESSAGE value="change - added bloat and delete ability" />
-    <option name="LAST_COMMIT_MESSAGE" value="change - added bloat and delete ability" />
+    <MESSAGE value="change - fixed semicolon error in bloat command" />
+    <MESSAGE value="change - added quit ability" />
+    <option name="LAST_COMMIT_MESSAGE" value="change - added quit ability" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/rJToolbox$tB.ic" NAME="tB Coverage Results" MODIFIED="1670767329597" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">

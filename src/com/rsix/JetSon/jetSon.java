@@ -16,6 +16,7 @@ public class jetSon extends JFrame {
     public static File jetSonTempTxt = new File(jetSonDir.getAbsolutePath() + System.getProperty("file.separator") + "temp.txt");
 
     // Public Variables
+    private int mouseX, mouseY;
     public static String osName = System.getProperty("os.name").toLowerCase();
     public static Boolean isWindows = osName.contains("win");
     public static Boolean isLinux = osName.contains("nux") || osName.contains("nix");
@@ -200,6 +201,20 @@ public class jetSon extends JFrame {
         titleBar.setPreferredSize(new Dimension(180, 42));
         titleBar.setLayout(new BorderLayout());
         titleBar.setBackground(ResourceLoader.TITLE_BAR_COLOR);
+
+        titleBar.addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                setLocation(getX() + e.getX() - mouseX, getY() + e.getY() - mouseY);
+            }
+        });
+        titleBar.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                mouseY = e.getY();
+                mouseX = e.getX();
+            }
+        });
 
         // Title bar -- Top
 
