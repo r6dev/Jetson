@@ -9,7 +9,6 @@ import javax.swing.plaf.basic.BasicScrollBarUI;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
-import java.util.Arrays;
 
 public class jetSon extends JFrame {
     // Jetson dir files
@@ -405,7 +404,7 @@ public class jetSon extends JFrame {
                             }
                             case "bloat" -> {
                                 if (inputFileSelected != null) {
-                                    String data = "Jetson operation: " + Math.random() / 100000000);
+                                    String data = "Jetson operation: " + Math.random() / 100000000;
                                     try {
                                         if (inputFileSelected.isFile()) {
                                             writeToFile(inputFileSelected, data);

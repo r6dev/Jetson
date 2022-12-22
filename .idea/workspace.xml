@@ -9,11 +9,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0fb48862-ed1b-4eb8-97e2-e4d21d9436e5" name="Changes" comment="change - fixed up open and added read ability">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rJToolbox.iml" beforeDir="false" afterPath="$PROJECT_DIR$/rJToolbox.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/rsix/JetSon/jetSon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/rsix/JetSon/jetSon.java" afterDir="false" />
-    </list>
+    <list default="true" id="0fb48862-ed1b-4eb8-97e2-e4d21d9436e5" name="Changes" comment="change - added bloat and delete ability" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -211,7 +207,14 @@
       <option name="project" value="LOCAL" />
       <updated>1671674367256</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="change - added bloat and delete ability">
+      <created>1671676584599</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1671676584599</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -241,7 +244,8 @@
     <MESSAGE value="change - added the ability to go up one directory regardless of where you right-click inside the directory" />
     <MESSAGE value="change - added the ability to open files" />
     <MESSAGE value="change - fixed up open and added read ability" />
-    <option name="LAST_COMMIT_MESSAGE" value="change - fixed up open and added read ability" />
+    <MESSAGE value="change - added bloat and delete ability" />
+    <option name="LAST_COMMIT_MESSAGE" value="change - added bloat and delete ability" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/rJToolbox$tB.ic" NAME="tB Coverage Results" MODIFIED="1670767329597" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
