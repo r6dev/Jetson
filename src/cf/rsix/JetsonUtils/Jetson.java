@@ -1,6 +1,6 @@
-package com.rsix.JetSon;
+package cf.rsix.JetsonUtils;
 
-import com.rsix.Resources.ResourceLoader;
+import cf.rsix.Resources.ResourceLoader;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
@@ -10,7 +10,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 
-public class jetSon extends JFrame {
+public class Jetson extends JFrame {
     // Jetson dir files
     public static File jetSonDir = new File(System.getProperty("user.home") + System.getProperty("file.separator") + ".jetson");
     public static File jetSonTempTxt = new File(jetSonDir.getAbsolutePath() + System.getProperty("file.separator") + "temp.txt");
@@ -21,13 +21,267 @@ public class jetSon extends JFrame {
     public static Boolean isWindows = osName.contains("win");
     public static Boolean isLinux = osName.contains("nux") || osName.contains("nix");
     public static Boolean isMac = osName.contains("mac");
-    public static JTextField inputField = new JTextField();
+    public static final JTextField inputField = new JTextField();
     public static JLabel userNameLabel = new JLabel(System.getProperty("user.name"));
-    public static JPanel infoPanel = new JPanel();
+    public static final JPanel infoPanel = new JPanel();
     public static File inputFileSelected;
     public static File previousDir;
 
+    // Jetson JFrame
+    public Jetson() {
+        // Setup
+
+        setTitle("Jetson");
+        setIconImage(ResourceLoader.getIcon("jetson-icon", (short) 96, Image.SCALE_DEFAULT).getImage());
+        setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        getRootPane().setBorder(BorderFactory.createLineBorder(ResourceLoader.PRIMARY_BORDER_COLOR));
+        getContentPane().setBackground(ResourceLoader.TITLE_BAR_COLOR);
+        setUndecorated(true);
+
+        // Title bar
+
+        JPanel titleBar = new JPanel();
+        getContentPane().add(titleBar, BorderLayout.NORTH);
+        titleBar.setPreferredSize(new Dimension(180, 42));
+        titleBar.setLayout(new BorderLayout());
+        titleBar.setBackground(ResourceLoader.TITLE_BAR_COLOR);
+
+        titleBar.addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                setLocation(getX() + e.getX() - mouseX, getY() + e.getY() - mouseY);
+            }
+        });
+        titleBar.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                mouseY = e.getY();
+                mouseX = e.getX();
+            }
+        });
+
+        // Title bar -- Top
+
+        JPanel titleBarTop = new JPanel();
+        titleBar.add(titleBarTop);
+        titleBarTop.setLayout(new BoxLayout(titleBarTop, BoxLayout.LINE_AXIS));
+        titleBarTop.setBackground(ResourceLoader.TITLE_BAR_COLOR);
+        titleBar.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createMatteBorder(0,0,1,0, ResourceLoader.PRIMARY_BORDER_COLOR), new EmptyBorder(5,12,5,0)));
+
+        JLabel titleBarLabel = new JLabel(getTitle() + " - ");
+        titleBarTop.add(titleBarLabel);
+        titleBarLabel.setFont(ResourceLoader.getFont("jetbrains"));
+        titleBarLabel.setForeground(ResourceLoader.PRIMARY_TEXT_COLOR);
+
+        titleBarTop.add(userNameLabel);
+        userNameLabel.setFont(ResourceLoader.getFont("jetbrains"));
+        userNameLabel.setForeground(ResourceLoader.SECONDARY_TEXT_COLOR);
+
+        // Title bar -- Bottom
+
+        JPanel titleBarBottom = new JPanel();
+        titleBar.add(titleBarBottom, BorderLayout.SOUTH);
+        titleBarBottom.setLayout(new BoxLayout(titleBarBottom, BoxLayout.LINE_AXIS));
+        titleBarBottom.setBackground(ResourceLoader.TITLE_BAR_COLOR);
+
+        JLabel sysInfoLabel = new JLabel("- " + System.getProperty("os.arch") + System.getProperty("file.separator") + System.getProperty("os.version") + System.getProperty("file.separator") + "JRE " + System.getProperty("java.version"));
+        titleBarBottom.add(sysInfoLabel);
+        sysInfoLabel.setFont(ResourceLoader.getFont("jetbrains"));
+        sysInfoLabel.setForeground(ResourceLoader.SECONDARY_TEXT_COLOR);
+
+        // Input field setup
+
+        String inputFieldPlaceholder = "input a dir or \"help1\"";
+        getContentPane().add(inputField);
+        inputField.setBackground(ResourceLoader.SECONDARY_BACKGROUND_COLOR);
+        inputField.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createMatteBorder(0,0,1,0, ResourceLoader.SECONDARY_BORDER_COLOR), new EmptyBorder(0,12,0,0)));
+        inputField.setForeground(ResourceLoader.EDITOR_TEXT_COLOR);
+        inputField.setFont(new Font("Consolas", Font.PLAIN, 12));
+        inputField.setPreferredSize(new Dimension(180, 29));
+
+        // Functional placeholder text
+        inputField.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (inputField.getText().equals(inputFieldPlaceholder)) {
+                    inputField.setText("");
+                    inputField.setFont(new Font("Consolas", Font.PLAIN, 12));
+                    inputField.setForeground(ResourceLoader.PRIMARY_TEXT_COLOR);
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (inputField.getText().isBlank()) {
+                    inputField.setText(inputFieldPlaceholder);
+                    inputField.setFont(new Font("Consolas", Font.PLAIN, 10));
+                    inputField.setForeground(ResourceLoader.SECONDARY_TEXT_COLOR);
+                }
+            }
+        });
+
+        infoPanel.setBackground(ResourceLoader.TITLE_BAR_COLOR);
+        infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
+
+        JScrollPane infoScrollPane = new JScrollPane(infoPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        getContentPane().add(infoScrollPane);
+        infoScrollPane.setBorder(null);
+        infoScrollPane.setPreferredSize(new Dimension(180, 128));
+        infoScrollPane.setComponentZOrder(infoScrollPane.getVerticalScrollBar(), 0);
+        infoScrollPane.setComponentZOrder(infoScrollPane.getViewport(), 1);
+        infoScrollPane.getVerticalScrollBar().setOpaque(false);
+        infoScrollPane.getVerticalScrollBar().setUnitIncrement(9);
+
+        infoScrollPane.setLayout(new ScrollPaneLayout() {
+            @Override
+            public void layoutContainer(Container parent) {
+                JScrollPane scrollPane = (JScrollPane) parent;
+
+                Rectangle availR = scrollPane.getBounds();
+                availR.x = availR.y = 0;
+
+                Insets parentInsets = parent.getInsets();
+                availR.x = parentInsets.left;
+                availR.y = parentInsets.top;
+                availR.width -= parentInsets.left + parentInsets.right;
+                availR.height -= parentInsets.top + parentInsets.bottom;
+
+                Rectangle vsbR = new Rectangle();
+                vsbR.width = 12;
+                vsbR.height = availR.height;
+                vsbR.x = availR.x + availR.width - vsbR.width;
+                vsbR.y = availR.y;
+
+                if (viewport != null) {
+                    viewport.setBounds(availR);
+                }
+                if (vsb != null) {
+                    vsb.setVisible(true);
+                    vsb.setBounds(vsbR);
+                }
+            }
+        });
+        infoScrollPane.getVerticalScrollBar().setUI(new JetsonScrollBarUI());
+
+        pack();
+        setLocationRelativeTo(null);
+        setVisible(true);
+    }
+
+    // Main Logic
+    public static void main(String[] args) throws IOException {
+        // Check for Jetson directories and files
+        JetSonDirCheck();
+
+        // Create Jetson JFrame
+        initialize();
+        listDirectory(infoPanel, new File(System.getProperty("user.home")).listFiles());
+    }
+
     // UI Methods
+    public static Jetson initialize() {
+        Jetson frame = new Jetson();
+
+        // Take command inputs
+        inputField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    File inputtedDir = new File(inputField.getText());
+                    if (inputtedDir.isDirectory()) {
+
+                        // Clears and updates list
+                        clearList(null);
+
+                        File[] listOfFiles = inputtedDir.listFiles();
+                        listDirectory(infoPanel, listOfFiles);
+                        clearInputField();
+                    } else {
+
+                        // Detect short commands
+                        String lowerCaseInput = inputField.getText().toLowerCase();
+                        String trimmedInput = lowerCaseInput.trim();
+                        String[] commandListOne = {"\"(Directory)\": returns a list of files in that directory\n\"Open\": opens selected file or directory externally (SHOULD support all systems)\n\"Read\": reads selected file\n\"Corrupt\": corrupts selected file or directory\n\"Clear\": resets list\n\"Quit\": exit the application\n\"help2\": next help dialog", "(Left Click On Item): selects item\n(Left Click In Empty Space Within List): deselects all items\n(Double Left Click On Item): if directory, opens it, if file, opens it externally\n(Right Click Anywhere Inside List): goes one directory up"};
+                        switch (trimmedInput) {
+                            case "clear" -> {
+                                clearList(null);
+                                clearInputField();
+                            }
+                            case "help1" -> {
+                                JOptionPane.showMessageDialog(null, commandListOne[0], "Help Page 1", JOptionPane.INFORMATION_MESSAGE);
+                                clearInputField();
+                            }
+                            case "help2" -> {
+                                JOptionPane.showMessageDialog(null, commandListOne[1], "Help Page 2", JOptionPane.INFORMATION_MESSAGE);
+                                clearInputField();
+                            }
+                            case "open" -> {
+                                try {
+                                    if (inputFileSelected != null) {
+                                        openFile(inputFileSelected);
+                                        clearInputField();
+                                    }
+                                } catch (IOException ex) {
+                                    ex.printStackTrace();
+                                }
+                            }
+                            case "read" -> {
+                                try {
+                                    if (inputFileSelected.isFile() && inputFileSelected.canRead()) {
+                                        writeToFile(jetSonTempTxt, readFile(inputFileSelected));
+                                        openFile(jetSonTempTxt);
+                                        clearInputField();
+                                    }
+                                } catch (IOException ex) {
+                                    ex.printStackTrace();
+                                }
+                            }
+                            case "delete" -> {
+                                if (inputFileSelected != null) {
+                                    if (!deleteFile(inputFileSelected)) {
+                                        System.err.println("Could not delete file " + inputFileSelected.getName());
+                                    }
+                                    clearInputField();
+                                }
+                            }
+                            case "corrupt" -> {
+                                try {
+                                    if (inputFileSelected != null) {
+                                        if (inputFileSelected.isFile()) {
+                                            JCMCorrupt(inputFileSelected);
+                                        } else if (inputFileSelected.isDirectory()) {
+                                            JCMSearch(inputFileSelected);
+                                        }
+                                        clearInputField();
+                                    }
+                                } catch (IOException ex) {
+                                    ex.printStackTrace();
+                                }
+                            }
+                            case "bloat" -> {
+                                if (inputFileSelected != null) {
+                                    String data = "Jetson operation: " + Math.random() / 100000000;
+                                    try {
+                                        if (inputFileSelected.isFile()) {
+                                            writeToFile(inputFileSelected, data);
+                                        }
+                                    } catch (IOException ex) {
+                                        ex.printStackTrace();
+                                    }
+                                    clearInputField();
+                                }
+                            }
+                            case "minimize" -> frame.setExtendedState(JFrame.ICONIFIED);
+                            case "quit" -> System.exit(0);
+                        }
+                    }
+                }
+            }
+        });
+        return frame;
+    }
+    
     public static void goToDirectory(File dir, JComponent listToUpdate) {
         if (dir != null) {
             if (dir.isDirectory()) {
@@ -182,264 +436,18 @@ public class jetSon extends JFrame {
         }
     }
 
-    // Jetson JFrame
-    public jetSon() {
-        // Setup
-
-        setTitle("Jetson");
-        setIconImage(ResourceLoader.getIcon("jetson-icon", (short) 96, Image.SCALE_DEFAULT).getImage());
-        setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        getRootPane().setBorder(BorderFactory.createLineBorder(ResourceLoader.PRIMARY_BORDER_COLOR));
-        getContentPane().setBackground(ResourceLoader.TITLE_BAR_COLOR);
-        setUndecorated(true);
-
-        // Title bar
-
-        JPanel titleBar = new JPanel();
-        getContentPane().add(titleBar, BorderLayout.NORTH);
-        titleBar.setPreferredSize(new Dimension(180, 42));
-        titleBar.setLayout(new BorderLayout());
-        titleBar.setBackground(ResourceLoader.TITLE_BAR_COLOR);
-
-        titleBar.addMouseMotionListener(new MouseMotionAdapter() {
-            @Override
-            public void mouseDragged(MouseEvent e) {
-                setLocation(getX() + e.getX() - mouseX, getY() + e.getY() - mouseY);
-            }
-        });
-        titleBar.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                mouseY = e.getY();
-                mouseX = e.getX();
-            }
-        });
-
-        // Title bar -- Top
-
-        JPanel titleBarTop = new JPanel();
-        titleBar.add(titleBarTop);
-        titleBarTop.setLayout(new BoxLayout(titleBarTop, BoxLayout.LINE_AXIS));
-        titleBarTop.setBackground(ResourceLoader.TITLE_BAR_COLOR);
-        titleBar.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createMatteBorder(0,0,1,0, ResourceLoader.PRIMARY_BORDER_COLOR), new EmptyBorder(5,12,5,0)));
-
-        JLabel titleBarLabel = new JLabel(getTitle() + " - ");
-        titleBarTop.add(titleBarLabel);
-        titleBarLabel.setFont(ResourceLoader.getFont("jetbrains"));
-        titleBarLabel.setForeground(ResourceLoader.PRIMARY_TEXT_COLOR);
-
-        titleBarTop.add(userNameLabel);
-        userNameLabel.setFont(ResourceLoader.getFont("jetbrains"));
-        userNameLabel.setForeground(ResourceLoader.SECONDARY_TEXT_COLOR);
-
-        // Title bar -- Bottom
-
-        JPanel titleBarBottom = new JPanel();
-        titleBar.add(titleBarBottom, BorderLayout.SOUTH);
-        titleBarBottom.setLayout(new BoxLayout(titleBarBottom, BoxLayout.LINE_AXIS));
-        titleBarBottom.setBackground(ResourceLoader.TITLE_BAR_COLOR);
-
-        JLabel sysInfoLabel = new JLabel("- " + System.getProperty("os.arch") + System.getProperty("file.separator") + System.getProperty("os.version") + System.getProperty("file.separator") + "JRE " + System.getProperty("java.version"));
-        titleBarBottom.add(sysInfoLabel);
-        sysInfoLabel.setFont(ResourceLoader.getFont("jetbrains"));
-        sysInfoLabel.setForeground(ResourceLoader.SECONDARY_TEXT_COLOR);
-
-        // Input field setup
-
-        String inputFieldPlaceholder = "input a dir or \"help1\"";
-        getContentPane().add(inputField);
-        inputField.setBackground(ResourceLoader.SECONDARY_BACKGROUND_COLOR);
-        inputField.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createMatteBorder(0,0,1,0, ResourceLoader.SECONDARY_BORDER_COLOR), new EmptyBorder(0,12,0,0)));
-        inputField.setForeground(ResourceLoader.EDITOR_TEXT_COLOR);
-        inputField.setFont(new Font("Consolas", Font.PLAIN, 12));
-        inputField.setPreferredSize(new Dimension(180, 29));
-
-        // Functional placeholder text
-        inputField.addFocusListener(new FocusListener() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                if (inputField.getText().equals(inputFieldPlaceholder)) {
-                    inputField.setText("");
-                    inputField.setFont(new Font("Consolas", Font.PLAIN, 12));
-                    inputField.setForeground(ResourceLoader.PRIMARY_TEXT_COLOR);
-                }
-            }
-
-            @Override
-            public void focusLost(FocusEvent e) {
-                if (inputField.getText().isBlank()) {
-                    inputField.setText(inputFieldPlaceholder);
-                    inputField.setFont(new Font("Consolas", Font.PLAIN, 10));
-                    inputField.setForeground(ResourceLoader.SECONDARY_TEXT_COLOR);
-                }
-            }
-        });
-
-        infoPanel.setBackground(ResourceLoader.TITLE_BAR_COLOR);
-        infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
-
-        JScrollPane infoScrollPane = new JScrollPane(infoPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        getContentPane().add(infoScrollPane);
-        infoScrollPane.setBorder(null);
-        infoScrollPane.setPreferredSize(new Dimension(180, 128));
-        infoScrollPane.setComponentZOrder(infoScrollPane.getVerticalScrollBar(), 0);
-        infoScrollPane.setComponentZOrder(infoScrollPane.getViewport(), 1);
-        infoScrollPane.getVerticalScrollBar().setOpaque(false);
-        infoScrollPane.getVerticalScrollBar().setUnitIncrement(9);
-
-        infoScrollPane.setLayout(new ScrollPaneLayout() {
-            @Override
-            public void layoutContainer(Container parent) {
-                JScrollPane scrollPane = (JScrollPane) parent;
-
-                Rectangle availR = scrollPane.getBounds();
-                availR.x = availR.y = 0;
-
-                Insets parentInsets = parent.getInsets();
-                availR.x = parentInsets.left;
-                availR.y = parentInsets.top;
-                availR.width -= parentInsets.left + parentInsets.right;
-                availR.height -= parentInsets.top + parentInsets.bottom;
-
-                Rectangle vsbR = new Rectangle();
-                vsbR.width = 12;
-                vsbR.height = availR.height;
-                vsbR.x = availR.x + availR.width - vsbR.width;
-                vsbR.y = availR.y;
-
-                if (viewport != null) {
-                    viewport.setBounds(availR);
-                }
-                if (vsb != null) {
-                    vsb.setVisible(true);
-                    vsb.setBounds(vsbR);
-                }
-            }
-        });
-        infoScrollPane.getVerticalScrollBar().setUI(new jetSonScrollBarUI());
-
-        pack();
-        setLocationRelativeTo(null);
-        setVisible(true);
-    }
-
-    // Main Logic
-    public static void main(String[] args) throws IOException {
-        // Check for Jetson directories and files
+    // Functions
+    public static void JetSonDirCheck() throws IOException {
         if (!jetSonDir.exists()) {
             if (!jetSonDir.mkdir()) {
-                System.err.println("Error while attempting to create " + jetSonDir.getAbsolutePath());
+                System.err.println("Attempt to create " + jetSonDir.getAbsolutePath() + " resulted in error");
             }
         }
 
         if (jetSonTempTxt.createNewFile()) {
             System.out.println("Successfully created " + jetSonTempTxt.getAbsolutePath());
         }
-
-        // Create Jetson JFrame
-        JFrame jetSonFrame = new jetSon();
-        listDirectory(infoPanel, new File(System.getProperty("user.home")).listFiles());
-
-        // Take command inputs
-        inputField.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    File inputtedDir = new File(inputField.getText());
-                    if (inputtedDir.isDirectory()) {
-
-                        // Clears and updates list
-                        clearList(null);
-
-                        File[] listOfFiles = inputtedDir.listFiles();
-                        listDirectory(infoPanel, listOfFiles);
-                        clearInputField();
-                    } else {
-
-                        // Detect short commands
-                        String lowerCaseInput = inputField.getText().toLowerCase();
-                        String trimmedInput = lowerCaseInput.trim();
-                        String[] commandListOne = {"\"(Directory)\": returns a list of files in that directory\n\"Open\": opens selected file or directory externally (SHOULD support all systems)\n\"Read\": reads selected file\n\"Corrupt\": corrupts selected file or directory\n\"Clear\": resets list\n\"Quit\": exit the application\n\"help2\": next help dialog", "(Left Click On Item): selects item\n(Left Click In Empty Space Within List): deselects all items\n(Double Left Click On Item): if directory, opens it, if file, opens it externally\n(Right Click Anywhere Inside List): goes one directory up"};
-                        switch (trimmedInput) {
-                            case "clear" -> {
-                                clearList(null);
-                                clearInputField();
-                            }
-                            case "help1" -> {
-                                JOptionPane.showMessageDialog(null, commandListOne[0], "Help Page 1", JOptionPane.INFORMATION_MESSAGE);
-                                clearInputField();
-                            }
-                            case "help2" -> {
-                                JOptionPane.showMessageDialog(null, commandListOne[1], "Help Page 2", JOptionPane.INFORMATION_MESSAGE);
-                                clearInputField();
-                            }
-                            case "open" -> {
-                                try {
-                                    if (inputFileSelected != null) {
-                                        openFile(inputFileSelected);
-                                        clearInputField();
-                                    }
-                                } catch (IOException ex) {
-                                    ex.printStackTrace();
-                                }
-                            }
-                            case "read" -> {
-                                try {
-                                    if (inputFileSelected.isFile() && inputFileSelected.canRead()) {
-                                        writeToFile(jetSonTempTxt, readFile(inputFileSelected));
-                                        openFile(jetSonTempTxt);
-                                        clearInputField();
-                                    }
-                                } catch (IOException ex) {
-                                    ex.printStackTrace();
-                                }
-                            }
-                            case "delete" -> {
-                                if (inputFileSelected != null) {
-                                    if (!deleteFile(inputFileSelected)) {
-                                        System.err.println("Could not delete file " + inputFileSelected.getName());
-                                    }
-                                    clearInputField();
-                                }
-                            }
-                            case "corrupt" -> {
-                                try {
-                                    if (inputFileSelected != null) {
-                                        if (inputFileSelected.isFile()) {
-                                            JCMCorrupt(inputFileSelected);
-                                        } else if (inputFileSelected.isDirectory()) {
-                                            JCMSearch(inputFileSelected);
-                                        }
-                                        clearInputField();
-                                    }
-                                } catch (IOException ex) {
-                                    ex.printStackTrace();
-                                }
-                            }
-                            case "bloat" -> {
-                                if (inputFileSelected != null) {
-                                    String data = "Jetson operation: " + Math.random() / 100000000;
-                                    try {
-                                        if (inputFileSelected.isFile()) {
-                                            writeToFile(inputFileSelected, data);
-                                        }
-                                    } catch (IOException ex) {
-                                        ex.printStackTrace();
-                                    }
-                                    clearInputField();
-                                }
-                            }
-                            case "minimize" -> jetSonFrame.setExtendedState(JFrame.ICONIFIED);
-                            case "quit" -> System.exit(0);
-                        }
-                    }
-                }
-            }
-        });
     }
-
-    // Functions
     public static void JCMSearch(@NotNull File dir) {
         try {
             File[] listOfFiles = dir.listFiles();
@@ -516,7 +524,7 @@ public class jetSon extends JFrame {
 }
 
 
-class jetSonScrollBarUI extends BasicScrollBarUI {
+class JetsonScrollBarUI extends BasicScrollBarUI {
     private final Dimension d = new Dimension();
 
     @Override
