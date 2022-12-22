@@ -6,6 +6,11 @@ import java.io.File;
 import java.io.IOException;
 
 public class ResourceLoader {
+    // ResourceLoader config
+    private static final String RESOURCE_IDENTIFIER = new File(System.getProperty("user.dir") + System.getProperty("file.separator") + "rsc").exists() ? System.getProperty("file.separator") + "rsc" : System.getProperty("file.separator") + "resources";
+    private static final File RESOURCE_FOLDER = new File(System.getProperty("user.dir") + RESOURCE_IDENTIFIER);
+
+    // Public variables
     public static final Color TITLE_BAR_COLOR = new Color(60,62,64);
 
     public static final Color PRIMARY_BORDER_COLOR = new Color(85,85,85);
@@ -18,13 +23,15 @@ public class ResourceLoader {
     public static final Color SECONDARY_TEXT_COLOR = new Color(0xafb1b3);
     public static final Color EDITOR_TEXT_COLOR = new Color(0xafb1b3);
 
+    @SuppressWarnings("unused") public static boolean resourceFolderExists() {
+        return RESOURCE_FOLDER.exists();
+    }
+
     public static Font getFont(String fontName) {
         String toLowerCaseInput = fontName.toLowerCase();
         if (toLowerCaseInput.equals("jetbrains mono") || toLowerCaseInput.equals("jetbrains")) {
             try {
-                String resourceLink = new File(System.getProperty("user.dir") + System.getProperty("file.separator") + "rsc").exists() ? System.getProperty("file.separator") + "rsc" : System.getProperty("file.separator") + "resources";
-
-                Font jetBrainsMonoFont = Font.createFont(Font.TRUETYPE_FONT, new File(System.getProperty("user.dir") + resourceLink + System.getProperty("file.separator") + "jetbrains.ttf")).deriveFont(12f);
+                Font jetBrainsMonoFont = Font.createFont(Font.TRUETYPE_FONT, new File(System.getProperty("user.dir") + RESOURCE_IDENTIFIER + System.getProperty("file.separator") + "jetbrains.ttf")).deriveFont(12f);
                 GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
                 ge.registerFont(jetBrainsMonoFont);
                 return jetBrainsMonoFont;
@@ -40,10 +47,8 @@ public class ResourceLoader {
             return new ImageIcon();
         }
 
-        String resourceLink = new File(System.getProperty("user.dir") + System.getProperty("file.separator") + "rsc").exists() ? System.getProperty("file.separator") + "rsc" : System.getProperty("file.separator") + "resources";
-
         String iconNameLowercase = iconName.toLowerCase();
-        ImageIcon returnImg = new ImageIcon(System.getProperty("user.dir") + resourceLink + System.getProperty("file.separator") + iconNameLowercase + ".png");
+        ImageIcon returnImg = new ImageIcon(System.getProperty("user.dir") + RESOURCE_IDENTIFIER + System.getProperty("file.separator") + iconNameLowercase + ".png");
 
         return new ImageIcon(returnImg.getImage().getScaledInstance(iconSize, iconSize, imageScaling));
     }
