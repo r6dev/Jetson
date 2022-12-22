@@ -175,7 +175,7 @@ public class Jetson extends JFrame {
         JetSonDirCheck();
 
         // Create Jetson JFrame
-        initialize();
+        System.out.println(initialize().getTitle());
         listDirectory(infoPanel, new File(System.getProperty("user.home")).listFiles());
     }
 
@@ -281,7 +281,7 @@ public class Jetson extends JFrame {
         });
         return frame;
     }
-    
+
     public static void goToDirectory(File dir, JComponent listToUpdate) {
         if (dir != null) {
             if (dir.isDirectory()) {

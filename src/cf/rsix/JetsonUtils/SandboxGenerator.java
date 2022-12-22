@@ -32,11 +32,6 @@ public class SandboxGenerator {
 
     public static void main(String[] args) {
         System.out.print("Directory: ");
-        Jetson jetsonOne = Jetson.initialize();
-        Jetson jetsonTwo = Jetson.initialize();
-
-        System.out.println(jetsonOne.getTitle());
-        System.out.println(jetsonTwo.getTitle());
 
         Scanner dirToSandboxScanner = new Scanner(System.in);
         String dirToSandboxString = dirToSandboxScanner.nextLine();
