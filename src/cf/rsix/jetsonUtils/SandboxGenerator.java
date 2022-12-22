@@ -1,4 +1,4 @@
-package cf.rsix.JetsonUtils;
+package cf.rsix.jetsonUtils;
 
 import java.io.File;
 import java.io.IOException;

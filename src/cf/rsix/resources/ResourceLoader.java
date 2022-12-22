@@ -1,4 +1,4 @@
-package cf.rsix.Resources;
+package cf.rsix.resources;
 
 import javax.swing.*;
 import java.awt.*;
