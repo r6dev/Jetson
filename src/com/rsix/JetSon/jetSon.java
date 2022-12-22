@@ -345,7 +345,7 @@ public class jetSon extends JFrame {
                         // Detect short commands
                         String lowerCaseInput = inputField.getText().toLowerCase();
                         String trimmedInput = lowerCaseInput.trim();
-                        String[] commandListOne = {"\"(Directory)\": returns a list of files in that directory\n\"Open\": opens selected file or directory externally (SHOULD support all systems)\n\"Read\": reads selected file\n\"Corrupt\": corrupts selected file or directory\n\"Clear\": resets list\n\"help2\": next help dialog", "(Left Click On Item): selects item\n(Left Click In Empty Space Within List): deselects all items\n(Double Left Click On Item): if directory, opens it, if file, opens it externally\n(Right Click Anywhere Inside List): goes one directory up"};
+                        String[] commandListOne = {"\"(Directory)\": returns a list of files in that directory\n\"Open\": opens selected file or directory externally (SHOULD support all systems)\n\"Read\": reads selected file\n\"Corrupt\": corrupts selected file or directory\n\"Clear\": resets list\n\"Quit\": exit the application\n\"help2\": next help dialog", "(Left Click On Item): selects item\n(Left Click In Empty Space Within List): deselects all items\n(Double Left Click On Item): if directory, opens it, if file, opens it externally\n(Right Click Anywhere Inside List): goes one directory up"};
                         switch (trimmedInput) {
                             case "clear" -> {
                                 clearList(null);
@@ -415,6 +415,7 @@ public class jetSon extends JFrame {
                                     clearInputField();
                                 }
                             }
+                            case "quit" -> System.exit(0);
                         }
                     }
                 }
