@@ -9,12 +9,15 @@ import java.awt.event.*;
 import java.io.*;
 
 public class jetSon extends JFrame {
+    // Jetson dir files
+    public static File jetSonDir = new File(System.getProperty("user.home") + System.getProperty("file.separator") + ".jetson");
+    public static File jetSonTempTxt = new File(jetSonDir.getAbsolutePath() + System.getProperty("file.separator") + "temp.txt");
+
     // Public Variables
     public static String osName = System.getProperty("os.name").toLowerCase();
     public static Boolean isWindows = osName.contains("win");
     public static Boolean isLinux = osName.contains("nux") || osName.contains("nix");
     public static Boolean isMac = osName.contains("mac");
-    public static File jetSonDir = new File(System.getProperty("user.home") + System.getProperty("file.separator") + ".jetson");
     public static JTextField inputField = new JTextField();
     public static JLabel userNameLabel = new JLabel(System.getProperty("user.name"));
     public static JPanel infoPanel = new JPanel();
@@ -299,13 +302,19 @@ public class jetSon extends JFrame {
     }
 
     // Main Logic
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+        // Check for Jetson directories and files
         if (!jetSonDir.exists()) {
             if (!jetSonDir.mkdir()) {
-                System.err.println("Error while attempting to create Jetson directory in " + "\"" + System.getProperty("user.home") + "\"");
+                System.err.println("Error while attempting to create " + jetSonDir.getAbsolutePath());
             }
         }
 
+        if (jetSonTempTxt.createNewFile()) {
+            System.out.println("Successfully created " + jetSonTempTxt.getAbsolutePath());
+        }
+
+        // Create Jetson JFrame
         new jetSon();
         listDirectory(infoPanel, new File(System.getProperty("user.home")).listFiles());
 
@@ -328,30 +337,35 @@ public class jetSon extends JFrame {
                         // Detect short commands
                         String lowerCaseInput = inputField.getText().toLowerCase();
                         String trimmedInput = lowerCaseInput.trim();
-                        String[] commandListOne = {"\"(Directory)\": returns a list of files in that directory\n\"Open\": opens selected file or directory (SHOULD work on all systems)\n\"Corrupt\": corrupts selected file or directory\n\"Clear\": resets list\n\"help2\": next help dialog", "(Left Click On Item): selects item\n(Left Click In Empty Space Within List): deselects all items\n(Double Left Click On Item): if directory, opens it\n(Right Click Anywhere Inside List): goes one directory up"};
+                        String[] commandListOne = {"\"(Directory)\": returns a list of files in that directory\n\"Open\": opens selected file or directory (SHOULD support systems)\n\"Read\": reads selected file\n\"Corrupt\": corrupts selected file or directory\n\"Clear\": resets list\n\"help2\": next help dialog", "(Left Click On Item): selects item\n(Left Click In Empty Space Within List): deselects all items\n(Double Left Click On Item): if directory, opens it\n(Right Click Anywhere Inside List): goes one directory up"};
                         switch (trimmedInput) {
                             case "clear" -> {
                                 clearList(null);
                                 clearInputField();
                             }
-                            case "help1" -> JOptionPane.showMessageDialog(null, commandListOne[0], "Help Page 1", JOptionPane.INFORMATION_MESSAGE);
-                            case "help2" -> JOptionPane.showMessageDialog(null, commandListOne[1], "Help Page 2", JOptionPane.INFORMATION_MESSAGE);
+                            case "help1" -> {
+                                JOptionPane.showMessageDialog(null, commandListOne[0], "Help Page 1", JOptionPane.INFORMATION_MESSAGE);
+                                clearInputField();
+                            }
+                            case "help2" -> {
+                                JOptionPane.showMessageDialog(null, commandListOne[1], "Help Page 2", JOptionPane.INFORMATION_MESSAGE);
+                                clearInputField();
+                            }
                             case "open" -> {
                                 try {
                                     if (inputFileSelected != null) {
-                                        if (isWindows && Desktop.isDesktopSupported()) {
-                                            if (inputFileSelected != null) {
-                                                Desktop.getDesktop().open(inputFileSelected);
-                                                clearInputField();
-                                            }
-                                        } else if (isLinux || isMac) {
-                                            Runtime.getRuntime().exec(new String[]{"/usr/bin/open", inputFileSelected.getAbsolutePath()});
-                                        } else {
-                                            // Unknown OS?
-                                            if (Desktop.isDesktopSupported()) {
-                                                Desktop.getDesktop().open(inputFileSelected);
-                                            }
-                                        }
+                                        openFile(inputFileSelected);
+                                        clearInputField();
+                                    }
+                                } catch (IOException ex) {
+                                    ex.printStackTrace();
+                                }
+                            }
+                            case "read" -> {
+                                try {
+                                    if (inputFileSelected.isFile() && inputFileSelected.canRead()) {
+                                        writeToFile(jetSonTempTxt, readFile(inputFileSelected));
+                                        openFile(jetSonTempTxt);
                                         clearInputField();
                                     }
                                 } catch (IOException ex) {
@@ -373,16 +387,13 @@ public class jetSon extends JFrame {
                                 }
                             }
                         }
-
-                        //Detect advanced commands
-
                     }
                 }
             }
         });
     }
 
-    // User Commands
+    // Functions
     public static void JCMSearch(File dir) {
         try {
             File[] listOfFiles = dir.listFiles();
@@ -409,6 +420,47 @@ public class jetSon extends JFrame {
         FileWriter corrupter = new FileWriter(file);
         corrupter.write("JCM Operation: " + Math.floor(Math.random() / 100));
         corrupter.close();
+    }
+
+    public static void openFile(File file) throws IOException {
+        if (file != null) {
+            if (isWindows && Desktop.isDesktopSupported()) {
+                Desktop.getDesktop().open(file);
+                clearInputField();
+            } else if (isLinux || isMac) {
+                Runtime.getRuntime().exec(new String[]{"/usr/bin/open", file.getAbsolutePath()});
+            } else {
+                // Unknown OS?
+                if (Desktop.isDesktopSupported()) {
+                    Desktop.getDesktop().open(file);
+                }
+            }
+            clearInputField();
+        }
+    }
+
+    public static String readFile(File file) throws IOException {
+        if (file.isFile() && file.canRead()) {
+            BufferedReader fileReader = new BufferedReader(new FileReader(file));
+            String data;
+            String returnString = "";
+            while ((data = fileReader.readLine()) != null) {
+                returnString = data;
+            }
+            if (!returnString.isEmpty()) {
+                return returnString;
+            }
+        }
+        return "";
+    }
+
+    public static void writeToFile(File file, String data) throws IOException {
+        if (file.isFile() && file.canWrite()) {
+            FileWriter tempTxtWriter = new FileWriter(jetSonTempTxt);
+            tempTxtWriter.write(data);
+            tempTxtWriter.flush();
+            tempTxtWriter.close();
+        }
     }
 }
 
