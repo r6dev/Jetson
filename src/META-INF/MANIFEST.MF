@@ -1,3 +1,3 @@
 Manifest-Version: 1.0
-Main-Class: cf.rsix.jetsonUtils.SandboxGenerator
+Main-Class: cf.r6dev.jetsonUtils.SandboxGenerator
 

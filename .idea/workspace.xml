@@ -9,12 +9,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0fb48862-ed1b-4eb8-97e2-e4d21d9436e5" name="Changes" comment="change - most commands and everything else setup">
+    <list default="true" id="0fb48862-ed1b-4eb8-97e2-e4d21d9436e5" name="Changes" comment="change - fixed up names and naming scheme">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cf/rsix/JetsonUtils/Jetson.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cf/rsix/jetsonUtils/Jetson.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cf/rsix/JetsonUtils/SandboxGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cf/rsix/jetsonUtils/SandboxGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cf/rsix/Resources/ResourceLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cf/rsix/resources/ResourceLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cf/rsix/jetsonUtils/Jetson.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cf/r6dev/jetsonUtils/Jetson.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cf/rsix/jetsonUtils/SandboxGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cf/r6dev/jetsonUtils/SandboxGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cf/rsix/resources/ResourceLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cf/r6dev/resources/ResourceLoader.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,11 +72,11 @@
   </component>
   <component name="RunManager" selected="Application.Jetson">
     <configuration name="Jetson" type="Application" factoryName="Application" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="cf.rsix.jetsonUtils.Jetson" />
+      <option name="MAIN_CLASS_NAME" value="cf.r6dev.jetsonUtils.Jetson" />
       <module name="rJToolbox" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="cf.rsix.jetsonUtils.*" />
+          <option name="PATTERN" value="cf.r6dev.jetsonUtils.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -85,11 +85,11 @@
       </method>
     </configuration>
     <configuration name="SandboxGenerator" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="cf.rsix.jetsonUtils.SandboxGenerator" />
+      <option name="MAIN_CLASS_NAME" value="cf.r6dev.jetsonUtils.SandboxGenerator" />
       <module name="rJToolbox" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="cf.rsix.jetsonUtils.*" />
+          <option name="PATTERN" value="cf.r6dev.jetsonUtils.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -276,7 +276,14 @@
       <option name="project" value="LOCAL" />
       <updated>1671742871237</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="change - fixed up names and naming scheme">
+      <created>1671745593564</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1671745593564</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -315,7 +322,8 @@
     <MESSAGE value="fix - made initialization not give a warning" />
     <MESSAGE value="change - made instancing possible and fixed a lot of bugs" />
     <MESSAGE value="change - most commands and everything else setup" />
-    <option name="LAST_COMMIT_MESSAGE" value="change - most commands and everything else setup" />
+    <MESSAGE value="change - fixed up names and naming scheme" />
+    <option name="LAST_COMMIT_MESSAGE" value="change - fixed up names and naming scheme" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/rJToolbox$tB.ic" NAME="tB Coverage Results" MODIFIED="1670767329597" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">

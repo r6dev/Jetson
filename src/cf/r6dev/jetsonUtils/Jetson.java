@@ -1,6 +1,6 @@
-package cf.rsix.jetsonUtils;
+package cf.r6dev.jetsonUtils;
 
-import cf.rsix.resources.ResourceLoader;
+import cf.r6dev.resources.ResourceLoader;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
