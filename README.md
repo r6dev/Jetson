@@ -1,8 +1,9 @@
 # rJToolbox
+A **JRE** (Java Runtime Envorinment) is required to use any **rJ** tools. You can get one from [oracle](https://www.oracle.com/java/technologies/downloads/#java17)
 ## Jetson
 An advanced file manager for developers. **Jetson** is supported by most platforms, including: Windows, Linux, and Mac.
 #### How to Use:
-- A **JRE** (Java Runtime Envorinment) is required. You can get it by downloading and installing one of the Java jdks from [oracle]
+- The **resource** folder is required. You can find it [here](https://github.com/r6dev/rJToolbox/tree/master/builds/Jetson/resources)
 - Go to releases
 - Download the latest release of **Jetson**
 - You can either use it as an executable or use its public API in your own code
@@ -19,7 +20,6 @@ An advanced file manager for developers. **Jetson** is supported by most platfor
 ## sBGen
 Creates a dummy folder of any given directory. Feel free to use it in any of your projects. The source can be found [here](https://github.com/rSIX-Developer/rJToolbox/blob/master/src/com/sBGen/sB.java).
 #### How to use:
-- A **JRE** (Java Runtime Envorinment) is required. You can get it by downloading and installing one of the Java jdks from [oracle](https://www.oracle.com/java/technologies/downloads/#java17).
 - Download this repository as a **.ZIP** file
 - Unzip it and open the '**builds**' directory, then you will see '**sBGen.jar**'
 - Launch **cmd** (or any other **terminal** of your choice), then type "**java -jar [full path to the sBGen jar file, e.g. 'C:\ILoveRSIX\loveToRsix.jar']**" and press enter
