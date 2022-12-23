@@ -1,4 +1,4 @@
-package cf.r6dev.resources;
+package cf.r6dev.rJLib.resources;
 
 import javax.swing.*;
 import java.awt.*;
