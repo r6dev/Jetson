@@ -1,19 +1,31 @@
-# rJ Library
-A **JRE** (Java Runtime Envorinment) is required to use any **rJ** tools. You can get one from [oracle](https://www.oracle.com/java/technologies/downloads/#java17)
-## Jetson
-An advanced file manager for developers. **Jetson** is supported by most platforms, including: Windows, Linux, and Mac.
-#### How to Use:
-- The **resource** folder is required. You can find it [here](https://github.com/r6dev/rJToolbox/tree/master/builds/Jetson/resources)
-- Go to releases
-- Download the latest release of **Jetson**
-- You can either use it as an executable or use its public API in your own code
+# Jetson
+Jetson is a file manager in GUI form with all Jetson utilities packed with. To use Jetson or any Jetson utilities, the *resource* folder has to be present. You can find it [here](https://github.com/r6dev/Jetson/tree/master/resources)
+#### Methods:
+- ***initialize()*** - Creates and returns a new Jetson GUI instance with all commands ready
+- ***verifyJetsonDirectory*** - Checks for .jetson folder and all verified Jetson files
 
-#### Public API Methods:
-- ***initialize()*** - returns a new Jetson (extends JFrame) with initialized commands
-- ***verifyJetsonDirectory*** - checks if .jetson folder and all verified Jetson files are within
-- ***openFile(File file)*** - opens inputted file platform independently
-- ***Corrupt(File file)*** - corrupts inputted directory or file
-- ***readFile(File file)*** - reads inputtted file and opens its contents in a temporary text file
-- ***writeToFile(File file, String data)*** - also as the name implies, it writes to inputted file
-#### Utilities
-- ***SandboxGenerator***. Creates a dummy folder of any given directory. Feel free to use it in any of your projects. The source can be found [here](https://github.com/rSIX-Developer/rJToolbox/blob/master/src/com/sBGen/sB.java).
+# Utilities
+## JetViewer
+View any file without all the extra steps.
+#### Methods
+- ***open(file)*** - Opens any file or directory as long as it can be opened
+
+## JetReader
+Read any file without all the extra steps.
+#### Methods
+- ***readFile(file)*** - Reads any file and returns its data as long as it can be read. Including .exe files and such
+
+## JetCorrupter
+Corrupt any file you want, also works with directories.
+#### Methods
+- ***corrupt(file)*** - Corrupts any file or directory
+
+## JetWriter
+Write to a file without all the extra steps.
+#### Methods
+- ***write(file)*** - Writes to any file if it can be written to
+
+## JetSbGen
+Create a duplicate of any folder.
+#### Methods
+- ***createDummy(file)**** - Creates a dummy folder of any directory
