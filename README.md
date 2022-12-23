@@ -1,4 +1,4 @@
-# rJToolbox
+# rJ Library
 A **JRE** (Java Runtime Envorinment) is required to use any **rJ** tools. You can get one from [oracle](https://www.oracle.com/java/technologies/downloads/#java17)
 ## Jetson
 An advanced file manager for developers. **Jetson** is supported by most platforms, including: Windows, Linux, and Mac.
