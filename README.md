@@ -16,11 +16,5 @@ An advanced file manager for developers. **Jetson** is supported by most platfor
 - ***Corrupt(File file)*** - corrupts inputted directory or file
 - ***readFile(File file)*** - reads inputtted file and opens its contents in a temporary text file
 - ***writeToFile(File file, String data)*** - also as the name implies, it writes to inputted file
-
-## sBGen
-Creates a dummy folder of any given directory. Feel free to use it in any of your projects. The source can be found [here](https://github.com/rSIX-Developer/rJToolbox/blob/master/src/com/sBGen/sB.java).
-#### How to use:
-- Download this repository as a **.ZIP** file
-- Unzip it and open the '**builds**' directory, then you will see '**sBGen.jar**'
-- Launch **cmd** (or any other **terminal** of your choice), then type "**java -jar [full path to the sBGen jar file, e.g. 'C:\ILoveRSIX\loveToRsix.jar']**" and press enter
-- Thats it, enjoy your directory duplicator
+#### Utilities
+- ***SandboxGenerator***. Creates a dummy folder of any given directory. Feel free to use it in any of your projects. The source can be found [here](https://github.com/rSIX-Developer/rJToolbox/blob/master/src/com/sBGen/sB.java).
