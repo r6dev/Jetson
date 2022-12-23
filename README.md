@@ -7,7 +7,6 @@ An advanced file manager for developers. **Jetson** is supported by most platfor
 - Go to releases
 - Download the latest release of **Jetson**
 - You can either use it as an executable or use its public API in your own code
-- If ran as an executable: input ***"help1"*** for a list of commands
 
 #### Public API Methods:
 - ***initialize()*** - returns a new Jetson (extends JFrame) with initialized commands
