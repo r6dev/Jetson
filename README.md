@@ -6,8 +6,8 @@ Jetson is a file manager in GUI form with all Jetson utilities packed with. To u
 
 # Utilities
 ### Methods
-- ***JetViewer.view(file)*** - Opens any file or directory as long as it can be opened
-- ***JetReader.readFile(file)*** - Reads any file and returns its data as long as it can be read. Including **.exe** files and such
-- ***JetCorrupter.corrupt(file)*** - Corrupts any file or directory
-- ***JetWriter.write(file)*** - Writes to any file if it can be written to
-- ***JetSbGen.createDummy(file)**** - Creates a dummy folder of any directory
+- JetViewer.***view(file)*** - Opens any file or directory as long as it can be opened
+- JetReader.***readFile(file)*** - Reads any file and returns its data as long as it can be read. Including **.exe** files and such
+- JetCorrupter.***corrupt(file)*** - Corrupts any file or directory
+- JetWriter.***write(file)*** - Writes to any file if it can be written to
+- JetSbGen.***createDummy(file)*** - Creates a dummy folder of any directory
