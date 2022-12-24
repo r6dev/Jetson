@@ -152,10 +152,9 @@ public class Jetson extends JFrame {
         listPanel.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseMoved(MouseEvent e) {
-                updateScrollBar();
+
             }
         });
-
 
         // Finish up
         pack();

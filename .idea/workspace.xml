@@ -9,10 +9,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0fb48862-ed1b-4eb8-97e2-e4d21d9436e5" name="Changes" comment="feat - added plentiful jetson utils">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="0fb48862-ed1b-4eb8-97e2-e4d21d9436e5" name="Changes" comment="feat - added updateScrollBar method">
       <change beforePath="$PROJECT_DIR$/src/cf/r6dev/jetson/Jetson.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cf/r6dev/jetson/Jetson.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cf/r6dev/jetson/utils/JetRL.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cf/r6dev/jetson/utils/JetRL.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -75,7 +73,7 @@
       <recent name="cf.r6dev.rjlib.jetson" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Jetson">
+  <component name="RunManager" selected="Application.JetWriter">
     <configuration name="JetWriter" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="cf.r6dev.jetson.utils.JetWriter" />
       <module name="rJToolbox" />
@@ -307,7 +305,14 @@
       <option name="project" value="LOCAL" />
       <updated>1671849385665</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="feat - added updateScrollBar method">
+      <created>1671850732973</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1671850732973</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -323,7 +328,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="workspace.xml" />
     <MESSAGE value="Toolbox created" />
     <MESSAGE value="Workspace?" />
     <MESSAGE value="Removed sBOperator.java" />
@@ -348,7 +352,8 @@
     <MESSAGE value="change - changed package name to cf.r6dev.rJLib" />
     <MESSAGE value="fix - run configurations" />
     <MESSAGE value="feat - added plentiful jetson utils" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat - added plentiful jetson utils" />
+    <MESSAGE value="feat - added updateScrollBar method" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat - added updateScrollBar method" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/rJToolbox$tB.ic" NAME="tB Coverage Results" MODIFIED="1670767329597" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
