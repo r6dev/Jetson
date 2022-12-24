@@ -9,10 +9,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0fb48862-ed1b-4eb8-97e2-e4d21d9436e5" name="Changes" comment="feat - added updated updateScrollBar method">
+    <list default="true" id="0fb48862-ed1b-4eb8-97e2-e4d21d9436e5" name="Changes" comment="feat - added write command">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/cf/r6dev/jetson/Jetson.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cf/r6dev/jetson/Jetson.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cf/r6dev/jetson/utils/JetWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cf/r6dev/jetson/utils/JetWriter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cf/r6dev/jetson/utils/JetRL.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cf/r6dev/jetson/utils/JetRL.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cf/r6dev/jetson/utils/JetReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cf/r6dev/jetson/utils/JetReader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cf/r6dev/jetson/utils/JetSbGen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cf/r6dev/jetson/utils/JetSbGen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cf/r6dev/jetson/utils/JetViewer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cf/r6dev/jetson/utils/JetViewer.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -303,7 +306,14 @@
       <option name="project" value="LOCAL" />
       <updated>1671851088310</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="feat - added write command">
+      <created>1671886122422</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1671886122422</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -319,7 +329,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Workspace?" />
     <MESSAGE value="Removed sBOperator.java" />
     <MESSAGE value="Fast flux" />
     <MESSAGE value="JetSon creation" />
@@ -344,7 +353,8 @@
     <MESSAGE value="feat - added plentiful jetson utils" />
     <MESSAGE value="feat - added updateScrollBar method" />
     <MESSAGE value="feat - added updated updateScrollBar method" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat - added updated updateScrollBar method" />
+    <MESSAGE value="feat - added write command" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat - added write command" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/rJToolbox$tB.ic" NAME="tB Coverage Results" MODIFIED="1670767329597" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">

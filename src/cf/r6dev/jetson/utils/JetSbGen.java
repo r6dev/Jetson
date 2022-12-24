@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Scanner;
 
-public class JetSbGen {
+public final class JetSbGen {
     public static boolean createDummy(File dir, File sandbox, File alwaysIgnore) throws IOException {
         File[] listOfFiles = dir.listFiles();
 

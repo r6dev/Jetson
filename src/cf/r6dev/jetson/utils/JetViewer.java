@@ -7,7 +7,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
-public class JetViewer {
+public final class JetViewer {
     public static boolean view(@NotNull File file) throws IOException {
         if (Jetson.IS_WINDOWS && Desktop.isDesktopSupported()) {
             Desktop.getDesktop().open(file);

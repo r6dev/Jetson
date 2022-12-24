@@ -102,7 +102,7 @@ public class Jetson extends JFrame {
 
         JLabel sysInfoLabel = new JLabel("- " + System.getProperty("os.arch") + System.getProperty("file.separator") + System.getProperty("os.version") + System.getProperty("file.separator") + "JRE " + System.getProperty("java.version"));
         titleBarBottom.add(sysInfoLabel);
-        sysInfoLabel.setFont(terminalFont);
+        sysInfoLabel.setFont(monoFont);
         sysInfoLabel.setForeground(JetRL.SECONDARY_TEXT_COLOR);
 
         // Input field setup

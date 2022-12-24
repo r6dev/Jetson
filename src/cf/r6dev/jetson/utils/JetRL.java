@@ -36,20 +36,14 @@ public class JetRL extends ResourceLoader {
     public @NotNull Font createTerminalFont(int size) {
         if (Jetson.IS_WINDOWS) {
             return new Font("Consolas", Font.PLAIN, size);
-        } else if (Jetson.IS_LINUX) {
+        } else if (Jetson.IS_LINUX || Jetson.IS_MAC) {
             try {
-                return registerFont(new File(RESOURCE_FOLDER + System.getProperty("file.separator") + "dejavu-mono"), size);
-            } catch (IOException | FontFormatException e) {
-                throw new RuntimeException(e);
-            }
-        } else if (Jetson.IS_MAC) {
-            try {
-                return registerFont(new File(RESOURCE_FOLDER + System.getProperty("file.separator") + "unifont.ttf"), size);
+                return registerFont(new File(RESOURCE_FOLDER + System.getProperty("file.separator") + "dejavu-mono.ttf"), size);
             } catch (IOException | FontFormatException e) {
                 throw new RuntimeException(e);
             }
         }
-        return new Font("Consolas", Font.PLAIN, 12);
+        return new Font(Font.SANS_SERIF, Font.PLAIN, 12);
     }
 
     public @NotNull Font createTerminalFont() {
