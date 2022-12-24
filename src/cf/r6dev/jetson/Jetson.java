@@ -152,7 +152,7 @@ public class Jetson extends JFrame {
         listPanel.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseMoved(MouseEvent e) {
-
+                updateScrollBar();
             }
         });
 
@@ -188,7 +188,9 @@ public class Jetson extends JFrame {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    String lowerCaseInput = inputFieldLocal.getText().toLowerCase();
                     File inputtedDir = new File(inputFieldLocal.getText());
+
                     if (inputtedDir.isDirectory()) {
 
                         // Clears and updates with inputted directory list
@@ -197,12 +199,22 @@ public class Jetson extends JFrame {
                         File[] listOfFiles = inputtedDir.listFiles();
                         frame.listDirectory(frame.listPanel, listOfFiles);
                         frame.clearInputField();
+                    } else if (lowerCaseInput.contains("write")) {
+                        // Detect advanced commands
+                        String[] data = inputFieldLocal.getText().split(" ", 2);
+                        try {
+                            if (!JetWriter.write(frame.selectedFile, data[1], true)) {
+                                JOptionPane.showMessageDialog(null, "Could not write to file " + frame.selectedFile.getName(), "Failed to write", JOptionPane.ERROR_MESSAGE);
+                            } else {
+                                frame.clearInputField();
+                            }
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
                     } else {
-
                         // Detect short commands
-                        String lowerCaseInput = inputFieldLocal.getText().toLowerCase();
                         String trimmedInput = lowerCaseInput.trim();
-                        String[] commandListOne = {"\"(Directory)\": returns a list of files in that directory\n\"Open\": opens selected file or directory externally (SHOULD support all systems)\n\"Up\": goes one directory up\n\"Read\": reads selected file\n\"Corrupt\": corrupts selected file or directory\n\"Bloat\": bloats selected file into oblivion\n\"Dummy\": creates a dummy version of selected directory/duplicates selected directory\n\"Verify\": verifies .jetson directory\n\"Clear\": resets list\n\"Quit\": exit the application\n\"help2\": next help dialog", "(Left Click On Item): selects item\n(Left Click In Empty Space Within List): deselects all items\n(Double Left Click On Item): if directory, opens it internally, if file, opens externally\n(Right Click Anywhere Inside List): goes one directory up"};
+                        String[] commandListOne = {"\"(Directory)\": returns a list of files in that directory\n\"Open\": opens selected externally (SHOULD be platform-independent)\n\"Up\": goes one directory up\n\"Read\": reads selected file\n\"Write=[DATA]\": writes data to selected file, use \"\\n\" to start a new line\n\"Corrupt\": corrupts selected file or directory\n\"Bloat\": bloats selected file into oblivion\n\"Dummy\": creates a dummy version of selected directory/duplicates selected directory\n\"Verify\": verifies .jetson directory\n\"Clear\": resets list\n\"Quit\": exit the application\n\"help2\": next help dialog", "(Left Click On Item): selects item\n(Left Click In Empty Space Within List): deselects all items\n(Double Left Click On Item): if directory, opens it internally, if file, opens externally\n(Right Click Anywhere Inside List): goes one directory up"};
                         switch (trimmedInput) {
                             case "clear" -> {
                                 frame.clearList(frame.listPanel);
@@ -228,11 +240,6 @@ public class Jetson extends JFrame {
                                     }
                                 } catch (IOException ex) {
                                     throw new RuntimeException(ex);
-                                }
-                            }
-                            case "write" -> {
-                                if (frame.selectedFile != null && frame.selectedFile.isFile()) {
-                                    new JetWriter(frame.selectedFile);
                                 }
                             }
                             case "read" -> {
@@ -305,7 +312,6 @@ public class Jetson extends JFrame {
                             }
                             case "quit" -> frame.close();
                         }
-
                     }
                 }
             }
