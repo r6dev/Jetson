@@ -40,6 +40,7 @@ Too many methods to document.
 - JetRL.***SCROLL_BAR_HOVER_COLOR***
 
 </ul>
+
 - Jetson.***OS_NAME*** - Name of users operating system
 - Jetson.***IS_WINDOWS*** - True if Windows; false otherwise
 - Jetson.***IS_LINUX*** - True if Linux; false otherwise
