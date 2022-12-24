@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="Jetson:jar">
+    <output-path>$PROJECT_DIR$/builds/Jetson</output-path>
+    <root id="archive" name="Jetson.jar">
+      <element id="module-output" name="Jetson" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/jetbrains/annotations/23.0.0/annotations-23.0.0.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

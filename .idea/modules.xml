@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/rJToolbox.iml" filepath="$PROJECT_DIR$/rJToolbox.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Jetson.iml" filepath="$PROJECT_DIR$/Jetson.iml" />
     </modules>
   </component>
 </project>

@@ -20,7 +20,7 @@ public class Jetson extends JFrame {
     private static final File JETSON_BLOAT_TXT = new File(JETSON_DIRECTORY + System.getProperty("file.separator") + "bloat.txt");
 
     // Static vars
-    public static JetRL JRL = new JetRL(JETSON_RESOURCE_FOLDER);
+    private static final JetRL JRL = new JetRL(JETSON_RESOURCE_FOLDER);
     private static final String[] JETSON_ERRS = {"Jetson error [0]: could not open directory", "Jetson error [1]: could not open parent directory", "Jetson error [2]: could not write to file", "Jetson error [3]: could not create file"};
     public static final String OS_NAME = System.getProperty("os.name").toLowerCase();
     public static final boolean IS_WINDOWS = OS_NAME.contains("win");
