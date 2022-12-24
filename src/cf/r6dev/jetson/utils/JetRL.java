@@ -29,18 +29,11 @@ public class JetRL extends ResourceLoader {
         Font registeredFont = Font.createFont(Font.TRUETYPE_FONT, fontToRegister).deriveFont(size);
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 
-        for (Font font : ge.getAllFonts()) {
-            if (font.getFontName().equals(registeredFont.getFontName())) {
-                System.out.println(font.getFontName());
-                return font;
-            }
-        }
-
         ge.registerFont(registeredFont);
         return registeredFont;
     }
 
-    public @NotNull Font getTerminalFont(int size) {
+    public @NotNull Font createTerminalFont(int size) {
         if (Jetson.IS_WINDOWS) {
             return new Font("Consolas", Font.PLAIN, size);
         } else if (Jetson.IS_LINUX) {
@@ -59,11 +52,11 @@ public class JetRL extends ResourceLoader {
         return new Font("Consolas", Font.PLAIN, 12);
     }
 
-    public @NotNull Font getTerminalFont() {
-        return getTerminalFont(12);
+    public @NotNull Font createTerminalFont() {
+        return createTerminalFont(12);
     }
 
-    public @NotNull Font getMono(float size) {
+    public @NotNull Font createMonoFont(float size) {
         if (Jetson.IS_WINDOWS) {
             try {
                 return registerFont(new File(RESOURCE_FOLDER + System.getProperty("file.separator") + "jetbrains-mono.ttf"), size);
@@ -71,11 +64,11 @@ public class JetRL extends ResourceLoader {
                 throw new RuntimeException(e);
             }
         }
-        return getTerminalFont();
+        return createTerminalFont();
     }
 
-    public @NotNull Font getMono() {
-        return getMono(12);
+    public @NotNull Font createMonoFont() {
+        return createMonoFont(12);
     }
 
     public ImageIcon getIcon(@NotNull String iconName, short iconSize, int imageScaling) {

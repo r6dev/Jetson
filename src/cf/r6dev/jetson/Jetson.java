@@ -38,6 +38,8 @@ public class Jetson extends JFrame {
     private final JScrollPane listPanelWrapper = new JScrollPane(listPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
     private File selectedFile;
     private File oneDirectoryUp;
+    private final Font monoFont = JRL.createMonoFont();
+    @SuppressWarnings("FieldCanBeLocal") private final Font terminalFont = JRL.createTerminalFont();
 
     // Jetson JFrame
     public Jetson() {
@@ -84,11 +86,11 @@ public class Jetson extends JFrame {
         titleBar.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createMatteBorder(0,0,1,0, JetRL.PRIMARY_BORDER_COLOR), new EmptyBorder(5,12,5,0)));
 
         titleBarTop.add(titleLabel);
-        titleLabel.setFont(JRL.getMono());
+        titleLabel.setFont(monoFont);
         titleLabel.setForeground(JetRL.PRIMARY_TEXT_COLOR);
 
         titleBarTop.add(titleLabelSuffix);
-        titleLabelSuffix.setFont(JRL.getMono());
+        titleLabelSuffix.setFont(monoFont);
         titleLabelSuffix.setForeground(JetRL.SECONDARY_TEXT_COLOR);
 
         // Title bar -- Bottom
@@ -100,7 +102,7 @@ public class Jetson extends JFrame {
 
         JLabel sysInfoLabel = new JLabel("- " + System.getProperty("os.arch") + System.getProperty("file.separator") + System.getProperty("os.version") + System.getProperty("file.separator") + "JRE " + System.getProperty("java.version"));
         titleBarBottom.add(sysInfoLabel);
-        sysInfoLabel.setFont(JRL.getTerminalFont());
+        sysInfoLabel.setFont(terminalFont);
         sysInfoLabel.setForeground(JetRL.SECONDARY_TEXT_COLOR);
 
         // Input field setup
@@ -109,8 +111,10 @@ public class Jetson extends JFrame {
         inputField.setBackground(JetRL.SECONDARY_BACKGROUND_COLOR);
         inputField.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createMatteBorder(0,0,1,0, JetRL.SECONDARY_BORDER_COLOR), new EmptyBorder(0,12,0,0)));
         inputField.setForeground(JetRL.EDITOR_TEXT_COLOR);
-        inputField.setFont(JRL.getTerminalFont());
+        inputField.setFont(terminalFont);
         inputField.setPreferredSize(new Dimension(titleBar.getWidth(), 29));
+        listPanel.setBackground(JetRL.TITLE_BAR_COLOR);
+        listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS));
 
         // Functional placeholder text
         inputField.addFocusListener(new FocusListener() {
@@ -119,7 +123,7 @@ public class Jetson extends JFrame {
                 if (inputField.getText().equals(inputFieldPlaceholder)) {
                     inputField.setText("");
                 }
-                inputField.setFont(JRL.getTerminalFont(12));
+                inputField.setFont(JRL.createTerminalFont(12));
                 inputField.setForeground(JetRL.PRIMARY_TEXT_COLOR);
             }
 
@@ -127,14 +131,11 @@ public class Jetson extends JFrame {
             public void focusLost(FocusEvent e) {
                 if (inputField.getText().isBlank()) {
                     inputField.setText(inputFieldPlaceholder);
-                    inputField.setFont(JRL.getTerminalFont(10));
+                    inputField.setFont(JRL.createTerminalFont(10));
                     inputField.setForeground(JetRL.SECONDARY_TEXT_COLOR);
                 }
             }
         });
-
-        listPanel.setBackground(JetRL.TITLE_BAR_COLOR);
-        listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS));
 
         // Scroll pane for list setup
         getContentPane().add(listPanelWrapper);
@@ -147,6 +148,16 @@ public class Jetson extends JFrame {
         listPanelWrapper.setLayout(JetsonScrollBarUI.newLayout());
         listPanelWrapper.getVerticalScrollBar().setUI(new JetsonScrollBarUI());
 
+        // Keep scroll bar updated
+        listPanel.addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                updateScrollBar();
+            }
+        });
+
+
+        // Finish up
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
@@ -364,6 +375,10 @@ public class Jetson extends JFrame {
         titleLabel.setText(getTitle() + " - ");
     }
 
+    public void updateScrollBar() {
+        listPanelWrapper.getVerticalScrollBar().repaint();
+    }
+
     public void close() {
         try {
             verifyJetsonDirectory();
@@ -397,7 +412,7 @@ public class Jetson extends JFrame {
 
                 JLabel fileNameLabel = new JLabel(selectedDirectoryFile.getName());
                 fileNameLabel.setForeground(JetRL.PRIMARY_TEXT_COLOR);
-                fileNameLabel.setFont(JRL.getMono());
+                fileNameLabel.setFont(monoFont);
 
                 String toolTipAppend = (selectedDirectoryFile.getName().contains("sys") ? "(sys) " + selectedDirectoryFile.getAbsolutePath() : selectedDirectoryFile.getAbsolutePath());
 
@@ -406,7 +421,7 @@ public class Jetson extends JFrame {
                 if (selectedDirectoryFile.isFile()) {
                     JLabel isFilePrefix = new JLabel("file: ");
                     isFilePrefix.setForeground(JetRL.SECONDARY_TEXT_COLOR);
-                    isFilePrefix.setFont(JRL.getMono());
+                    isFilePrefix.setFont(monoFont);
 
                     fileListingPanel.add(isFilePrefix);
                     fileListingPanel.add(fileNameLabel);
@@ -414,7 +429,7 @@ public class Jetson extends JFrame {
                 } else {
                     JLabel isDirPrefix = new JLabel(System.getProperty("file.separator"));
                     isDirPrefix.setForeground(JetRL.SECONDARY_TEXT_COLOR);
-                    isDirPrefix.setFont(JRL.getMono());
+                    isDirPrefix.setFont(monoFont);
 
                     fileListingPanel.add(isDirPrefix);
                     fileListingPanel.add(fileNameLabel);
@@ -425,12 +440,14 @@ public class Jetson extends JFrame {
 
                 Color focusedOnColor = Color.BLUE;
 
+                // Item mouse events
                 fileListingPanel.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseEntered(MouseEvent e) {
                         // On hover
                         if (fileListingPanel.getBackground() != focusedOnColor) {
                             fileListingPanel.setBackground(new Color(0x9E9E9E));
+                            updateScrollBar();
                         }
                     }
 
@@ -478,6 +495,7 @@ public class Jetson extends JFrame {
                     }
                 });
 
+                // Hover effects and events
                 fileListingPanel.addFocusListener(new FocusListener() {
                     @Override
                     public void focusGained(FocusEvent e) {
