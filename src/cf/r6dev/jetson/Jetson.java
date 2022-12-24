@@ -1,35 +1,41 @@
-package cf.r6dev.rJLib.jetsonUtils;
+package cf.r6dev.jetson;
 
-import cf.r6dev.rJLib.resources.ResourceLoader;
+import cf.r6dev.jetson.ui.JetsonScrollBarUI;
+import cf.r6dev.jetson.utils.*;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.plaf.basic.BasicScrollBarUI;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.util.ArrayList;
 
-public final class Jetson extends JFrame {
-    // Static
+public class Jetson extends JFrame {
+    // Static file vars
     private static final File JETSON_DIRECTORY = new File(System.getProperty("user.home") + System.getProperty("file.separator") + ".jetson");
+    private static final File JETSON_RESOURCE_FOLDER = new File(new File(JETSON_DIRECTORY + System.getProperty("file.separator") + "resources").listFiles() != null ? JETSON_DIRECTORY + System.getProperty("file.separator") + "resources" : System.getProperty("user.dir") + System.getProperty("file.separator") + "resources");
     private static final File JETSON_DUMMY_DIRECTORY = new File(JETSON_DIRECTORY + System.getProperty("file.separator") + "dummies");
     private static final File JETSON_TEMP_TXT = new File(JETSON_DIRECTORY + System.getProperty("file.separator") + "temp.txt");
     private static final File JETSON_BLOAT_TXT = new File(JETSON_DIRECTORY + System.getProperty("file.separator") + "bloat.txt");
 
-    // Non-files
-    public static String[] JETSON_ERRS = {"Jetson error [0]: could not open directory", "Jetson error [1]: could not open parent directory", "Jetson error [2]: could not write to file", "Jetson error [3]: could not create file"};
-    public static String OS_NAME = System.getProperty("os.name").toLowerCase();
+    // Static vars
+    public static JetRL JRL = new JetRL(JETSON_RESOURCE_FOLDER);
+    private static final String[] JETSON_ERRS = {"Jetson error [0]: could not open directory", "Jetson error [1]: could not open parent directory", "Jetson error [2]: could not write to file", "Jetson error [3]: could not create file"};
+    public static final String OS_NAME = System.getProperty("os.name").toLowerCase();
     public static final boolean IS_WINDOWS = OS_NAME.contains("win");
     public static final boolean IS_LINUX = OS_NAME.contains("nux") || OS_NAME.contains("nix");
     public static final boolean IS_MAC = OS_NAME.contains("mac");
 
-    // Non-static
+    // Non-static vars
     private int mouseX, mouseY;
-    public final JTextField inputField = new JTextField();
+    private final JPanel titleBar = new JPanel();
+    private final JLabel titleLabel = new JLabel();
     private final JLabel titleLabelSuffix = new JLabel(System.getProperty("user.name"));
+    private final JTextField inputField = new JTextField();
+    @SuppressWarnings("FieldMayBeFinal") private String inputFieldPlaceholder = "input a dir or \"help1\"";
     private final JPanel listPanel = new JPanel();
+    private final JScrollPane listPanelWrapper = new JScrollPane(listPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
     private File selectedFile;
     private File oneDirectoryUp;
 
@@ -38,27 +44,29 @@ public final class Jetson extends JFrame {
         // Setup
 
         setTitle("Jetson");
-        setIconImage(ResourceLoader.getIcon("jetson-icon", (short) 96, Image.SCALE_DEFAULT).getImage());
+        titleLabel.setText(getTitle() + " - ");
+        setIconImage(JRL.getIcon("jetson-icon", (short) 96, Image.SCALE_DEFAULT).getImage());
         setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        getRootPane().setBorder(BorderFactory.createLineBorder(ResourceLoader.PRIMARY_BORDER_COLOR));
-        getContentPane().setBackground(ResourceLoader.TITLE_BAR_COLOR);
+        getRootPane().setBorder(BorderFactory.createLineBorder(JetRL.PRIMARY_BORDER_COLOR));
+        getContentPane().setBackground(JetRL.TITLE_BAR_COLOR);
         setUndecorated(true);
 
         // Title bar
 
-        JPanel titleBar = new JPanel();
         getContentPane().add(titleBar, BorderLayout.NORTH);
         titleBar.setPreferredSize(new Dimension(180, 42));
         titleBar.setLayout(new BorderLayout());
-        titleBar.setBackground(ResourceLoader.TITLE_BAR_COLOR);
+        titleBar.setBackground(JetRL.TITLE_BAR_COLOR);
 
+        // Make title bar draggable
         titleBar.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
                 setLocation(getX() + e.getX() - mouseX, getY() + e.getY() - mouseY);
             }
         });
+
         titleBar.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -72,39 +80,37 @@ public final class Jetson extends JFrame {
         JPanel titleBarTop = new JPanel();
         titleBar.add(titleBarTop);
         titleBarTop.setLayout(new BoxLayout(titleBarTop, BoxLayout.LINE_AXIS));
-        titleBarTop.setBackground(ResourceLoader.TITLE_BAR_COLOR);
-        titleBar.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createMatteBorder(0,0,1,0, ResourceLoader.PRIMARY_BORDER_COLOR), new EmptyBorder(5,12,5,0)));
+        titleBarTop.setBackground(JetRL.TITLE_BAR_COLOR);
+        titleBar.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createMatteBorder(0,0,1,0, JetRL.PRIMARY_BORDER_COLOR), new EmptyBorder(5,12,5,0)));
 
-        JLabel titleBarLabel = new JLabel(getTitle() + " - ");
-        titleBarTop.add(titleBarLabel);
-        titleBarLabel.setFont(ResourceLoader.getFont("jetbrains"));
-        titleBarLabel.setForeground(ResourceLoader.PRIMARY_TEXT_COLOR);
+        titleBarTop.add(titleLabel);
+        titleLabel.setFont(JRL.getMono());
+        titleLabel.setForeground(JetRL.PRIMARY_TEXT_COLOR);
 
         titleBarTop.add(titleLabelSuffix);
-        titleLabelSuffix.setFont(ResourceLoader.getFont("jetbrains"));
-        titleLabelSuffix.setForeground(ResourceLoader.SECONDARY_TEXT_COLOR);
+        titleLabelSuffix.setFont(JRL.getMono());
+        titleLabelSuffix.setForeground(JetRL.SECONDARY_TEXT_COLOR);
 
         // Title bar -- Bottom
 
         JPanel titleBarBottom = new JPanel();
         titleBar.add(titleBarBottom, BorderLayout.SOUTH);
         titleBarBottom.setLayout(new BoxLayout(titleBarBottom, BoxLayout.LINE_AXIS));
-        titleBarBottom.setBackground(ResourceLoader.TITLE_BAR_COLOR);
+        titleBarBottom.setBackground(JetRL.TITLE_BAR_COLOR);
 
         JLabel sysInfoLabel = new JLabel("- " + System.getProperty("os.arch") + System.getProperty("file.separator") + System.getProperty("os.version") + System.getProperty("file.separator") + "JRE " + System.getProperty("java.version"));
         titleBarBottom.add(sysInfoLabel);
-        sysInfoLabel.setFont(ResourceLoader.getFont("jetbrains"));
-        sysInfoLabel.setForeground(ResourceLoader.SECONDARY_TEXT_COLOR);
+        sysInfoLabel.setFont(JRL.getTerminalFont());
+        sysInfoLabel.setForeground(JetRL.SECONDARY_TEXT_COLOR);
 
         // Input field setup
 
-        String inputFieldPlaceholder = "input a dir or \"help1\"";
         getContentPane().add(inputField);
-        inputField.setBackground(ResourceLoader.SECONDARY_BACKGROUND_COLOR);
-        inputField.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createMatteBorder(0,0,1,0, ResourceLoader.SECONDARY_BORDER_COLOR), new EmptyBorder(0,12,0,0)));
-        inputField.setForeground(ResourceLoader.EDITOR_TEXT_COLOR);
-        inputField.setFont(new Font("Consolas", Font.PLAIN, 12));
-        inputField.setPreferredSize(new Dimension(180, 29));
+        inputField.setBackground(JetRL.SECONDARY_BACKGROUND_COLOR);
+        inputField.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createMatteBorder(0,0,1,0, JetRL.SECONDARY_BORDER_COLOR), new EmptyBorder(0,12,0,0)));
+        inputField.setForeground(JetRL.EDITOR_TEXT_COLOR);
+        inputField.setFont(JRL.getTerminalFont());
+        inputField.setPreferredSize(new Dimension(titleBar.getWidth(), 29));
 
         // Functional placeholder text
         inputField.addFocusListener(new FocusListener() {
@@ -113,62 +119,33 @@ public final class Jetson extends JFrame {
                 if (inputField.getText().equals(inputFieldPlaceholder)) {
                     inputField.setText("");
                 }
-                inputField.setFont(new Font("Consolas", Font.PLAIN, 12));
-                inputField.setForeground(ResourceLoader.PRIMARY_TEXT_COLOR);
+                inputField.setFont(JRL.getTerminalFont(12));
+                inputField.setForeground(JetRL.PRIMARY_TEXT_COLOR);
             }
 
             @Override
             public void focusLost(FocusEvent e) {
                 if (inputField.getText().isBlank()) {
                     inputField.setText(inputFieldPlaceholder);
-                    inputField.setFont(new Font("Consolas", Font.PLAIN, 10));
-                    inputField.setForeground(ResourceLoader.SECONDARY_TEXT_COLOR);
+                    inputField.setFont(JRL.getTerminalFont(10));
+                    inputField.setForeground(JetRL.SECONDARY_TEXT_COLOR);
                 }
             }
         });
 
-        listPanel.setBackground(ResourceLoader.TITLE_BAR_COLOR);
+        listPanel.setBackground(JetRL.TITLE_BAR_COLOR);
         listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS));
 
-        JScrollPane infoScrollPane = new JScrollPane(listPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        getContentPane().add(infoScrollPane);
-        infoScrollPane.setBorder(null);
-        infoScrollPane.setPreferredSize(new Dimension(180, 128));
-        infoScrollPane.setComponentZOrder(infoScrollPane.getVerticalScrollBar(), 0);
-        infoScrollPane.setComponentZOrder(infoScrollPane.getViewport(), 1);
-        infoScrollPane.getVerticalScrollBar().setOpaque(false);
-        infoScrollPane.getVerticalScrollBar().setUnitIncrement(9);
-
-        infoScrollPane.setLayout(new ScrollPaneLayout() {
-            @Override
-            public void layoutContainer(Container parent) {
-                JScrollPane scrollPane = (JScrollPane) parent;
-
-                Rectangle availR = scrollPane.getBounds();
-                availR.x = availR.y = 0;
-
-                Insets parentInsets = parent.getInsets();
-                availR.x = parentInsets.left;
-                availR.y = parentInsets.top;
-                availR.width -= parentInsets.left + parentInsets.right;
-                availR.height -= parentInsets.top + parentInsets.bottom;
-
-                Rectangle vsbR = new Rectangle();
-                vsbR.width = 12;
-                vsbR.height = availR.height;
-                vsbR.x = availR.x + availR.width - vsbR.width;
-                vsbR.y = availR.y;
-
-                if (viewport != null) {
-                    viewport.setBounds(availR);
-                }
-                if (vsb != null) {
-                    vsb.setVisible(true);
-                    vsb.setBounds(vsbR);
-                }
-            }
-        });
-        infoScrollPane.getVerticalScrollBar().setUI(new JetsonScrollBarUI());
+        // Scroll pane for list setup
+        getContentPane().add(listPanelWrapper);
+        listPanelWrapper.setBorder(null);
+        listPanelWrapper.setPreferredSize(new Dimension(180, 128));
+        listPanelWrapper.setComponentZOrder(listPanelWrapper.getVerticalScrollBar(), 0);
+        listPanelWrapper.setComponentZOrder(listPanelWrapper.getViewport(), 1);
+        listPanelWrapper.getVerticalScrollBar().setUnitIncrement(9);
+        listPanelWrapper.getVerticalScrollBar().setOpaque(false);
+        listPanelWrapper.setLayout(JetsonScrollBarUI.newLayout());
+        listPanelWrapper.getVerticalScrollBar().setUI(new JetsonScrollBarUI());
 
         pack();
         setLocationRelativeTo(null);
@@ -176,15 +153,11 @@ public final class Jetson extends JFrame {
     }
 
     // Main Logic
-    public static void main(String[] args) {
-        // Create Jetson JFrame
-        System.out.println("Created " + initialize().getName());
-    }
 
     public static @NotNull Jetson initialize() {
         // Check if resources are present
-        if (!ResourceLoader.resourceFolderExists()) {
-            JOptionPane.showMessageDialog(null, "Resource folder does not exist in working directory which can result in faulty GUI and image loading. You can download it from the rJToolbox GitHub repo", "Could not find resource folder", JOptionPane.WARNING_MESSAGE);
+        if (!JRL.getResourceFolder().exists()) {
+            JOptionPane.showMessageDialog(null, "Could not find resource folder in current working directory, this can result in faulty GUI. You can download it from the rJToolbox GitHub repo", "Resource folder does not exist", JOptionPane.WARNING_MESSAGE);
         }
 
         // Verify .jetson directory
@@ -208,8 +181,8 @@ public final class Jetson extends JFrame {
                     File inputtedDir = new File(inputFieldLocal.getText());
                     if (inputtedDir.isDirectory()) {
 
-                        // Clears and updates list
-                        clearList(frame.listPanel);
+                        // Clears and updates with inputted directory list
+                        frame.clearList(frame.listPanel);
 
                         File[] listOfFiles = inputtedDir.listFiles();
                         frame.listDirectory(frame.listPanel, listOfFiles);
@@ -219,10 +192,10 @@ public final class Jetson extends JFrame {
                         // Detect short commands
                         String lowerCaseInput = inputFieldLocal.getText().toLowerCase();
                         String trimmedInput = lowerCaseInput.trim();
-                        String[] commandListOne = {"\"(Directory)\": returns a list of files in that directory\n\"Open\": opens selected file or directory externally (SHOULD support all systems)\n\"Up\": goes one directory up\n\"Read\": reads selected file\n\"Corrupt\": corrupts selected file or directory\n\"Bloat\": bloats selected file into oblivion\n\"Dummy\": creates a dummy version of selected directory/duplicates selected directory\n\"Verify\": verifies .jetson directory\n\"Clear\": resets list\n\"Quit\": exit the application\n\"help2\": next help dialog", "(Left Click On Item): selects item\n(Left Click In Empty Space Within List): deselects all items\n(Double Left Click On Item): if directory, opens it internally, if file, opens it externally\n(Right Click Anywhere Inside List): goes one directory up"};
+                        String[] commandListOne = {"\"(Directory)\": returns a list of files in that directory\n\"Open\": opens selected file or directory externally (SHOULD support all systems)\n\"Up\": goes one directory up\n\"Read\": reads selected file\n\"Corrupt\": corrupts selected file or directory\n\"Bloat\": bloats selected file into oblivion\n\"Dummy\": creates a dummy version of selected directory/duplicates selected directory\n\"Verify\": verifies .jetson directory\n\"Clear\": resets list\n\"Quit\": exit the application\n\"help2\": next help dialog", "(Left Click On Item): selects item\n(Left Click In Empty Space Within List): deselects all items\n(Double Left Click On Item): if directory, opens it internally, if file, opens externally\n(Right Click Anywhere Inside List): goes one directory up"};
                         switch (trimmedInput) {
                             case "clear" -> {
-                                clearList(frame.listPanel);
+                                frame.clearList(frame.listPanel);
                                 frame.clearInputField();
                             }
                             case "help1" -> {
@@ -240,17 +213,22 @@ public final class Jetson extends JFrame {
                             }
                             case "open" -> {
                                 try {
-                                    if (frame.selectedFile != null && openFile(frame.selectedFile)) {
+                                    if (frame.selectedFile != null && JetViewer.view(frame.selectedFile)) {
                                         frame.clearInputField();
                                     }
                                 } catch (IOException ex) {
                                     throw new RuntimeException(ex);
                                 }
                             }
+                            case "write" -> {
+                                if (frame.selectedFile != null && frame.selectedFile.isFile()) {
+                                    new JetWriter(frame.selectedFile);
+                                }
+                            }
                             case "read" -> {
                                 try {
                                     if (frame.selectedFile.isFile() && frame.selectedFile.canRead()) {
-                                        if (openFile(JETSON_TEMP_TXT) && writeToFile(JETSON_TEMP_TXT, readFile(frame.selectedFile))) {
+                                        if (JetViewer.view(JETSON_TEMP_TXT) && JetWriter.write(JETSON_TEMP_TXT, JetReader.readFile(frame.selectedFile))) {
                                             frame.clearInputField();
                                         }
                                     }
@@ -268,7 +246,7 @@ public final class Jetson extends JFrame {
                             }
                             case "corrupt" -> {
                                 try {
-                                    if (Corrupt(frame.selectedFile)) {
+                                    if (JetCorrupter.corrupt(frame.selectedFile)) {
                                         frame.clearInputField();
                                     } else {
                                         System.err.println(JETSON_ERRS[2]);
@@ -281,7 +259,7 @@ public final class Jetson extends JFrame {
                                 try {
                                     String tempFileName = frame.selectedFile.getName();
                                     for (short i = 1; i <= 32500; i++) {
-                                        if (!Corrupt(frame.selectedFile)) {
+                                        if (!JetCorrupter.corrupt(frame.selectedFile)) {
                                             System.err.println(JETSON_ERRS[2] + " " + tempFileName);
                                         }
                                     }
@@ -298,8 +276,8 @@ public final class Jetson extends JFrame {
                                             System.out.println("Sandbox of " + frame.selectedFile.getName() + " created");
                                         }
 
-                                        if (SandboxGenerator.search(frame.selectedFile, sandbox, sandbox)) {
-                                            openFile(sandbox);
+                                        if (JetSbGen.createDummy(frame.selectedFile, sandbox, sandbox)) {
+                                            JetViewer.view(sandbox);
                                             frame.clearInputField();
                                         }
                                     }
@@ -317,7 +295,7 @@ public final class Jetson extends JFrame {
                             }
                             case "quit" -> frame.close();
                         }
-                        
+
                     }
                 }
             }
@@ -325,8 +303,13 @@ public final class Jetson extends JFrame {
         return frame;
     }
 
+    public static void main(String[] args) {
+        // Create Jetson JFrame
+        System.out.println("Created " + initialize().getName());
+    }
+
     // UI Methods
-    public boolean goToDirectory(File dir, JComponent listToUpdate) {
+    public boolean goToDirectory(File dir, JPanel listToUpdate) {
         if (dir != null) {
             if (dir.isDirectory()) {
                 clearInputField();
@@ -356,7 +339,7 @@ public final class Jetson extends JFrame {
         inputField.setText("");
     }
 
-    public static void clearList(JComponent list) {
+    public void clearList(JComponent list) {
         // Removes all JPanels inside info panel (clears list) and empties input field
 
         if (list != null) {
@@ -372,6 +355,15 @@ public final class Jetson extends JFrame {
         titleLabelSuffix.requestFocus();
     }
 
+    @SuppressWarnings("unused") void initializeTitle(String text) {
+        setTitle(text);
+        updateTitleLabel();
+    }
+
+    public void updateTitleLabel() {
+        titleLabel.setText(getTitle() + " - ");
+    }
+
     public void close() {
         try {
             verifyJetsonDirectory();
@@ -381,9 +373,11 @@ public final class Jetson extends JFrame {
         this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
     }
 
-    synchronized private boolean listDirectory(JComponent list, File[] directoryFiles) {
+    synchronized private boolean listDirectory(JPanel list, File[] directoryFiles) {
         if (directoryFiles != null && directoryFiles.length > 0) {
             clearList(list);
+            getListPanelWrapper().getVerticalScrollBar().repaint();
+            getListPanelWrapper().getHorizontalScrollBar().repaint();
 
             File parentDirectory = directoryFiles[0].getParentFile();
 
@@ -396,14 +390,14 @@ public final class Jetson extends JFrame {
                 JPanel fileListingPanel = new JPanel();
                 list.add(fileListingPanel);
                 fileListingPanel.setBorder(new EmptyBorder(0,12,0,0));
-                fileListingPanel.setBackground(ResourceLoader.TITLE_BAR_COLOR);
-                fileListingPanel.setPreferredSize(new Dimension(180, 16));
+                fileListingPanel.setBackground(JetRL.TITLE_BAR_COLOR);
+                fileListingPanel.setPreferredSize(new Dimension(titleBar.getWidth(), 16));
                 fileListingPanel.setAlignmentX(JPanel.LEFT_ALIGNMENT);
                 fileListingPanel.setLayout(new BoxLayout(fileListingPanel, BoxLayout.LINE_AXIS));
 
                 JLabel fileNameLabel = new JLabel(selectedDirectoryFile.getName());
-                fileNameLabel.setForeground(ResourceLoader.PRIMARY_TEXT_COLOR);
-                fileNameLabel.setFont(ResourceLoader.getFont("jetbrains"));
+                fileNameLabel.setForeground(JetRL.PRIMARY_TEXT_COLOR);
+                fileNameLabel.setFont(JRL.getMono());
 
                 String toolTipAppend = (selectedDirectoryFile.getName().contains("sys") ? "(sys) " + selectedDirectoryFile.getAbsolutePath() : selectedDirectoryFile.getAbsolutePath());
 
@@ -411,16 +405,16 @@ public final class Jetson extends JFrame {
 
                 if (selectedDirectoryFile.isFile()) {
                     JLabel isFilePrefix = new JLabel("file: ");
-                    isFilePrefix.setForeground(ResourceLoader.SECONDARY_TEXT_COLOR);
-                    isFilePrefix.setFont(ResourceLoader.getFont("jetbrains"));
+                    isFilePrefix.setForeground(JetRL.SECONDARY_TEXT_COLOR);
+                    isFilePrefix.setFont(JRL.getMono());
 
                     fileListingPanel.add(isFilePrefix);
                     fileListingPanel.add(fileNameLabel);
                     fileListingPanel.setToolTipText("File: " + toolTipAppend);
                 } else {
                     JLabel isDirPrefix = new JLabel(System.getProperty("file.separator"));
-                    isDirPrefix.setForeground(ResourceLoader.SECONDARY_TEXT_COLOR);
-                    isDirPrefix.setFont(ResourceLoader.getFont("jetbrains"));
+                    isDirPrefix.setForeground(JetRL.SECONDARY_TEXT_COLOR);
+                    isDirPrefix.setFont(JRL.getMono());
 
                     fileListingPanel.add(isDirPrefix);
                     fileListingPanel.add(fileNameLabel);
@@ -434,6 +428,7 @@ public final class Jetson extends JFrame {
                 fileListingPanel.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseEntered(MouseEvent e) {
+                        // On hover
                         if (fileListingPanel.getBackground() != focusedOnColor) {
                             fileListingPanel.setBackground(new Color(0x9E9E9E));
                         }
@@ -441,8 +436,9 @@ public final class Jetson extends JFrame {
 
                     @Override
                     public void mouseExited(MouseEvent e) {
+                        // On stopped hovering
                         if (fileListingPanel.getBackground() != focusedOnColor) {
-                            fileListingPanel.setBackground(ResourceLoader.TITLE_BAR_COLOR);
+                            fileListingPanel.setBackground(JetRL.TITLE_BAR_COLOR);
                         }
                     }
 
@@ -462,7 +458,7 @@ public final class Jetson extends JFrame {
                             }
                         }
 
-                        // Open directory in Jetson or file externally
+                        // Open directory or file on double click
                         if (e.getClickCount() == 2 && button == MouseEvent.BUTTON1) {
                             if (selectedDirectoryFile.isDirectory()) {
                                 if (!goToDirectory(selectedDirectoryFile, list)) {
@@ -470,7 +466,7 @@ public final class Jetson extends JFrame {
                                 }
                             } else if (selectedDirectoryFile.isFile()) {
                                 try {
-                                    if (openFile(selectedDirectoryFile)) {
+                                    if (JetViewer.view(selectedDirectoryFile)) {
                                         clearInputField();
                                     }
 
@@ -522,33 +518,78 @@ public final class Jetson extends JFrame {
 
     // Setters & Getters
 
-    @SuppressWarnings("unused") public static File getJetsonDirectory() {
+    @SuppressWarnings("unused") public static File getJetsonDirectory() throws IOException {
+        verifyJetsonDirectory();
         return JETSON_DIRECTORY;
+    }
+
+    @SuppressWarnings("unused") public static File getJetsonResourceFolder() {
+        try {
+            verifyJetsonDirectory();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return JETSON_RESOURCE_FOLDER;
+    }
+
+    @SuppressWarnings("unused") public static File getJetsonTempTxt() throws IOException {
+        verifyJetsonDirectory();
+        return JETSON_TEMP_TXT;
+    }
+
+    @SuppressWarnings("unused") public static File getJetsonDummyDirectory() throws IOException {
+        verifyJetsonDirectory();
+        return JETSON_DUMMY_DIRECTORY;
     }
 
     @SuppressWarnings("unused") public JPanel getListPanel() {
         return listPanel;
     }
 
+    @SuppressWarnings("unused") public JScrollPane getListPanelWrapper() {
+        return listPanelWrapper;
+    }
+
+    @SuppressWarnings("unused") public JTextField getInputField() {
+        return inputField;
+    }
+
+    @SuppressWarnings("unused") public void wipe() {
+        for (Component component : getContentPane().getComponents()) {
+            remove(component);
+        }
+    }
+
+    @SuppressWarnings("unused") public JPanel getTitleBar() {return titleBar;}
+
+    @SuppressWarnings("unused") public JLabel getTitleLabel() {
+        return titleLabel;
+    }
+
+    @SuppressWarnings("unused") public JLabel getTitleLabelSuffix() {
+        return titleLabelSuffix;
+    }
+
     @SuppressWarnings("unused") public File getSelectedFile() {
         return selectedFile;
     }
 
-    @SuppressWarnings("unused") public void setSelectedFile(File SELECTED_FILE) {
-        this.selectedFile = SELECTED_FILE;
+    @SuppressWarnings("unused") public void setSelectedFile(File selectedFile) {
+        this.selectedFile = selectedFile;
     }
 
     @SuppressWarnings("unused") public File getParentDirectory() {
         return oneDirectoryUp;
     }
 
-    // API Methods
-    private static void verifyJetsonDirectory() throws IOException {
+    // Public API Methods
+    public static void verifyJetsonDirectory() throws IOException {
         ArrayList<File> verifiedJetsonFiles = new ArrayList<>(2);
         verifiedJetsonFiles.add(JETSON_DIRECTORY);
         verifiedJetsonFiles.add(JETSON_DUMMY_DIRECTORY);
         verifiedJetsonFiles.add(JETSON_TEMP_TXT);
         verifiedJetsonFiles.add(JETSON_BLOAT_TXT);
+        verifiedJetsonFiles.add(JETSON_RESOURCE_FOLDER);
 
         String bloatToWrite = """
                     ‰PNG
@@ -596,6 +637,12 @@ public final class Jetson extends JFrame {
             }
         }
 
+        if (!JETSON_RESOURCE_FOLDER.exists()) {
+            if (JETSON_RESOURCE_FOLDER.mkdir()) {
+                System.out.println("Successfully created " + JETSON_RESOURCE_FOLDER.getAbsolutePath());
+            }
+        }
+
         if (!JETSON_DUMMY_DIRECTORY.exists()) {
             if (JETSON_DUMMY_DIRECTORY.mkdir()) {
                 System.out.println("Successfully created " + JETSON_DUMMY_DIRECTORY.getAbsolutePath());
@@ -612,12 +659,12 @@ public final class Jetson extends JFrame {
             }
         }
 
-        if (!writeToFile(JETSON_BLOAT_TXT, bloatToWrite)) {
+        if (!JetWriter.write(JETSON_BLOAT_TXT, bloatToWrite)) {
             System.err.println(JETSON_ERRS[2] + " " + JETSON_BLOAT_TXT.getAbsolutePath());
         }
 
         // Clean up of .jetson directory
-        if (!writeToFile(JETSON_TEMP_TXT, "")) {
+        if (!JetWriter.write(JETSON_TEMP_TXT, "")) {
             System.err.println(JETSON_ERRS[2]);
         }
 
@@ -632,129 +679,5 @@ public final class Jetson extends JFrame {
                 }
             }
         }
-    }
-
-    public static boolean Corrupt(@NotNull File file) throws IOException {
-        if (file.isDirectory()) {
-            File[] listOfFiles = file.listFiles();
-
-            if (listOfFiles != null) {
-                for (File selectedFile : listOfFiles) {
-                    if (selectedFile.isFile()) {
-                        if (selectedFile.canWrite()) {
-                            verifyJetsonDirectory();
-                            return writeToFile(selectedFile, readFile(selectedFile) + readFile(JETSON_BLOAT_TXT));
-                        }
-                    } else {
-                        Corrupt(selectedFile);
-                    }
-                }
-            }
-        } else if (file.isFile() && file.canWrite()) {
-            return writeToFile(file, readFile(file) + readFile(JETSON_BLOAT_TXT));
-        }
-        
-        return false;
-    }
-
-    public static boolean openFile(@NotNull File file) throws IOException {
-        if (IS_WINDOWS && Desktop.isDesktopSupported()) {
-            Desktop.getDesktop().open(file);
-            return true;
-        } else if (IS_LINUX || IS_MAC) {
-            Runtime.getRuntime().exec(new String[]{"/usr/bin/open", file.getAbsolutePath()});
-            return true;
-        } else {
-            // Unknown OS?
-            if (Desktop.isDesktopSupported()) {
-                Desktop.getDesktop().open(file);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public static @NotNull String readFile(@NotNull File file) throws IOException {
-        if (file.isFile() && file.canRead()) {
-            BufferedReader fileReader = new BufferedReader(new FileReader(file));
-            String data;
-            String returnString = "";
-            while ((data = fileReader.readLine()) != null) {
-                returnString = data;
-            }
-            if (!returnString.isEmpty()) {
-                return returnString;
-            }
-        }
-        return "";
-    }
-
-    public static boolean writeToFile(@NotNull File file, String data) throws IOException {
-        if (file.isFile() && file.canWrite()) {
-            FileWriter writer = new FileWriter(file);
-            writer.write(data);
-            writer.flush();
-            writer.close();
-            return true;
-        }
-        return false;
-    }
-}
-
-
-class JetsonScrollBarUI extends BasicScrollBarUI {
-    private final Dimension d = new Dimension();
-
-    @Override
-    protected JButton createDecreaseButton(int orientation) {
-        return new JButton() {
-            @Override
-            public Dimension getPreferredSize() {
-                return d;
-            }
-        };
-    }
-
-    @Override
-    protected JButton createIncreaseButton(int orientation) {
-        return new JButton() {
-            @Override
-            public Dimension getPreferredSize() {
-                return d;
-            }
-        };
-    }
-
-    @Override
-    protected void paintTrack(Graphics g, JComponent c, Rectangle r) {
-    }
-
-    @Override
-    protected void paintThumb(Graphics g, JComponent c, Rectangle r) {
-        Graphics2D g2 = (Graphics2D) g.create();
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_ON);
-        Color color;
-        JScrollBar sb = (JScrollBar) c;
-        if (!sb.isEnabled() || r.width > r.height) {
-            return;
-        } else if (isDragging) {
-            color = new Color(0x9E9E9E);
-        } else if (isThumbRollover()) {
-            color = new Color(0x9E9E9E);
-        } else {
-            color = ResourceLoader.PRIMARY_BORDER_COLOR;
-        }
-        g2.setPaint(color);
-        g2.fillRect(r.x, r.y, r.width, r.height);
-        g2.setPaint(ResourceLoader.PRIMARY_BORDER_COLOR);
-        g2.drawRect(r.x, r.y, r.width, r.height);
-        g2.dispose();
-    }
-
-    @Override
-    protected void setThumbBounds(int x, int y, int width, int height) {
-        super.setThumbBounds(x, y, width, height);
-        scrollbar.repaint();
     }
 }
