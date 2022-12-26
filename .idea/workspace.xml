@@ -10,17 +10,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0fb48862-ed1b-4eb8-97e2-e4d21d9436e5" name="Changes" comment="feat - replaced JetCorrupter with Jetson.corrupt">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/jetbrains_annotations.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/dejavu-mono.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/jetbrains-mono.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/jetson-icon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/cf/r6dev/jetson/ui/JetsonList.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Jetson.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Jetson.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/builds/Jetson/Jetson.jar" beforeDir="false" afterPath="$PROJECT_DIR$/builds/Jetson/Jetson.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cf/r6dev/jetson/Jetson.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cf/r6dev/jetson/Jetson.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cf/r6dev/jetson/utils/JetCorrupter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cf/r6dev/jetson/utils/JetWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cf/r6dev/jetson/utils/JetWriter.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,11 +33,11 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;
   }
-}]]></component>
+}</component>
   <component name="GithubPullRequestsUISettings">
     <option name="selectedUrlAndAccountId">
       <UrlAndAccount>
@@ -67,23 +57,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "Downloaded.Files.Path.Enabled": "false",
-    "Repository.Attach.Annotations": "true",
-    "Repository.Attach.JavaDocs": "false",
-    "Repository.Attach.Sources": "false",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "last_opened_file_path": "C:/Users/dynam/IdeaProjects/Jetson",
-    "project.structure.last.edited": "Libraries",
-    "project.structure.proportion": "0.15527344",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "IntelliLang.Advanced"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Annotations&quot;: &quot;true&quot;,
+    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/dynam/IdeaProjects/Jetson&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15527344&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;IntelliLang.Advanced&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\andre\IdeaProjects\Jetson" />
@@ -357,7 +347,14 @@
       <option name="project" value="LOCAL" />
       <updated>1671890387381</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="feat - replaced JetCorrupter with Jetson.corrupt">
+      <created>1672014130192</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1672014130192</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -373,7 +370,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Fast flux" />
     <MESSAGE value="JetSon creation" />
     <MESSAGE value="change - made a couple comments in the Jetson code and changed the scroll bar scroll a little faster" />
     <MESSAGE value="change - birth of jetSon" />
@@ -398,7 +394,8 @@
     <MESSAGE value="feat - added updated updateScrollBar method" />
     <MESSAGE value="feat - added write command" />
     <MESSAGE value="feat - ready to launch" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat - ready to launch" />
+    <MESSAGE value="feat - replaced JetCorrupter with Jetson.corrupt" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat - replaced JetCorrupter with Jetson.corrupt" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/rJToolbox$tB.ic" NAME="tB Coverage Results" MODIFIED="1670767329597" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
