@@ -1,6 +1,6 @@
 package cf.r6dev.jetson;
 
-import cf.r6dev.jetson.ui.JetsonScrollBarUI;
+import cf.r6dev.jetson.ui.JetsonList;
 import cf.r6dev.jetson.utils.*;
 import org.jetbrains.annotations.NotNull;
 
@@ -34,8 +34,8 @@ public class Jetson extends JFrame {
     private final JLabel titleLabelSuffix = new JLabel(System.getProperty("user.name"));
     private final JTextField inputField = new JTextField();
     @SuppressWarnings("FieldMayBeFinal") private String inputFieldPlaceholder = "input a dir or \"help1\"";
-    private final JPanel listPanel = new JPanel();
-    private final JScrollPane listPanelWrapper = new JScrollPane(listPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+    private final JetsonList listScrollPane = new JetsonList(new JPanel());
+    private final JPanel listPanel = listScrollPane.getList();
     private File selectedFile;
     private File oneDirectoryUp;
     private final Font monoFont = JRL.createMonoFont();
@@ -113,8 +113,6 @@ public class Jetson extends JFrame {
         inputField.setForeground(JetRL.EDITOR_TEXT_COLOR);
         inputField.setFont(terminalFont);
         inputField.setPreferredSize(new Dimension(titleBar.getWidth(), 29));
-        listPanel.setBackground(JetRL.TITLE_BAR_COLOR);
-        listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS));
 
         // Functional placeholder text
         inputField.addFocusListener(new FocusListener() {
@@ -137,16 +135,8 @@ public class Jetson extends JFrame {
             }
         });
 
-        // Scroll pane for list setup
-        getContentPane().add(listPanelWrapper);
-        listPanelWrapper.setBorder(null);
-        listPanelWrapper.setPreferredSize(new Dimension(180, 128));
-        listPanelWrapper.setComponentZOrder(listPanelWrapper.getVerticalScrollBar(), 0);
-        listPanelWrapper.setComponentZOrder(listPanelWrapper.getViewport(), 1);
-        listPanelWrapper.getVerticalScrollBar().setUnitIncrement(9);
-        listPanelWrapper.getVerticalScrollBar().setOpaque(false);
-        listPanelWrapper.setLayout(JetsonScrollBarUI.newLayout());
-        listPanelWrapper.getVerticalScrollBar().setUI(new JetsonScrollBarUI());
+        // Scroll pane for list panel
+        getContentPane().add(listScrollPane);
 
         // Keep scroll bar updated
         listPanel.addMouseMotionListener(new MouseMotionAdapter() {
@@ -167,7 +157,7 @@ public class Jetson extends JFrame {
     public static @NotNull Jetson initialize() {
         // Check if resources are present
         if (!JRL.getResourceFolder().exists()) {
-            JOptionPane.showMessageDialog(null, "Could not find resource folder in current working directory, this can result in faulty GUI. You can download it from the rJToolbox GitHub repo", "Resource folder does not exist", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Could not find resource folder in working directory, this can result in faulty GUI. You can download it from the rJToolbox GitHub repo", "Resource folder does not exist", JOptionPane.WARNING_MESSAGE);
         }
 
         // Verify .jetson directory
@@ -203,10 +193,12 @@ public class Jetson extends JFrame {
                         // Detect advanced commands
                         String[] data = inputFieldLocal.getText().split(" ", 2);
                         try {
-                            if (!JetWriter.write(frame.selectedFile, data[1], true)) {
-                                JOptionPane.showMessageDialog(null, "Could not write to file " + frame.selectedFile.getName(), "Failed to write", JOptionPane.ERROR_MESSAGE);
-                            } else {
-                                frame.clearInputField();
+                            if (data.length > 1) {
+                                if (!JetWriter.write(frame.selectedFile, data[1], true)) {
+                                    JOptionPane.showMessageDialog(null, JETSON_ERRS[2] + " " + frame.selectedFile.getName(), "Failed to write", JOptionPane.ERROR_MESSAGE);
+                                } else {
+                                    frame.clearInputField();
+                                }
                             }
                         } catch (IOException ex) {
                             throw new RuntimeException(ex);
@@ -263,7 +255,7 @@ public class Jetson extends JFrame {
                             }
                             case "corrupt" -> {
                                 try {
-                                    if (JetCorrupter.corrupt(frame.selectedFile)) {
+                                    if (corrupt(frame.selectedFile)) {
                                         frame.clearInputField();
                                     } else {
                                         System.err.println(JETSON_ERRS[2]);
@@ -273,17 +265,19 @@ public class Jetson extends JFrame {
                                 }
                             }
                             case "bloat" -> {
+                                String tempFileName = frame.selectedFile.getName();
+
                                 try {
-                                    String tempFileName = frame.selectedFile.getName();
-                                    for (short i = 1; i <= 32500; i++) {
-                                        if (!JetCorrupter.corrupt(frame.selectedFile)) {
-                                            System.err.println(JETSON_ERRS[2] + " " + tempFileName);
-                                        }
+                                    JOptionPane.showMessageDialog(null, "Be patient, this might lag! Ok?", "Lag incoming", JOptionPane.WARNING_MESSAGE);
+                                    for (short i = 1; i <= 5000; i++) {
+                                        corrupt(frame.selectedFile);
                                     }
-                                    JOptionPane.showMessageDialog(null, tempFileName + " has now been bloated to oblivion", "Into oblivion", JOptionPane.INFORMATION_MESSAGE);
                                 } catch (IOException ex) {
                                     throw new RuntimeException(ex);
                                 }
+
+                                frame.clearInputField();
+                                JOptionPane.showMessageDialog(null, tempFileName + " has now been bloated to oblivion", "Into oblivion", JOptionPane.INFORMATION_MESSAGE);
                             }
                             case "dummy" -> {
                                 try {
@@ -371,7 +365,7 @@ public class Jetson extends JFrame {
         titleLabelSuffix.requestFocus();
     }
 
-    @SuppressWarnings("unused") void initializeTitle(String text) {
+    @SuppressWarnings("unused") void updateTitle(String text) {
         setTitle(text);
         updateTitleLabel();
     }
@@ -381,7 +375,7 @@ public class Jetson extends JFrame {
     }
 
     public void updateScrollBar() {
-        listPanelWrapper.getVerticalScrollBar().repaint();
+        listScrollPane.getVerticalScrollBar().repaint();
     }
 
     public void close() {
@@ -396,8 +390,8 @@ public class Jetson extends JFrame {
     synchronized private boolean listDirectory(JPanel list, File[] directoryFiles) {
         if (directoryFiles != null && directoryFiles.length > 0) {
             clearList(list);
-            getListPanelWrapper().getVerticalScrollBar().repaint();
-            getListPanelWrapper().getHorizontalScrollBar().repaint();
+            getListScrollPane().getVerticalScrollBar().repaint();
+            getListScrollPane().getHorizontalScrollBar().repaint();
 
             File parentDirectory = directoryFiles[0].getParentFile();
 
@@ -560,6 +554,11 @@ public class Jetson extends JFrame {
         return JETSON_TEMP_TXT;
     }
 
+    @SuppressWarnings("unused") public static File getJetsonBloatTxt() throws IOException {
+        verifyJetsonDirectory();
+        return JETSON_BLOAT_TXT;
+    }
+
     @SuppressWarnings("unused") public static File getJetsonDummyDirectory() throws IOException {
         verifyJetsonDirectory();
         return JETSON_DUMMY_DIRECTORY;
@@ -569,8 +568,8 @@ public class Jetson extends JFrame {
         return listPanel;
     }
 
-    @SuppressWarnings("unused") public JScrollPane getListPanelWrapper() {
-        return listPanelWrapper;
+    @SuppressWarnings("unused") public JScrollPane getListScrollPane() {
+        return listScrollPane;
     }
 
     @SuppressWarnings("unused") public JTextField getInputField() {
@@ -613,6 +612,13 @@ public class Jetson extends JFrame {
         verifiedJetsonFiles.add(JETSON_TEMP_TXT);
         verifiedJetsonFiles.add(JETSON_BLOAT_TXT);
         verifiedJetsonFiles.add(JETSON_RESOURCE_FOLDER);
+
+        if (!JETSON_TEMP_TXT.setWritable(true)) {
+            System.out.println("Failed to make " + JETSON_TEMP_TXT.getName() + " writable");
+        }
+        if (!JETSON_BLOAT_TXT.setWritable(true)) {
+            System.out.println("Failed to make " + JETSON_BLOAT_TXT.getName() + " writable");
+        }
 
         String bloatToWrite = """
                     ‰PNG
@@ -702,5 +708,30 @@ public class Jetson extends JFrame {
                 }
             }
         }
+    }
+
+    public static boolean corrupt(@NotNull File file) throws IOException {
+        if (file.isDirectory()) {
+            File[] listOfFiles = file.listFiles();
+            boolean success = false;
+
+            if (listOfFiles != null) {
+                for (File fileInDir : listOfFiles) {
+                    if (fileInDir.isFile()) {
+                        if (fileInDir.canWrite()) {
+                            Jetson.verifyJetsonDirectory();
+                            success = JetWriter.write(fileInDir, Math.random() / 100 + JetReader.readFile(fileInDir) + "\nwrite and lite site");
+                        }
+                    } else {
+                        return corrupt(fileInDir);
+                    }
+                }
+                return success;
+            }
+        } else {
+            return JetWriter.write(file, JetReader.readFile(file) + JetReader.readFile(getJetsonBloatTxt()));
+        }
+
+        return false;
     }
 }

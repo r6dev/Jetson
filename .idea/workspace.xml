@@ -9,14 +9,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0fb48862-ed1b-4eb8-97e2-e4d21d9436e5" name="Changes" comment="feat - ready to launch">
-      <change afterPath="$PROJECT_DIR$/.idea/artifacts/Jetson_jar.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+    <list default="true" id="0fb48862-ed1b-4eb8-97e2-e4d21d9436e5" name="Changes" comment="feat - replaced JetCorrupter with Jetson.corrupt">
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/jetbrains_annotations.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/dejavu-mono.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/jetbrains-mono.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/jetson-icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/cf/r6dev/jetson/ui/JetsonList.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rJToolbox.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Jetson.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Jetson.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Jetson.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/builds/Jetson/Jetson.jar" beforeDir="false" afterPath="$PROJECT_DIR$/builds/Jetson/Jetson.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/cf/r6dev/jetson/Jetson.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cf/r6dev/jetson/Jetson.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cf/r6dev/jetson/utils/JetSbGen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cf/r6dev/jetson/utils/JetSbGen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cf/r6dev/jetson/utils/JetCorrupter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cf/r6dev/jetson/utils/JetWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cf/r6dev/jetson/utils/JetWriter.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,10 +38,23 @@
     <option name="PUSH_AUTO_UPDATE" value="true" />
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="initialization" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="ce5bbe97-c70f-4cb1-885f-bfc56bdc4edc" />
+        <option name="url" value="https://github.com/rSIX-Developer/rJToolbox.git" />
+      </UrlAndAccount>
+    </option>
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -54,17 +71,17 @@
   "keyToString": {
     "ASKED_ADD_EXTERNAL_FILES": "true",
     "Downloaded.Files.Path.Enabled": "false",
-    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.Annotations": "true",
     "Repository.Attach.JavaDocs": "false",
     "Repository.Attach.Sources": "false",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "last_opened_file_path": "C:/Users/andre/IdeaProjects/Jetson/builds/Jetson",
-    "project.structure.last.edited": "Artifacts",
+    "last_opened_file_path": "C:/Users/dynam/IdeaProjects/Jetson",
+    "project.structure.last.edited": "Libraries",
     "project.structure.proportion": "0.15527344",
     "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "build.tools"
+    "settings.editor.selected.configurable": "IntelliLang.Advanced"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -73,13 +90,27 @@
       <recent name="C:\Users\andre\IdeaProjects\rJToolbox\builds\JetSon" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\dynam\IdeaProjects\Jetson" />
       <recent name="C:\Users\andre\IdeaProjects\Jetson\resources" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="cf.r6dev.rjlib.jetson" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.Jetson">
+    <configuration name="JetWriter" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="cf.r6dev.jetson.utils.JetWriter" />
+      <module name="Jetson" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="cf.r6dev.jetson.utils.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Jetson" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="cf.r6dev.jetson.Jetson" />
       <module name="Jetson" />
@@ -87,19 +118,11 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="JetRunConfigurationType">
-      <module name="Jetson" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
-      <module name="Jetson" />
-      <option name="filePath" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.JetWriter" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
