@@ -405,9 +405,10 @@ public class Jetson extends JFrame {
                 list.add(fileListingPanel);
                 fileListingPanel.setBorder(new EmptyBorder(0,12,0,0));
                 fileListingPanel.setBackground(JetRL.TITLE_BAR_COLOR);
-                fileListingPanel.setPreferredSize(new Dimension(titleBar.getWidth(), 16));
                 fileListingPanel.setAlignmentX(JPanel.LEFT_ALIGNMENT);
                 fileListingPanel.setLayout(new BoxLayout(fileListingPanel, BoxLayout.LINE_AXIS));
+                fileListingPanel.setMinimumSize(new Dimension(fileListingPanel.getParent().getWidth(), 32));
+                fileListingPanel.setMaximumSize(new Dimension(fileListingPanel.getParent().getWidth(), fileListingPanel.getMinimumSize().height));
 
                 JLabel fileNameLabel = new JLabel(selectedDirectoryFile.getName());
                 fileNameLabel.setForeground(JetRL.PRIMARY_TEXT_COLOR);
