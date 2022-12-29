@@ -66,12 +66,7 @@ public class JetRL extends ResourceLoader {
     }
 
     public ImageIcon getIcon(@NotNull String iconName, short iconSize, int imageScaling) {
-        if (iconName.isEmpty()) {
-            return new ImageIcon();
-        }
-
-        String iconNameLowercase = iconName.toLowerCase();
-        ImageIcon returnImg = new ImageIcon(RESOURCE_FOLDER + System.getProperty("file.separator") + iconNameLowercase + ".png");
+        ImageIcon returnImg = new ImageIcon(RESOURCE_FOLDER + System.getProperty("file.separator") + iconName + ".png");
 
         return new ImageIcon(returnImg.getImage().getScaledInstance(iconSize, iconSize, imageScaling));
     }
