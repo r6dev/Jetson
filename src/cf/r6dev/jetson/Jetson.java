@@ -35,7 +35,7 @@ public class Jetson extends JFrame {
     private final JTextField inputField = new JTextField();
     @SuppressWarnings("FieldMayBeFinal") private String inputFieldPlaceholder = "input a dir or \"help1\"";
     private final JetsonList listScrollPane = new JetsonList(new JPanel());
-    private final JPanel listPanel = listScrollPane.getList();
+    private JPanel listPanel = listScrollPane.getList();
     private File selectedFile;
     private File currentDirectory;
     private File oneDirectoryUp;
@@ -170,7 +170,7 @@ public class Jetson extends JFrame {
 
         // Initialize Jetson
         Jetson frame = new Jetson();
-        frame.goToDirectory(new File(System.getProperty("user.home")), frame.listPanel);
+        frame.goToDirectory(new File(System.getProperty("user.home")));
 
         JTextField inputFieldLocal = frame.inputField;
 
@@ -188,7 +188,7 @@ public class Jetson extends JFrame {
                         frame.clearList(frame.listPanel);
 
                         File[] listOfFiles = inputtedDir.listFiles();
-                        frame.listFiles(frame.listPanel, listOfFiles);
+                        frame.listFiles(listOfFiles);
                         frame.clearInputField();
                     } else if (lowerCaseInput.contains("write")) {
                         // Detect advanced commands
@@ -227,7 +227,7 @@ public class Jetson extends JFrame {
                                 }
                             }
                             case "refresh" ->  {
-                                frame.refreshList(frame.listPanel);
+                                frame.refreshList();
                                 frame.clearInputField();
                             }
                             case "open" -> {
@@ -324,7 +324,7 @@ public class Jetson extends JFrame {
     }
 
     // UI Methods
-    public boolean goToDirectory(File dir, JPanel listToUpdate) {
+    public boolean goToDirectory(File dir) {
         if (dir != null) {
             if (dir.isDirectory()) {
                 clearInputField();
@@ -332,7 +332,7 @@ public class Jetson extends JFrame {
 
                 File[] parentListOfFiles = dir.listFiles();
                 if (parentListOfFiles != null) {
-                    if (listFiles(listToUpdate, parentListOfFiles)) {
+                    if (listFiles(parentListOfFiles)) {
                         return true;
                     }
                 }
@@ -345,7 +345,7 @@ public class Jetson extends JFrame {
 
     @SuppressWarnings("BooleanMethodIsAlwaysInverted") public boolean goOneDirectoryUp() {
         if (oneDirectoryUp != null) {
-            return goToDirectory(oneDirectoryUp, listPanel);
+            return goToDirectory(oneDirectoryUp);
         }
         return false;
     }
@@ -363,8 +363,8 @@ public class Jetson extends JFrame {
         }
     }
 
-    public void refreshList(JComponent list) {
-        listFiles((JPanel) list, currentDirectory.listFiles());
+    public void refreshList() {
+        listFiles(currentDirectory.listFiles());
     }
 
     public void deselectAllItems() {
@@ -396,9 +396,9 @@ public class Jetson extends JFrame {
         this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
     }
 
-    synchronized private boolean listFiles(JPanel list, File[] directoryFiles) {
+    synchronized private boolean listFiles(File[] directoryFiles) {
         if (directoryFiles != null && directoryFiles.length > 0) {
-            clearList(list);
+            clearList(listPanel);
             getListScrollPane().getVerticalScrollBar().repaint();
             getListScrollPane().getHorizontalScrollBar().repaint();
             currentDirectory = directoryFiles[0].getParentFile();
@@ -412,7 +412,7 @@ public class Jetson extends JFrame {
                 // Creates file/dir listing
 
                 JPanel fileListingPanel = new JPanel();
-                list.add(fileListingPanel);
+                listPanel.add(fileListingPanel);
                 fileListingPanel.setBorder(new EmptyBorder(0,12,0,0));
                 fileListingPanel.setBackground(JetRL.TITLE_BAR_COLOR);
                 fileListingPanel.setAlignmentX(JPanel.LEFT_ALIGNMENT);
@@ -488,7 +488,7 @@ public class Jetson extends JFrame {
                         // Open directory or file on double click
                         if (e.getClickCount() == 2 && button == MouseEvent.BUTTON1) {
                             if (selectedDirectoryFile.isDirectory()) {
-                                if (!goToDirectory(selectedDirectoryFile, list)) {
+                                if (!goToDirectory(selectedDirectoryFile)) {
                                     System.err.println(JETSON_ERRS[0]);
                                 }
                             } else if (selectedDirectoryFile.isFile()) {
@@ -520,11 +520,11 @@ public class Jetson extends JFrame {
             }
 
             // Remove all previous mouse listeners
-            for (MouseListener listener : list.getMouseListeners()) {
-                list.removeMouseListener(listener);
+            for (MouseListener listener : listPanel.getMouseListeners()) {
+                listPanel.removeMouseListener(listener);
             }
 
-            list.addMouseListener(new MouseAdapter() {
+            listPanel.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     if (e.getButton() == MouseEvent.BUTTON3) {
@@ -579,6 +579,10 @@ public class Jetson extends JFrame {
         return listPanel;
     }
 
+    @SuppressWarnings("unused") public void setListPanel(JPanel listPanel) {
+        this.listPanel = listPanel;
+    }
+
     @SuppressWarnings("unused") public JScrollPane getListScrollPane() {
         return listScrollPane;
     }
@@ -609,6 +613,10 @@ public class Jetson extends JFrame {
 
     @SuppressWarnings("unused") public void setSelectedFile(File selectedFile) {
         this.selectedFile = selectedFile;
+    }
+
+    @SuppressWarnings("unused") public void setCurrentDirectory(File currentDirectory) {
+        this.currentDirectory = currentDirectory;
     }
 
     @SuppressWarnings("unused") public File getParentDirectory() {
