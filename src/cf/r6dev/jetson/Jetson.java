@@ -37,6 +37,7 @@ public class Jetson extends JFrame {
     private final JetsonList listScrollPane = new JetsonList(new JPanel());
     private final JPanel listPanel = listScrollPane.getList();
     private File selectedFile;
+    private File currentDirectory;
     private File oneDirectoryUp;
     private final Font monoFont = JRL.createMonoFont();
     @SuppressWarnings("FieldCanBeLocal") private final Font terminalFont = JRL.createTerminalFont();
@@ -187,7 +188,7 @@ public class Jetson extends JFrame {
                         frame.clearList(frame.listPanel);
 
                         File[] listOfFiles = inputtedDir.listFiles();
-                        frame.listDirectory(frame.listPanel, listOfFiles);
+                        frame.listFiles(frame.listPanel, listOfFiles);
                         frame.clearInputField();
                     } else if (lowerCaseInput.contains("write")) {
                         // Detect advanced commands
@@ -224,6 +225,10 @@ public class Jetson extends JFrame {
                                 if (!frame.goOneDirectoryUp()) {
                                     System.err.println(JETSON_ERRS[1]);
                                 }
+                            }
+                            case "refresh" ->  {
+                                frame.refreshList(frame.listPanel);
+                                frame.clearInputField();
                             }
                             case "open" -> {
                                 try {
@@ -327,7 +332,7 @@ public class Jetson extends JFrame {
 
                 File[] parentListOfFiles = dir.listFiles();
                 if (parentListOfFiles != null) {
-                    if (listDirectory(listToUpdate, parentListOfFiles)) {
+                    if (listFiles(listToUpdate, parentListOfFiles)) {
                         return true;
                     }
                 }
@@ -356,6 +361,10 @@ public class Jetson extends JFrame {
             list.removeAll();
             list.repaint();
         }
+    }
+
+    public void refreshList(JComponent list) {
+        listFiles((JPanel) list, currentDirectory.listFiles());
     }
 
     public void deselectAllItems() {
@@ -387,11 +396,12 @@ public class Jetson extends JFrame {
         this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
     }
 
-    synchronized private boolean listDirectory(JPanel list, File[] directoryFiles) {
+    synchronized private boolean listFiles(JPanel list, File[] directoryFiles) {
         if (directoryFiles != null && directoryFiles.length > 0) {
             clearList(list);
             getListScrollPane().getVerticalScrollBar().repaint();
             getListScrollPane().getHorizontalScrollBar().repaint();
+            currentDirectory = directoryFiles[0].getParentFile();
 
             File parentDirectory = directoryFiles[0].getParentFile();
 

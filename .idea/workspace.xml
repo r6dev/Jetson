@@ -9,9 +9,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0fb48862-ed1b-4eb8-97e2-e4d21d9436e5" name="Changes" comment="fix - made file listing panel take all available width - Jetson.jar">
+    <list default="true" id="0fb48862-ed1b-4eb8-97e2-e4d21d9436e5" name="Changes" comment="fix - made better use of the @NotNull annotation in the JetRL class and made a getFile method in the abstract ResourceLoader class for more general resource loading">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cf/r6dev/jetson/utils/JetRL.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cf/r6dev/jetson/utils/JetRL.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/builds/Jetson/Jetson.jar" beforeDir="false" afterPath="$PROJECT_DIR$/builds/Jetson/Jetson.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cf/r6dev/jetson/Jetson.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cf/r6dev/jetson/Jetson.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -383,7 +384,14 @@
       <option name="project" value="LOCAL" />
       <updated>1672171516896</updated>
     </task>
-    <option name="localTasksCounter" value="38" />
+    <task id="LOCAL-00038" summary="fix - made better use of the @NotNull annotation in the JetRL class and made a getFile method in the abstract ResourceLoader class for more general resource loading">
+      <created>1672316544942</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1672316544942</updated>
+    </task>
+    <option name="localTasksCounter" value="39" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -399,7 +407,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="change - added the ability to open files" />
     <MESSAGE value="change - fixed up open and added read ability" />
     <MESSAGE value="change - added bloat and delete ability" />
     <MESSAGE value="change - fixed semicolon error in bloat command" />
@@ -424,7 +431,8 @@
     <MESSAGE value="feat - v1.1.0 .jar" />
     <MESSAGE value="fix - made file listing panel take all available width" />
     <MESSAGE value="fix - made file listing panel take all available width - Jetson.jar" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix - made file listing panel take all available width - Jetson.jar" />
+    <MESSAGE value="fix - made better use of the @NotNull annotation in the JetRL class and made a getFile method in the abstract ResourceLoader class for more general resource loading" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix - made better use of the @NotNull annotation in the JetRL class and made a getFile method in the abstract ResourceLoader class for more general resource loading" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/rJToolbox$tB.ic" NAME="tB Coverage Results" MODIFIED="1670767329597" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
