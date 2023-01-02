@@ -207,18 +207,10 @@ public class Jetson extends JFrame {
                     } else {
                         // Detect short commands
                         String trimmedInput = lowerCaseInput.trim();
-                        String[] commandListOne = {"\"(Directory)\": returns a list of files in that directory\n\"Open\": opens selected externally (SHOULD be platform-independent)\n\"Up\": goes one directory up\n\"Read\": reads selected file\n\"Write=[DATA]\": writes data to selected file, use \"\\n\" to start a new line\n\"Corrupt\": corrupts selected file or directory\n\"Bloat\": bloats selected file into oblivion\n\"Dummy\": creates a dummy version of selected directory/duplicates selected directory\n\"Verify\": verifies .jetson directory\n\"Clear\": resets list\n\"Quit\": exit the application\n\"help2\": next help dialog", "(Left Click On Item): selects item\n(Left Click In Empty Space Within List): deselects all items\n(Double Left Click On Item): if directory, opens it internally, if file, opens externally\n(Right Click Anywhere Inside List): goes one directory up"};
                         switch (trimmedInput) {
+                            case "help" -> JOptionPane.showMessageDialog(null, "All documentation has been moved to the Jetson GitHub Wiki. Go there if you need any help", "Moved documentation", JOptionPane.INFORMATION_MESSAGE);
                             case "clear" -> {
                                 frame.clearList();
-                                frame.clearInputField();
-                            }
-                            case "help1" -> {
-                                JOptionPane.showMessageDialog(null, commandListOne[0], "Help Page 1", JOptionPane.INFORMATION_MESSAGE);
-                                frame.clearInputField();
-                            }
-                            case "help2" -> {
-                                JOptionPane.showMessageDialog(null, commandListOne[1], "Help Page 2", JOptionPane.INFORMATION_MESSAGE);
                                 frame.clearInputField();
                             }
                             case "up" -> {
@@ -579,8 +571,8 @@ public class Jetson extends JFrame {
         return listPanel;
     }
 
-    @SuppressWarnings("unused") public void setListPanel(JPanel listPanel) {
-        this.listPanel = listPanel;
+    @SuppressWarnings("unused") public void setListPanel(Component listPanel) {
+        this.listPanel = (JPanel) listPanel;
     }
 
     @SuppressWarnings("unused") public JScrollPane getListScrollPane() {

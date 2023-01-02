@@ -26,8 +26,4 @@ public final class JetWriter {
     public static boolean write(@NotNull File file, String data) throws IOException {
         return write(file, data, false);
     }
-
-    public static void main(String[] args) throws IOException {
-        write(new File("D:\\Sandbox\\testthingyding.txt"), "TESTING 123");
-    }
 }
