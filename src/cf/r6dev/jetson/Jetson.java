@@ -185,7 +185,7 @@ public class Jetson extends JFrame {
                     if (inputtedDir.isDirectory()) {
 
                         // Clears and updates with inputted directory list
-                        frame.clearList(frame.listPanel);
+                        frame.clearList();
 
                         File[] listOfFiles = inputtedDir.listFiles();
                         frame.listFiles(listOfFiles);
@@ -210,7 +210,7 @@ public class Jetson extends JFrame {
                         String[] commandListOne = {"\"(Directory)\": returns a list of files in that directory\n\"Open\": opens selected externally (SHOULD be platform-independent)\n\"Up\": goes one directory up\n\"Read\": reads selected file\n\"Write=[DATA]\": writes data to selected file, use \"\\n\" to start a new line\n\"Corrupt\": corrupts selected file or directory\n\"Bloat\": bloats selected file into oblivion\n\"Dummy\": creates a dummy version of selected directory/duplicates selected directory\n\"Verify\": verifies .jetson directory\n\"Clear\": resets list\n\"Quit\": exit the application\n\"help2\": next help dialog", "(Left Click On Item): selects item\n(Left Click In Empty Space Within List): deselects all items\n(Double Left Click On Item): if directory, opens it internally, if file, opens externally\n(Right Click Anywhere Inside List): goes one directory up"};
                         switch (trimmedInput) {
                             case "clear" -> {
-                                frame.clearList(frame.listPanel);
+                                frame.clearList();
                                 frame.clearInputField();
                             }
                             case "help1" -> {
@@ -354,12 +354,12 @@ public class Jetson extends JFrame {
         inputField.setText("");
     }
 
-    public void clearList(JComponent list) {
+    public void clearList() {
         // Removes all JPanels inside info panel (clears list) and empties input field
 
-        if (list != null) {
-            list.removeAll();
-            list.repaint();
+        if (listPanel != null) {
+            listPanel.removeAll();
+            listPanel.repaint();
         }
     }
 
@@ -374,12 +374,12 @@ public class Jetson extends JFrame {
         titleLabelSuffix.requestFocus();
     }
 
-    @SuppressWarnings("unused") void updateTitle(String text) {
+    @SuppressWarnings("unused") public void updateTitle(String text) {
         setTitle(text);
-        updateTitleLabel();
+        refreshTitleLabel();
     }
 
-    public void updateTitleLabel() {
+    public void refreshTitleLabel() {
         titleLabel.setText(getTitle() + " - ");
     }
 
@@ -398,7 +398,7 @@ public class Jetson extends JFrame {
 
     synchronized private boolean listFiles(File[] directoryFiles) {
         if (directoryFiles != null && directoryFiles.length > 0) {
-            clearList(listPanel);
+            clearList();
             getListScrollPane().getVerticalScrollBar().repaint();
             getListScrollPane().getHorizontalScrollBar().repaint();
             currentDirectory = directoryFiles[0].getParentFile();
