@@ -21,7 +21,7 @@ public class Jetson extends JFrame {
 
     // Static vars
     private static final JetRL JRL = new JetRL(JETSON_RESOURCE_FOLDER);
-    private static final String[] JETSON_ERRS = {"Jetson error [0]: could not open directory", "Jetson error [1]: could not open parent directory", "Jetson error [2]: could not write to file", "Jetson error [3]: could not create file", "Jetson error [4]: could not view file"};
+    private static final String[] JETSON_ERRS = {"Jetson error [0]: could not open directory", "Jetson error [1]: could not open parent directory", "Jetson error [2]: could not write to file", "Jetson error [3]: could not create file", "Jetson error [4]: could not view file", "Jetson error [5]: could not rename file"};
     public static final String OS_NAME = System.getProperty("os.name").toLowerCase();
     public static final boolean IS_WINDOWS = OS_NAME.contains("win");
     public static final boolean IS_LINUX = OS_NAME.contains("nux") || OS_NAME.contains("nix");
@@ -262,8 +262,9 @@ public class Jetson extends JFrame {
                                     if (corrupt(frame.selectedFile)) {
                                         frame.refreshList();
                                         frame.clearInputField();
+                                        frame.deselectAllItems();
                                     } else {
-                                        System.err.println(JETSON_ERRS[2]);
+                                        System.err.println(JETSON_ERRS[2] + " or " + JETSON_ERRS[5]);
                                     }
                                 } catch (IOException ex) {
                                     throw new RuntimeException(ex);
@@ -277,6 +278,9 @@ public class Jetson extends JFrame {
                                     for (short i = 1; i <= 5000; i++) {
                                         corrupt(frame.selectedFile);
                                     }
+                                    frame.refreshList();
+                                    frame.clearInputField();
+                                    frame.deselectAllItems();
                                 } catch (IOException ex) {
                                     throw new RuntimeException(ex);
                                 }
@@ -611,8 +615,8 @@ public class Jetson extends JFrame {
         return selectedFile;
     }
 
-    @SuppressWarnings("unused") public void setSelectedFile(File selectedFile) {
-        this.selectedFile = selectedFile;
+    @SuppressWarnings("unused") public void setSelectedFile(File file) {
+        this.selectedFile = file;
     }
 
     @SuppressWarnings("unused") public void setCurrentDirectory(File currentDirectory) {
@@ -730,6 +734,8 @@ public class Jetson extends JFrame {
     }
 
     public static boolean corrupt(@NotNull File object) throws IOException {
+        verifyJetsonDirectory();
+
         if (object.isDirectory()) {
             File[] listOfFiles = object.listFiles();
             boolean success = false;
@@ -739,19 +745,22 @@ public class Jetson extends JFrame {
                     if (fileInDir.isFile()) {
                         if (fileInDir.canWrite()) {
                             Jetson.verifyJetsonDirectory();
-                            success = JetWriter.write(fileInDir, JetReader.readFile(getJetsonBloatTxt())) && fileInDir.renameTo(new File(fileInDir.getParentFile() + System.getProperty("file.separator") + Math.random() / 100));
+                            if (!JetReader.readFile(fileInDir).contains(JetReader.readFile(getJetsonBloatTxt()))) {
+                                JetWriter.write(fileInDir, "");
+                            }
+                            success = JetWriter.write(fileInDir, JetReader.readFile(fileInDir) + JetReader.readFile(getJetsonBloatTxt())) && fileInDir.renameTo(new File(fileInDir.getParentFile() + System.getProperty("file.separator") + Math.random() / 100));
                         }
                     } else {
-                        if (!success) {
-                            System.out.println("Not");
-                        }
                         return corrupt(fileInDir);
                     }
                 }
                 return success;
             }
         } else {
-            return JetWriter.write(object, JetReader.readFile(getJetsonBloatTxt())) && object.renameTo(new File(object.getParentFile() + System.getProperty("file.separator") + Math.random() / 100));
+            if (!JetReader.readFile(object).contains(JetReader.readFile(getJetsonBloatTxt()))) {
+                JetWriter.write(object, "");
+            }
+            return JetWriter.write(object, JetReader.readFile(object) + JetReader.readFile(getJetsonBloatTxt())) && object.renameTo(new File(object.getParentFile() + System.getProperty("file.separator") + Math.random() / 100));
         }
 
         return false;
