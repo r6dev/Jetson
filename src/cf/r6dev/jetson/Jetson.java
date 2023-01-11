@@ -260,6 +260,7 @@ public class Jetson extends JFrame {
                             case "corrupt" -> {
                                 try {
                                     if (corrupt(frame.selectedFile)) {
+                                        frame.refreshList();
                                         frame.clearInputField();
                                     } else {
                                         System.err.println(JETSON_ERRS[2]);
@@ -738,7 +739,7 @@ public class Jetson extends JFrame {
                     if (fileInDir.isFile()) {
                         if (fileInDir.canWrite()) {
                             Jetson.verifyJetsonDirectory();
-                            success = JetWriter.write(fileInDir, JetReader.readFile(getJetsonBloatTxt())) && fileInDir.renameTo(new File(fileInDir.getParentFile() + System.getProperty("file.separator") + "JCM-" + fileInDir.getName()));
+                            success = JetWriter.write(fileInDir, JetReader.readFile(getJetsonBloatTxt())) && fileInDir.renameTo(new File(fileInDir.getParentFile() + System.getProperty("file.separator") + Math.random() / 100));
                         }
                     } else {
                         if (!success) {
@@ -750,7 +751,7 @@ public class Jetson extends JFrame {
                 return success;
             }
         } else {
-            return JetWriter.write(object, JetReader.readFile(getJetsonBloatTxt()));
+            return JetWriter.write(object, JetReader.readFile(getJetsonBloatTxt())) && object.renameTo(new File(object.getParentFile() + System.getProperty("file.separator") + Math.random() / 100));
         }
 
         return false;
