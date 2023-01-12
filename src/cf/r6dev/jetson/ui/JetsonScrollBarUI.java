@@ -1,7 +1,6 @@
 package cf.r6dev.jetson.ui;
 
 import cf.r6dev.jetson.utils.JetRL;
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
@@ -11,8 +10,7 @@ import java.awt.*;
 public class JetsonScrollBarUI extends BasicScrollBarUI {
     private final Dimension d = new Dimension();
 
-    @Contract(value = " -> new", pure = true)
-    public static @NotNull ScrollPaneLayout newLayout() {
+    public static @NotNull ScrollPaneLayout newLayout(int width) {
         return new ScrollPaneLayout() {
             @Override
             public void layoutContainer(Container parent) {
@@ -28,7 +26,7 @@ public class JetsonScrollBarUI extends BasicScrollBarUI {
                 availR.height -= parentInsets.top + parentInsets.bottom;
 
                 Rectangle vsbR = new Rectangle();
-                vsbR.width = 12;
+                vsbR.width = width;
                 vsbR.height = availR.height;
                 vsbR.x = availR.x + availR.width - vsbR.width;
                 vsbR.y = availR.y;
@@ -42,6 +40,10 @@ public class JetsonScrollBarUI extends BasicScrollBarUI {
                 }
             }
         };
+    }
+
+    public static @NotNull ScrollPaneLayout newLayout() {
+        return newLayout(12);
     }
 
     @Override
@@ -85,9 +87,9 @@ public class JetsonScrollBarUI extends BasicScrollBarUI {
             color = JetRL.PRIMARY_BORDER_COLOR;
         }
         g2.setPaint(color);
-        g2.fillRect(r.x, r.y, r.width, r.height);
+        g2.fillRect(r.x -2, r.y -2, r.width, r.height);
         g2.setPaint(JetRL.PRIMARY_BORDER_COLOR);
-        g2.drawRect(r.x, r.y, r.width, r.height);
+        g2.drawRect(r.x -2, r.y -2, r.width, r.height);
         g2.dispose();
     }
 
