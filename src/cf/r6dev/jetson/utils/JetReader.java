@@ -16,6 +16,7 @@ public final class JetReader {
             while ((data = fileReader.readLine()) != null) {
                 returnString = data;
             }
+            fileReader.close();
             if (!returnString.isEmpty()) {
                 return returnString;
             }
