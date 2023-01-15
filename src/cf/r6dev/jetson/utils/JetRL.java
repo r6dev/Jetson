@@ -65,9 +65,18 @@ public class JetRL extends ResourceLoader {
         return createMonoFont(12);
     }
 
-    public ImageIcon getIcon(@NotNull String iconName, short iconSize, int imageScaling) {
-        ImageIcon returnImg = new ImageIcon(RESOURCE_FOLDER + System.getProperty("file.separator") + iconName + ".png");
+    public ImageIcon getIcon(@NotNull String iconName, short iconSize, int imageScaling, boolean isPng) {
+        ImageIcon returnImg;
+        if (isPng) {
+            returnImg = new ImageIcon(RESOURCE_FOLDER + System.getProperty("file.separator") + iconName + ".png");
+        } else {
+            returnImg = new ImageIcon(RESOURCE_FOLDER + System.getProperty("file.separator") + iconName);
+        }
 
         return new ImageIcon(returnImg.getImage().getScaledInstance(iconSize, iconSize, imageScaling));
+    }
+
+    public ImageIcon getIcon(@NotNull String iconName, short iconSize, int imageScaling) {
+        return getIcon(iconName, iconSize, imageScaling, true);
     }
 }
