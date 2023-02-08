@@ -48,7 +48,7 @@ public class Jetson extends JFrame {
 
         setTitle("Jetson");
         titleLabel.setText(getTitle() + " - ");
-        setIconImage(JRL.getIcon("jetson-icon", (short) 96, Image.SCALE_DEFAULT).getImage());
+        setIconImage(JRL.getIcon("jetson-icon.png", new Dimension(96, 96), Image.SCALE_DEFAULT).getImage());
         setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         getRootPane().setBorder(BorderFactory.createLineBorder(JetRL.PRIMARY_BORDER_COLOR));
