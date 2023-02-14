@@ -8,6 +8,15 @@ import javax.swing.plaf.basic.BasicScrollBarUI;
 import java.awt.*;
 
 public class JetsonScrollBarUI extends BasicScrollBarUI {
+    private final Color barColor;
+    public JetsonScrollBarUI(Color color) {
+        barColor = color;
+    }
+
+    public JetsonScrollBarUI() {
+         this(JetRL.PRIMARY_BACKGROUND_COLOR);
+    }
+
     private final Dimension d = new Dimension();
 
     public static @NotNull ScrollPaneLayout newLayout(int width) {
@@ -71,7 +80,7 @@ public class JetsonScrollBarUI extends BasicScrollBarUI {
     }
 
     @Override
-    protected void paintThumb(Graphics g, JComponent c, Rectangle r) {
+    protected void paintThumb(@NotNull Graphics g, JComponent c, Rectangle r) {
         Graphics2D g2 = (Graphics2D) g.create();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
@@ -88,7 +97,7 @@ public class JetsonScrollBarUI extends BasicScrollBarUI {
         }
         g2.setPaint(color);
         g2.fillRect(r.x -2, r.y -2, r.width, r.height);
-        g2.setPaint(JetRL.PRIMARY_BORDER_COLOR);
+        g2.setPaint(barColor);
         g2.drawRect(r.x -2, r.y -2, r.width, r.height);
         g2.dispose();
     }
