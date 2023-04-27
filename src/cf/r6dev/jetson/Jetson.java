@@ -427,6 +427,7 @@ public class Jetson extends JFrame {
                 JLabel fileNameLabel = new JLabel(selectedDirectoryFile.getName());
                 fileNameLabel.setForeground(JetRL.PRIMARY_TEXT_COLOR);
                 fileNameLabel.setFont(monoFont);
+                fileNameLabel.setMaximumSize(new Dimension(108, Short.MAX_VALUE));
 
                 String toolTipAppend = (selectedDirectoryFile.getName().contains("sys") ? "(sys) " + selectedDirectoryFile.getAbsolutePath() : selectedDirectoryFile.getAbsolutePath());
 
