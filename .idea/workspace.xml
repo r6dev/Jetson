@@ -9,10 +9,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0fb48862-ed1b-4eb8-97e2-e4d21d9436e5" name="Changes" comment="feat - custom JetsonScrollBarUI bar colors">
+    <list default="true" id="0fb48862-ed1b-4eb8-97e2-e4d21d9436e5" name="Changes" comment="feat - made file name cut off/shorten when too long">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/builds/Jetson/Jetson.jar" beforeDir="false" afterPath="$PROJECT_DIR$/builds/Jetson/Jetson.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cf/r6dev/jetson/Jetson.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cf/r6dev/jetson/Jetson.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/builds/Jetson/Jetsonobs.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cf/r6dev/jetson/utils/JetReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cf/r6dev/jetson/utils/JetReader.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -124,13 +124,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1669656135961</updated>
-    </task>
-    <task id="LOCAL-00003" summary="sBGen Build 1">
-      <created>1669757070302</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1669757070302</updated>
     </task>
     <task id="LOCAL-00004" summary="workspace.xml">
       <created>1669993725338</created>
@@ -468,7 +461,14 @@
       <option name="project" value="LOCAL" />
       <updated>1676399288553</updated>
     </task>
-    <option name="localTasksCounter" value="52" />
+    <task id="LOCAL-00052" summary="feat - made file name cut off/shorten when too long">
+      <created>1682592591295</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1682592591295</updated>
+    </task>
+    <option name="localTasksCounter" value="53" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -484,7 +484,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="fix - run configurations" />
     <MESSAGE value="feat - added plentiful jetson utils" />
     <MESSAGE value="feat - added updateScrollBar method" />
     <MESSAGE value="feat - added updated updateScrollBar method" />
@@ -509,7 +508,8 @@
     <MESSAGE value="feat - removed annoying isPng parameter and make icon size a Dimension variable instead of a short variable" />
     <MESSAGE value="feat - post update workspace" />
     <MESSAGE value="feat - custom JetsonScrollBarUI bar colors" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat - custom JetsonScrollBarUI bar colors" />
+    <MESSAGE value="feat - made file name cut off/shorten when too long" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat - made file name cut off/shorten when too long" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/rJToolbox$tB.ic" NAME="tB Coverage Results" MODIFIED="1670767329597" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">

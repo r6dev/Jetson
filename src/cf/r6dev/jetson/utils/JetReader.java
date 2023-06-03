@@ -12,13 +12,15 @@ public final class JetReader {
         if (file.isFile() && file.canRead()) {
             BufferedReader fileReader = new BufferedReader(new FileReader(file));
             String data;
-            String returnString = "";
+            StringBuilder returnString = new StringBuilder();
             while ((data = fileReader.readLine()) != null) {
-                returnString = data;
+                returnString.append(data);
             }
+
             fileReader.close();
+
             if (!returnString.isEmpty()) {
-                return returnString;
+                return returnString.toString();
             }
         }
         return "";
