@@ -14,7 +14,7 @@ public final class JetReader {
             String data;
             StringBuilder returnString = new StringBuilder();
             while ((data = fileReader.readLine()) != null) {
-                returnString.append(data);
+                returnString.append(data).append("\n");
             }
 
             fileReader.close();
