@@ -25,7 +25,7 @@ public class JetRL extends ResourceLoader {
         super(resourceFolder);
     }
 
-    public Font registerFont(File fontToRegister, float size) throws FontFormatException, IOException {
+    public static @NotNull Font registerFont(File fontToRegister, float size) throws FontFormatException, IOException {
         Font registeredFont = Font.createFont(Font.TRUETYPE_FONT, fontToRegister).deriveFont(size);
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 

@@ -9,11 +9,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0fb48862-ed1b-4eb8-97e2-e4d21d9436e5" name="Changes" comment="fix - made JetReader not return every line on a single line">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/builds/Jetson/Jetson.jar" beforeDir="false" afterPath="$PROJECT_DIR$/builds/Jetson/Jetson.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cf/r6dev/jetson/utils/JetReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cf/r6dev/jetson/utils/JetReader.java" afterDir="false" />
-    </list>
+    <list default="true" id="0fb48862-ed1b-4eb8-97e2-e4d21d9436e5" name="Changes" comment="fix - made JetReader not return every line on a single line" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -124,13 +120,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1669656135961</updated>
-    </task>
-    <task id="LOCAL-00005" summary="Toolbox created">
-      <created>1670808090599</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1670808090599</updated>
     </task>
     <task id="LOCAL-00006" summary="Workspace?">
       <created>1670873370809</created>
@@ -468,7 +457,14 @@
       <option name="project" value="LOCAL" />
       <updated>1685794455404</updated>
     </task>
-    <option name="localTasksCounter" value="54" />
+    <task id="LOCAL-00054" summary="fix - made JetReader not return every line on a single line">
+      <created>1685807267519</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1685807267519</updated>
+    </task>
+    <option name="localTasksCounter" value="55" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
