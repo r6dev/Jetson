@@ -9,7 +9,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0fb48862-ed1b-4eb8-97e2-e4d21d9436e5" name="Changes" comment="fix - updated Jetson.jar" />
+    <list default="true" id="0fb48862-ed1b-4eb8-97e2-e4d21d9436e5" name="Changes" comment="fix - workspace.xml">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cf/r6dev/jetson/utils/JetEraser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cf/r6dev/jetson/utils/JetEraser.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -120,13 +123,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1669656135961</updated>
-    </task>
-    <task id="LOCAL-00011" summary="change - birth of jetSon">
-      <created>1671661676545</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1671661676545</updated>
     </task>
     <task id="LOCAL-00012" summary="change - added the ability to go up one directory regardless of where you right-click inside the directory">
       <created>1671663568031</created>
@@ -464,7 +460,14 @@
       <option name="project" value="LOCAL" />
       <updated>1694357971504</updated>
     </task>
-    <option name="localTasksCounter" value="60" />
+    <task id="LOCAL-00060" summary="fix - workspace.xml">
+      <created>1694358453756</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1694358453756</updated>
+    </task>
+    <option name="localTasksCounter" value="61" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -480,7 +483,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="feat - v1.1.0" />
     <MESSAGE value="feat - v1.1.0 .jar" />
     <MESSAGE value="fix - made file listing panel take all available width" />
     <MESSAGE value="fix - made file listing panel take all available width - Jetson.jar" />
@@ -505,7 +507,8 @@
     <MESSAGE value="fix - made JetRL.registerFont static - workspace.xml commit" />
     <MESSAGE value="feat - made an addition to the Jetson library" />
     <MESSAGE value="fix - updated Jetson.jar" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix - updated Jetson.jar" />
+    <MESSAGE value="fix - workspace.xml" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix - workspace.xml" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/rJToolbox$tB.ic" NAME="tB Coverage Results" MODIFIED="1670767329597" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">

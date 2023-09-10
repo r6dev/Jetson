@@ -11,8 +11,8 @@ public class JetEraser {
                 File potentialTarget = new File(args[0]);
 
                 if (potentialTarget.exists()) {
-                    if (!erase(potentialTarget)) {
-                        System.err.println("JetEraser: Could not erase: " + potentialTarget.getName());
+                    if (erase(potentialTarget)) {
+                        System.out.println("JetEraser: Successfully erased " + potentialTarget.getName());
                     }
                 }
             }
@@ -27,17 +27,13 @@ public class JetEraser {
 
             if (targetChildren != null) {
                 for (File child : targetChildren) {
-                    if (child.isDirectory()) {
-                        erase(child);
-                    } else if (child.isFile()) {
-                        if (!child.delete()) {
-                            System.err.println("JetEraser: Error: Could not erase: " + child.getParentFile().getName() + "\\" + child.getName());
-                        }
+                    if (!erase(child)) {
+                        System.err.println("JetEraser: Error: Could not erase: " + child.getParentFile().getName() + "\\" + child.getName());
                     }
                 }
-            } else {
-                return target.delete();
             }
+
+            return target.delete();
         }
 
         return false;
