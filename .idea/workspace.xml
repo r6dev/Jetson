@@ -9,15 +9,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0fb48862-ed1b-4eb8-97e2-e4d21d9436e5" name="Changes" comment="feat - made an addition to the Jetson library">
-      <change afterPath="$PROJECT_DIR$/src/cf/r6dev/jetson/utils/JetEraser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/builds/Jetson/Jetson.jar" beforeDir="false" afterPath="$PROJECT_DIR$/builds/Jetson/Jetson.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cf/r6dev/jetson/Jetson.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cf/r6dev/jetson/Jetson.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cf/r6dev/jetson/utils/JetRL.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cf/r6dev/jetson/utils/JetRL.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cf/r6dev/jetson/utils/JetReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cf/r6dev/jetson/utils/JetReader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cf/r6dev/jetson/utils/JetSbGen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cf/r6dev/jetson/utils/JetSbGen.java" afterDir="false" />
-    </list>
+    <list default="true" id="0fb48862-ed1b-4eb8-97e2-e4d21d9436e5" name="Changes" comment="fix - updated Jetson.jar" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -128,20 +120,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1669656135961</updated>
-    </task>
-    <task id="LOCAL-00009" summary="JetSon creation">
-      <created>1671527477075</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1671527477075</updated>
-    </task>
-    <task id="LOCAL-00010" summary="change - made a couple comments in the Jetson code and changed the scroll bar scroll a little faster">
-      <created>1671529298253</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1671529298253</updated>
     </task>
     <task id="LOCAL-00011" summary="change - birth of jetSon">
       <created>1671661676545</created>
@@ -472,7 +450,21 @@
       <option name="project" value="LOCAL" />
       <updated>1691497584006</updated>
     </task>
-    <option name="localTasksCounter" value="58" />
+    <task id="LOCAL-00058" summary="feat - made an addition to the Jetson library">
+      <created>1694357947663</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1694357947663</updated>
+    </task>
+    <task id="LOCAL-00059" summary="fix - updated Jetson.jar">
+      <created>1694357971504</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1694357971504</updated>
+    </task>
+    <option name="localTasksCounter" value="60" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -488,7 +480,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="feat - replaced JetCorrupter with Jetson.corrupt" />
     <MESSAGE value="feat - v1.1.0" />
     <MESSAGE value="feat - v1.1.0 .jar" />
     <MESSAGE value="fix - made file listing panel take all available width" />
@@ -513,7 +504,8 @@
     <MESSAGE value="fix - made JetRL.registerFont static" />
     <MESSAGE value="fix - made JetRL.registerFont static - workspace.xml commit" />
     <MESSAGE value="feat - made an addition to the Jetson library" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat - made an addition to the Jetson library" />
+    <MESSAGE value="fix - updated Jetson.jar" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix - updated Jetson.jar" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/rJToolbox$tB.ic" NAME="tB Coverage Results" MODIFIED="1670767329597" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
