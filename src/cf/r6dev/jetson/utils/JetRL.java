@@ -65,7 +65,7 @@ public class JetRL extends ResourceLoader {
         return createMonoFont(12);
     }
 
-    public ImageIcon getIcon(@NotNull String iconName, Dimension size, int imageScaling) {
+    public ImageIcon getIcon(@NotNull String iconName, @NotNull Dimension size, int imageScaling) {
         ImageIcon returnImg;
         returnImg = new ImageIcon(RESOURCE_FOLDER + System.getProperty("file.separator") + iconName);
         return new ImageIcon(returnImg.getImage().getScaledInstance((int) size.getWidth(), (int) size.getHeight(), imageScaling));

@@ -1,12 +1,14 @@
 package cf.r6dev.jetson.utils;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Scanner;
 
 public final class JetSbGen {
-    public static boolean createDummy(File dir, File sandbox, File alwaysIgnore) throws IOException {
+    public static boolean createDummy(@NotNull File dir, File sandbox, File alwaysIgnore) throws IOException {
         File[] listOfFiles = dir.listFiles();
 
         if (listOfFiles == null || listOfFiles.length == 0) {
@@ -27,7 +29,7 @@ public final class JetSbGen {
     }
 
     public static void main(String[] args) {
-        System.out.print("Directory: ");
+        System.out.print("JetSbGen: Directory: ");
 
         Scanner dirToSandboxScanner = new Scanner(System.in);
         String dirToSandboxString = dirToSandboxScanner.nextLine();

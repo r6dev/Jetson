@@ -23,6 +23,7 @@ public final class JetReader {
                 return returnString.toString();
             }
         }
+
         return "";
     }
 }

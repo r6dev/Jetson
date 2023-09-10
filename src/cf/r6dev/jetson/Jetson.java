@@ -21,7 +21,7 @@ public class Jetson extends JFrame {
 
     // Static vars
     private static final JetRL JRL = new JetRL(JETSON_RESOURCE_FOLDER);
-    private static final String[] JETSON_ERRS = {"Jetson error [0]: could not open directory", "Jetson error [1]: could not open parent directory", "Jetson error [2]: could not write to file", "Jetson error [3]: could not create file", "Jetson error [4]: could not view file", "Jetson error [5]: could not rename file"};
+    private static final String[] JETSON_ERRS = {"Jetson: Error-0: Could not open directory", "Jetson: Error-1: Could not open parent directory", "Jetson: Error-2: Could not write to file", "Jetson: Error-3: Could not create file", "Jetson: Error-4: Could not view file", "Jetson Error-5: Could not rename file"};
     public static final String OS_NAME = System.getProperty("os.name").toLowerCase();
     public static final boolean IS_WINDOWS = OS_NAME.contains("win");
     public static final boolean IS_LINUX = OS_NAME.contains("nux") || OS_NAME.contains("nix");
